@@ -9,9 +9,9 @@
 
 <style lang="scss">
 $hollowBoxSize: 3em;
-$hollowLight: #ECECEC;
+$hollowLight: #ececec;
 $hollowDark: #34495e;
-$hollowTiming: 1.25s;
+$hollowTiming: 0.75s;
 
 .loading-box {
   display: flex;
@@ -46,12 +46,20 @@ $hollowTiming: 1.25s;
 }
 
 @keyframes smallBoxAnim {
-  0% {transform: scale(0.2);}
-  100% {transform: scale(0.75);}
+  0% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(0.75);
+  }
 }
 
 @keyframes loaderAnim {
-  0% {transform: rotate(0deg);}
-  100% {transform: rotate(90deg);}
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
 }
 </style>
