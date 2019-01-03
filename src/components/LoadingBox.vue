@@ -1,0 +1,57 @@
+<template>
+  <div class="loading-box">
+    <div class="loading-box__loader">
+      <div class="loading-box__loader--large"></div>
+      <div class="loading-box__loader--small"></div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss">
+$hollowBoxSize: 3em;
+$hollowLight: #ECECEC;
+$hollowDark: #34495e;
+$hollowTiming: 1.25s;
+
+.loading-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+
+  &__loader {
+    width: $hollowBoxSize;
+    height: $hollowBoxSize;
+    animation: loaderAnim $hollowTiming infinite ease-in-out;
+    outline: 1px solid transparent;
+
+    &--large {
+      height: $hollowBoxSize;
+      width: $hollowBoxSize;
+      background-color: $hollowLight;
+      outline: 1px solid transparent;
+      position: fixed;
+    }
+
+    &--small {
+      height: $hollowBoxSize;
+      width: $hollowBoxSize;
+      background-color: $hollowDark;
+      position: fixed;
+      z-index: 1;
+      outline: 1px solid transparent;
+      animation: smallBoxAnim $hollowTiming alternate infinite ease-in-out;
+    }
+  }
+}
+
+@keyframes smallBoxAnim {
+  0% {transform: scale(0.2);}
+  100% {transform: scale(0.75);}
+}
+
+@keyframes loaderAnim {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(90deg);}
+}
+</style>

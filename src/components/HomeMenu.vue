@@ -16,52 +16,52 @@ export default {
       channels: [
         {
           index: 0,
-          name: 'Shepherd'
+          name: 'ninja'
         },
         {
           index: 1,
-          name: 'Hays'
-        },
-        {
-          index: 2,
-          name: 'Cox'
-        },
-        {
-          index: 3,
-          name: 'Lucile'
-        },
-        {
-          index: 4,
-          name: 'Tanisha'
-        },
-        {
-          index: 5,
-          name: 'Melendez'
-        },
-        {
-          index: 6,
-          name: 'Emma'
-        },
-        {
-          index: 7,
-          name: 'Cooley'
-        },
-        {
-          index: 8,
-          name: 'Loraine'
-        },
-        {
-          index: 9,
-          name: 'Nannie'
-        },
-        {
-          index: 10,
-          name: 'Sims'
-        },
-        {
-          index: 11,
-          name: 'Burns'
+          name: 'shroud'
         }
+        // {
+        //   index: 2,
+        //   name: 'meclipse'
+        // },
+        // {
+        //   index: 3,
+        //   name: 'tsm_myth'
+        // },
+        // {
+        //   index: 4,
+        //   name: 'tfue'
+        // },
+        // {
+        //   index: 5,
+        //   name: 'riotgames'
+        // },
+        // {
+        //   index: 6,
+        //   name: 'dakotaz'
+        // },
+        // {
+        //   index: 7,
+        //   name: 'yoda'
+        // },
+        // {
+        //   index: 8,
+        //   name: 'voyboy'
+        // },
+        // {
+        //   index: 9,
+        //   name: 'taketv'
+        // },
+        // {
+        //   index: 10,
+        //   name: 'playhearthstone'
+        // },
+        // {
+        //   index: 11,
+        //   name: 'reckful'
+        // }
       ]
     };
   }
