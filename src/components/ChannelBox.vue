@@ -4,6 +4,7 @@
     <div v-if="!isLoading && isLoaded" class="channel-box__overlay">
     </div>
     <div v-if="isLoading" class="channel-box__container" :id="'container--' + channel.name">
+    <div v-show="isLoaded" class="channel-box__container" :id="'container--' + channel.name">
     </div>
   </div>
 </template>
