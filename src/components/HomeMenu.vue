@@ -17,11 +17,11 @@ export default {
         {
           index: 0,
           name: 'ninja'
-        },
-        {
-          index: 1,
-          name: 'shroud'
         }
+        // {
+        //   index: 1,
+        //   name: 'shroud'
+        // }
         // {
         //   index: 2,
         //   name: 'meclipse'
