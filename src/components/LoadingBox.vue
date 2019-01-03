@@ -8,9 +8,11 @@
 </template>
 
 <style lang="scss">
+@import '../styles/variables.scss';
+
 $hollowBoxSize: 3em;
-$hollowLight: #ececec;
-$hollowDark: #34495e;
+$hollowLight: #fff;
+$hollowDark: $fancy-blue;
 $hollowTiming: 0.75s;
 
 .loading-box {

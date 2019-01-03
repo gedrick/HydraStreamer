@@ -54,6 +54,13 @@ export default {
     this.player.addEventListener(twitch.Player.PAUSED, this.bPaused);
     this.player.addEventListener(twitch.Player.ENDED, this.bEnded);
   },
+  beforeDestroy() {
+    if (this.player && this.player.removeEventListener) {
+      this.player.removeEventListener(twitch.Player.PLAYING, this.bPlaying);
+      this.player.removeEventListener(twitch.Player.PAUSED, this.bPaused);
+      this.player.removeEventListener(twitch.Player.ENDED, this.bEnded);
+    }
+  },
   methods: {
     bindFunctions() {
       this.bPlaying = this.playing.bind(this);

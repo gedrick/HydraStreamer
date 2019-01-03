@@ -16,11 +16,11 @@ export default {
       channels: [
         {
           index: 0,
-          name: 'ninja'
+          name: 'shroud'
         }
         // {
         //   index: 1,
-        //   name: 'shroud'
+        //   name: 'ninja'
         // }
         // {
         //   index: 2,
