@@ -1,11 +1,8 @@
 <template>
   <div class="channel-box">
     <LoadingBox v-if="isLoading"></LoadingBox>
-    <div v-if="!isLoading && isLoaded" class="channel-box__overlay">
-    </div>
-    <div v-if="isLoading" class="channel-box__container" :id="'container--' + channel.name">
-    <div v-show="isLoaded" class="channel-box__container" :id="'container--' + channel.name">
-    </div>
+    <div v-if="!isLoading && isLoaded" class="channel-box__overlay"></div>
+    <div v-if="isLoading" class="channel-box__container" :id="'container--' + channel.name"></div>
   </div>
 </template>
 
@@ -88,7 +85,6 @@ export default {
 <style lang="scss">
 @import '../styles/variables.scss';
 
-$box-border-width: 2px;
 .channel-box {
   display: flex;
   justify-content: center;
@@ -98,18 +94,13 @@ $box-border-width: 2px;
 
   &__overlay,
   &__container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    overflow: hidden;
+    @include fullSizeCentered;
   }
 
   &__overlay {
     z-index: 10;
     transition-property: border;
-    transition-duration: 0.25s;
+    transition-duration: 0.15s;
     border: $box-border-width solid transparent;
 
     &:hover {

@@ -1,1 +1,15 @@
+// Colors
 $fancy-blue: #0078f0;
+
+// Measurements
+$box-border-width: 3px;
+
+// Mixins
+@mixin fullSizeCentered {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+}
