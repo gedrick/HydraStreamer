@@ -22,25 +22,32 @@ export default {
 
 
 <style lang="scss" scoped>
+@import '../styles/variables.scss';
+
 .login-signup {
   button {
     height: 50px;
     width: 250px;
-    background-color: #2484b5;
+    background-color: $fancy-blue;
     color: #fff;
     font-weight: bold;
     font-size: 20px;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    border: 3px solid #fff;
-    border-radius: 5px;
+    border: 2px solid #fff;
+    border-radius: 2px;
     margin-bottom: 10px;
     transition-property: background-color, color;
     transition-duration: 0.25s;
+    outline: none;
 
     &:hover {
-      background-color: #fff;
-      color: #2484b5;
+      background-color: darken($fancy-blue, 15);
+      color: #fff;
       cursor: pointer;
+    }
+
+    &:active {
+      background-color: darken($fancy-blue, 25);
     }
   }
 }
