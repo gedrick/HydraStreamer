@@ -1,19 +1,26 @@
 <template>
   <div class="channel-box">
     <LoadingBox v-if="isLoading"></LoadingBox>
-    <div v-if="!isLoading && isLoaded" class="channel-box__overlay"></div>
-    <div v-if="isLoading" class="channel-box__container" :id="'container--' + channel.name"></div>
+    <div v-if="!isLoading && isLoaded" class="channel-box__overlay">
+      <ChannelOverlay
+        :onPlay="playerPlay"
+        :onPause="playerPause">
+      </ChannelOverlay>
+    </div>
+    <div v-show="!isLoading" class="channel-box__container" :id="'container--' + channel.name"></div>
   </div>
 </template>
 
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
+import ChannelOverlay from '@/components/ChannelOverlay.vue';
 
 const twitch = window.Twitch;
 
 export default {
   components: {
-    LoadingBox
+    LoadingBox,
+    ChannelOverlay
   },
   props: ['channel'],
   data() {
@@ -77,6 +84,14 @@ export default {
     },
     ended() {
       console.log(`player ${this.channel.name} has ended`);
+    },
+    playerPlay() {
+      console.log('playerPlay');
+      this.player.play();
+    },
+    playerPause() {
+      console.log('playerPause');
+      this.player.pause();
     }
   }
 };
@@ -100,8 +115,9 @@ export default {
   &__overlay {
     z-index: 10;
     transition-property: border;
-    transition-duration: 0.15s;
+    transition-duration: 0.12s;
     border: $box-border-width solid transparent;
+    border-radius: 5px;
 
     &:hover {
       border: $box-border-width solid #0078f0;
