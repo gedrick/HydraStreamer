@@ -1,13 +1,20 @@
 <template>
   <div class="channel-box">
     <LoadingBox v-if="isLoading"></LoadingBox>
+    <div v-if="isOffline" class="channel-box__offline">
+      Channel is Offline
+    </div>
     <div v-if="!isLoading && isLoaded" class="channel-box__overlay">
       <ChannelOverlay
         :onPlay="playerPlay"
-        :onPause="playerPause">
+        :onPause="playerPause"
+        :onMute="playerToggleMuted"
+        :onVolumeUp="playerVolumeUp"
+        :onVolumeDown="playerVolumeDown"
+        :player="player">
       </ChannelOverlay>
     </div>
-    <div v-show="!isLoading" class="channel-box__container" :id="'container--' + channel.name"></div>
+    <div v-show="!isLoading && !isOffline" class="channel-box__container" :id="'container--' + channel.name"></div>
   </div>
 </template>
 
@@ -28,17 +35,20 @@ export default {
       // Switches
       isLoading: true,
       isLoaded: false,
+      isOffline: false,
 
       // The player element itself.
       player: null,
 
       // Player data for further reference.
       qualities: null,
+      volume: 0,
 
       // Bound functions for event listeners.
       bPlaying: null,
       bPaused: null,
-      bEnded: null
+      bEnded: null,
+      bOffline: null
     };
   },
   mounted() {
@@ -55,28 +65,24 @@ export default {
 
     this.player = new twitch.Player(`container--${this.channel.name}`, options);
 
+    this.playerToggleMuted(true);
+
     this.player.addEventListener(twitch.Player.PLAYING, this.bPlaying);
     this.player.addEventListener(twitch.Player.PAUSED, this.bPaused);
     this.player.addEventListener(twitch.Player.ENDED, this.bEnded);
-  },
-  beforeDestroy() {
-    if (this.player && this.player.removeEventListener) {
-      this.player.removeEventListener(twitch.Player.PLAYING, this.bPlaying);
-      this.player.removeEventListener(twitch.Player.PAUSED, this.bPaused);
-      this.player.removeEventListener(twitch.Player.ENDED, this.bEnded);
-    }
+    this.player.addEventListener(twitch.Player.OFFLINE, this.bOffline);
   },
   methods: {
     bindFunctions() {
       this.bPlaying = this.playing.bind(this);
       this.bPaused = this.paused.bind(this);
       this.bEnded = this.ended.bind(this);
+      this.bOffline = this.offline.bind(this);
     },
     playing() {
       this.isLoading = false;
       this.isLoaded = true;
       this.qualities = this.player.getQualities();
-
       console.log(`player ${this.channel.name} has started playing`);
     },
     paused() {
@@ -85,6 +91,11 @@ export default {
     ended() {
       console.log(`player ${this.channel.name} has ended`);
     },
+    offline() {
+      this.isLoading = false;
+      this.isOffline = true;
+      console.log(`player ${this.channel.name} has gone or is offline`);
+    },
     playerPlay() {
       console.log('playerPlay');
       this.player.play();
@@ -92,6 +103,29 @@ export default {
     playerPause() {
       console.log('playerPause');
       this.player.pause();
+    },
+    playerToggleMuted(muted) {
+      this.player.setMuted(muted);
+    },
+    playerVolumeUp() {
+      if (this.volume < 1) {
+        this.volume += 0.25;
+        this.player.setVolume(this.volume);
+      }
+    },
+    playerVolumeDown() {
+      if (this.volume > 0) {
+        this.volume -= 0.25;
+        this.player.setVolume(this.volume);
+      }
+    }
+  },
+  beforeDestroy() {
+    if (this.player && this.player.removeEventListener) {
+      this.player.removeEventListener(twitch.Player.PLAYING, this.bPlaying);
+      this.player.removeEventListener(twitch.Player.PAUSED, this.bPaused);
+      this.player.removeEventListener(twitch.Player.ENDED, this.bEnded);
+      this.player.removeEventListener(twitch.Player.OFFLINE, this.bOffline);
     }
   }
 };
@@ -106,6 +140,13 @@ export default {
   align-items: center;
   color: #fff;
   position: relative;
+
+  &__offline {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   &__overlay,
   &__container {
