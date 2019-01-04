@@ -2,7 +2,7 @@
   <div class="login-signup">
     <h1>Login or Guest</h1>
     <div class="login-signup__button">
-      <button>Login to Save</button>
+      <router-link to="/login"><button>Login to Save</button></router-link>
     </div>
     <div class="login-signup__button">
       <button @click="continueAsGuest">Continue as Guest</button>
