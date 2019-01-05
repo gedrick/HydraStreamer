@@ -11,7 +11,7 @@
       <span class="fas fa-window-close"></span>
     </div>
     <div class="channel-overlay__info">
-      <span></span>
+      <span>{{getChannelName}}</span>
     </div>
   </div>
 </template>
@@ -31,11 +31,11 @@ export default {
     playerIsPaused() {
       return this.player.isPaused();
     },
-    playerVolume() {
-      return this.player.getVolume();
-    },
     playerIsMuted() {
       return this.player.getMuted();
+    },
+    getChannelName() {
+      return this.player.getChannel();
     }
   },
   methods: {
@@ -54,6 +54,9 @@ export default {
 @import '../styles/variables.scss';
 
 .channel-overlay {
+  flex-direction: column;
+  justify-content: space-between;
+
   &__controls {
     display: flex;
     justify-content: space-between;
@@ -74,6 +77,13 @@ export default {
         color: $overlay-icon-highlight-color;
       }
     }
+  }
+
+  &__info {
+    background-color: rgba(#000, 0.2);
+    padding: 10px;
+    font-weight: bold;
+    font-size: 17px;
   }
 }
 </style>
