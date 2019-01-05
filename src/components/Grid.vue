@@ -13,6 +13,7 @@
 
 <script>
 import ChannelBox from '@/components/ChannelBox.vue';
+
 export default {
   components: {
     ChannelBox

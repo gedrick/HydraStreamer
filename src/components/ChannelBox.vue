@@ -3,6 +3,7 @@
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline" class="channel-box__offline flex-center">
       Channel is Offline
+      <button @click="launchPlayer" class="button">Try Again</button>
     </div>
     <div v-if="!isLoading && isLoaded" class="channel-box__overlay expand-to-fit">
       <ChannelOverlay
@@ -52,27 +53,34 @@ export default {
     };
   },
   mounted() {
-    const options = {
-      width: '100%',
-      height: '100%',
-      channel: this.channel.name,
-      muted: true,
-      autoplay: true,
-      controls: false
-    };
-
-    this.bindFunctions();
-
-    this.player = new twitch.Player(`container--${this.channel.name}`, options);
-
-    this.playerToggleMuted(true);
-
-    this.player.addEventListener(twitch.Player.PLAYING, this.bPlaying);
-    this.player.addEventListener(twitch.Player.PAUSED, this.bPaused);
-    this.player.addEventListener(twitch.Player.ENDED, this.bEnded);
-    this.player.addEventListener(twitch.Player.OFFLINE, this.bOffline);
+    this.launchPlayer();
   },
   methods: {
+    launchPlayer() {
+      this.isLoading = true;
+      this.isLoaded = false;
+      this.isOffline = false;
+
+      const options = {
+        width: '100%',
+        height: '100%',
+        channel: this.channel.name,
+        muted: true,
+        autoplay: true,
+        controls: false
+      };
+
+      this.bindFunctions();
+
+      this.player = new twitch.Player(`container--${this.channel.name}`, options);
+
+      this.playerToggleMuted(true);
+
+      this.player.addEventListener(twitch.Player.PLAYING, this.bPlaying);
+      this.player.addEventListener(twitch.Player.PAUSED, this.bPaused);
+      this.player.addEventListener(twitch.Player.ENDED, this.bEnded);
+      this.player.addEventListener(twitch.Player.OFFLINE, this.bOffline);
+    },
     bindFunctions() {
       this.bPlaying = this.playing.bind(this);
       this.bPaused = this.paused.bind(this);

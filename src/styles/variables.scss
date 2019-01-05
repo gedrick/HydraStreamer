@@ -20,3 +20,18 @@ $button-font-size: 36px;
   top: 0;
   overflow: hidden;
 }
+
+// Button
+.button {
+  background-color: $fancy-blue;
+  color: #fff;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  transition-property: background-color;
+  transition-duration: 0.15s;
+  outline: none;
+}

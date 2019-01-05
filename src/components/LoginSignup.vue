@@ -2,10 +2,10 @@
   <div class="login-signup">
     <h1>Login or Guest</h1>
     <div class="login-signup__button">
-      <router-link to="/login"><button>Login to Save</button></router-link>
+      <router-link to="/login"><button class="button">Login to Save</button></router-link>
     </div>
     <div class="login-signup__button">
-      <button @click="continueAsGuest">Continue as Guest</button>
+      <button @click="continueAsGuest" class="button">Continue as Guest</button>
     </div>
   </div>
 </template>
@@ -28,17 +28,6 @@ export default {
   button {
     height: 50px;
     width: 250px;
-    background-color: $fancy-blue;
-    color: #fff;
-    font-weight: bold;
-    font-size: 20px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    border: 2px solid #fff;
-    border-radius: 2px;
-    margin-bottom: 10px;
-    transition-property: background-color, color;
-    transition-duration: 0.25s;
-    outline: none;
 
     &:hover {
       background-color: darken($fancy-blue, 15);
