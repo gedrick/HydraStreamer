@@ -72,7 +72,8 @@ export default {
 
       this.bindFunctions();
 
-      this.player = new twitch.Player(`container--${this.channel.name}`, options);
+      const containerId = `container--${this.channel.name}`;
+      this.player = new twitch.Player(containerId, options);
 
       this.playerToggleMuted(true);
 

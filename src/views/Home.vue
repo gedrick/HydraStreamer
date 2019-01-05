@@ -1,28 +1,45 @@
 <template>
   <div class="home">
-    <LoginSignup v-if="!userIsGuest" @dismiss="toggleUserGuest"></LoginSignup>
-    <HomeMenu v-if="userIsGuest"></HomeMenu>
+    <div class="home__button">
+      <router-link to="/watch">
+        <button class="button">Continue as Guest</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
-<script>
-import LoginSignup from '@/components/LoginSignup.vue';
-import HomeMenu from '@/components/HomeMenu.vue';
+<style lang="scss" scoped>
+@import '../styles/variables.scss';
 
+.home {
+  button {
+    height: 50px;
+    width: 250px;
+
+    &:hover {
+      background-color: darken($fancy-blue, 15);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: darken($fancy-blue, 25);
+    }
+  }
+}
+</style>
+
+<script>
 export default {
   name: 'home',
-  components: {
-    LoginSignup,
-    HomeMenu
-  },
   data() {
     return {
-      userIsGuest: false
+      isFirstTime: true
     };
   },
   methods: {
     toggleUserGuest() {
-      this.userIsGuest = true;
+      this.isFirstTime = true;
     }
   }
 };
