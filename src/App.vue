@@ -10,12 +10,7 @@
 
 <style lang="scss">
 body {
-  background: #000000;
-  background: -moz-linear-gradient(top, #0b2338 0%, #000000 100%);
-  background: -webkit-linear-gradient(top, #0b2338 0%, #000000 100%);
-  background: linear-gradient(to bottom, #0b2338 0%, #000000 100%);
-  background-repeat: no-repeat;
-  height: 100vh;
+  background-color: #1f1e1c;
   overflow: hidden;
 }
 
@@ -24,6 +19,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #3f2a6b;
 }
 </style>

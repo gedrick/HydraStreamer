@@ -48,7 +48,6 @@ export default {
 @import '../styles/variables.scss';
 
 .channel-overlay {
-
   &__controls {
     display: flex;
     justify-content: flex-start;
@@ -64,7 +63,7 @@ export default {
       cursor: pointer;
 
       &:hover {
-        color: $fancy-blue;
+        color: $fancy-color;
       }
     }
   }

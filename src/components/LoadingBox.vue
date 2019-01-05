@@ -12,14 +12,13 @@
 
 $hollowBoxSize: 3em;
 $hollowLight: #fff;
-$hollowDark: $fancy-blue;
+$hollowDark: #1f1f1c;
 $hollowTiming: 0.75s;
 
 .loading-box {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
 
   &__loader {
     width: $hollowBoxSize;

@@ -1,5 +1,5 @@
 // Colors
-$fancy-blue: #0078f0;
+$fancy-color: #553F86;
 
 // Measurements
 $box-border-width: 2px;
@@ -23,15 +23,50 @@ $button-font-size: 36px;
 
 // Button
 .button {
-  background-color: $fancy-blue;
-  color: #fff;
-  font-weight: normal;
-  font-size: 18px;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  border: 2px solid #fff;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  transition-property: background-color;
-  transition-duration: 0.15s;
-  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  cursor: pointer;
+  display: inline-block;
+  padding: 25px 80px;
+  margin: 15px 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  position: relative;
+  transition: all 0.3s;
+	overflow: hidden;
+
+  border: 3px solid #fff3ea;
+	color: #ffffff;
+
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    transition: all 0.2s;
+
+    width: 0;
+    height: 103%;
+    top: 50%;
+    left: 50%;
+    background: #8570B4;
+    opacity: 0;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  &:after,
+  &:active {
+    color: #fff;
+  }
+
+  &:hover:after {
+    width: 90%;
+    opacity: 1;
+  }
+
+  &:active:after {
+    width: 101%;
+    opacity: 1;
+  }
 }
