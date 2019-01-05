@@ -9,11 +9,11 @@ const TestChannels = [
   },
   {
     index: 2,
-    name: 'meclipse'
+    name: 'trick2g'
   },
   {
     index: 3,
-    name: 'tsm_myth'
+    name: 'nl_kripp'
   },
   {
     index: 4,

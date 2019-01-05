@@ -3,9 +3,15 @@
     <div class="channel-overlay__controls">
       <span v-if="playerIsPaused" class="fa fa-play" @click="onPlay"></span>
       <span v-if="!playerIsPaused" class="fa fa-pause" @click="onPause"></span>
-      <span class="fas fa-volume-down" @click="onVolumeDown"></span>
-      <span class="fas fa-volume-mute" @click="onToggleMute"></span>
-      <span class="fas fa-volume-up" @click="onVolumeUp"></span>
+      <span
+        class="fas"
+        :class="{'fa-volume-mute': playerIsMuted, 'fa-volume-up': !playerIsMuted}"
+        @click="onToggleMute">
+      </span>
+      <span class="fas fa-window-close"></span>
+    </div>
+    <div class="channel-overlay__info">
+      <span></span>
     </div>
   </div>
 </template>
@@ -50,20 +56,22 @@ export default {
 .channel-overlay {
   &__controls {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     background-color: rgba(#000, 0.4);
     padding: 10px;
 
     span {
       font-size: $button-font-size;
       color: #fff;
-      margin-right: 10px;
-      transition-property: color;
-      transition-duration: 0.12s;
+      margin-left: 10px;
       cursor: pointer;
 
       &:hover {
-        color: $fancy-color;
+        color: $light-purple;
+      }
+
+      &.fa-volume-mute.muted {
+        color: $light-purple;
       }
     }
   }

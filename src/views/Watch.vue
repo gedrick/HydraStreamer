@@ -14,7 +14,7 @@ export default {
   },
   data() {
     return {
-      channels: TestChannels.splice(0, 2)
+      channels: TestChannels.splice(0, 4)
     };
   }
 };

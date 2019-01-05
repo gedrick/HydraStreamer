@@ -2,10 +2,11 @@
   <div class="channel-box flex-center">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline" class="channel-box__offline flex-center">
-      Channel is Offline
-      <button @click="launchPlayer" class="button">Try Again</button>
+      <button @click="launchPlayer" class="button">Channel Offline. Reload?</button>
     </div>
-    <div v-if="!isLoading && isLoaded" class="channel-box__overlay expand-to-fit">
+    <div
+      v-if="!isLoading && isLoaded"
+      class="channel-box__overlay expand-to-fit">
       <ChannelOverlay
         :onPlay="playerPlay"
         :onPause="playerPause"
@@ -15,7 +16,11 @@
         :player="player">
       </ChannelOverlay>
     </div>
-    <div v-show="!isLoading && !isOffline" class="channel-box__container expand-to-fit" :id="'container--' + channel.name"></div>
+    <div
+      v-show="!isLoading && !isOffline"
+      class="channel-box__container expand-to-fit"
+      :id="'container--' + channel.name">
+    </div>
   </div>
 </template>
 
@@ -30,7 +35,9 @@ export default {
     LoadingBox,
     ChannelOverlay
   },
-  props: ['channel'],
+  props: {
+    channel: Object
+  },
   data() {
     return {
       // Switches
@@ -49,7 +56,10 @@ export default {
       bPlaying: null,
       bPaused: null,
       bEnded: null,
-      bOffline: null
+      bOffline: null,
+
+      // Extra settings
+      playerLoadTimeout: 5000
     };
   },
   mounted() {
@@ -102,6 +112,7 @@ export default {
     },
     offline() {
       this.isLoading = false;
+      this.isLoaded = false;
       this.isOffline = true;
       console.log(`player ${this.channel.name} has gone or is offline`);
     },
@@ -154,10 +165,7 @@ export default {
   &__overlay {
     opacity: 0;
     z-index: 10;
-    transition-property: border, opacity;
-    transition-duration: 0.12s;
-    border: 0px solid transparent;
-    border-radius: 5px;
+    border: $box-border-width solid transparent;
 
     &:hover {
       border: $box-border-width solid #553f86;
