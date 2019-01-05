@@ -1,6 +1,6 @@
 <template>
-  <div class='home-menu'>
-    <Grid :channels='channels'></Grid>
+  <div class="home-menu">
+    <Grid :channels="channels"></Grid>
   </div>
 </template>
 

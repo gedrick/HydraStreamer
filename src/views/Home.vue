@@ -20,9 +20,6 @@ export default {
       userIsGuest: false
     };
   },
-  mounted() {
-    // Do a check here for a session ID to determine if they are logged in.
-  },
   methods: {
     toggleUserGuest() {
       this.userIsGuest = true;

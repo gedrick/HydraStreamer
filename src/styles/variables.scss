@@ -5,8 +5,14 @@ $fancy-blue: #0078f0;
 $box-border-width: 2px;
 $button-font-size: 36px;
 
-// Mixins
-@mixin fullSizeCentered {
+// Helper classes
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.expand-to-fit {
   width: 100%;
   height: 100%;
   position: absolute;

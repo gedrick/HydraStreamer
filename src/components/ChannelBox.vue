@@ -1,10 +1,10 @@
 <template>
-  <div class="channel-box">
+  <div class="channel-box flex-center">
     <LoadingBox v-if="isLoading"></LoadingBox>
-    <div v-if="isOffline" class="channel-box__offline">
+    <div v-if="isOffline" class="channel-box__offline flex-center">
       Channel is Offline
     </div>
-    <div v-if="!isLoading && isLoaded" class="channel-box__overlay">
+    <div v-if="!isLoading && isLoaded" class="channel-box__overlay expand-to-fit">
       <ChannelOverlay
         :onPlay="playerPlay"
         :onPause="playerPause"
@@ -14,7 +14,7 @@
         :player="player">
       </ChannelOverlay>
     </div>
-    <div v-show="!isLoading && !isOffline" class="channel-box__container" :id="'container--' + channel.name"></div>
+    <div v-show="!isLoading && !isOffline" class="channel-box__container expand-to-fit" :id="'container--' + channel.name"></div>
   </div>
 </template>
 
@@ -135,33 +135,24 @@ export default {
 @import '../styles/variables.scss';
 
 .channel-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: #fff;
   position: relative;
 
   &__offline {
     color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &__overlay,
-  &__container {
-    @include fullSizeCentered;
   }
 
   &__overlay {
+    opacity: 0;
     z-index: 10;
-    transition-property: border;
+    transition-property: border, opacity;
     transition-duration: 0.12s;
-    border: $box-border-width solid transparent;
+    border: 0px solid transparent;
     border-radius: 5px;
 
     &:hover {
       border: $box-border-width solid #0078f0;
+      opacity: 1;
     }
   }
 
