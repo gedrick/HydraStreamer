@@ -11,8 +11,8 @@
 @import '../styles/variables.scss';
 
 $hollowBoxSize: 3em;
-$hollowLight: #fff;
-$hollowDark: #1f1f1c;
+$hollowLight: $loading-box-light;
+$hollowDark: $loading-box-dark;
 $hollowTiming: 0.75s;
 
 .loading-box {

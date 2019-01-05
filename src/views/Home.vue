@@ -26,13 +26,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../styles/variables.scss';
+
 .home {
   width: 100vw;
   height: 100vh;
   flex-direction: column;
 
   h1 {
-    color: #a591cf;
+    color: $light-main;
   }
 }
 </style>

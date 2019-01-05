@@ -57,21 +57,21 @@ export default {
   &__controls {
     display: flex;
     justify-content: space-between;
-    background-color: rgba(#000, 0.4);
+    background-color: rgba(#000, 0.2);
     padding: 10px;
 
     span {
       font-size: $button-font-size;
-      color: #fff;
+      color: $white;
       margin-left: 10px;
       cursor: pointer;
 
       &:hover {
-        color: $light-purple;
+        color: $overlay-icon-highlight-color;
       }
 
       &.fa-volume-mute.muted {
-        color: $light-purple;
+        color: $overlay-icon-highlight-color;
       }
     }
   }

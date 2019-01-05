@@ -1,6 +1,20 @@
 // Colors
-$fancy-color: #553F86;
-$off-white: #fff3ea;
+$background-color: #02497F;
+$light-main: #0C95FE;
+$bright-main: #55B5FF;
+
+$bright-orange: #FFB149;
+$dark-purple: #553f86;
+$mid-purple: #6C569D;
+$light-purple: #a591cf;
+
+$white: #ffffff;
+
+// Specifics
+$loading-box-light: $white;
+$loading-box-dark: $bright-orange;
+$channel-box-highlight-color: $bright-orange;
+$overlay-icon-highlight-color: $bright-orange;
 
 // Measurements
 $box-border-width: 2px;
@@ -38,8 +52,8 @@ $button-font-size: 36px;
   transition: all 0.3s;
 	overflow: hidden;
 
-  border: 3px solid $off-white;
-	color: #ffffff;
+  border: 3px solid $white;
+	color: $white;
 
   &:after {
     content: '';
@@ -51,14 +65,14 @@ $button-font-size: 36px;
     height: 103%;
     top: 50%;
     left: 50%;
-    background: #8570B4;
+    background: $light-main;
     opacity: 0;
     transform: translateX(-50%) translateY(-50%);
   }
 
   &:after,
   &:active {
-    color: #fff;
+    color: $white;
   }
 
   &:hover:after {

@@ -52,7 +52,6 @@ export default {
   display: grid;
   width: 95vw;
   height: 80vh;
-  background-color: rgba(#000000, 0.4);
   border-radius: 10px;
 }
 </style>

@@ -5,11 +5,13 @@
 </template>
 
 <style lang="scss">
+@import './styles/variables.scss';
+
 body {
-  background-color: #1f1e1c;
+  background-color: $background-color;
   overflow: hidden;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  color: #3f2a6b;
+  color: $light-main;
 }
 
 #app {

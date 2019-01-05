@@ -155,11 +155,11 @@ export default {
 @import '../styles/variables.scss';
 
 .channel-box {
-  color: #fff;
+  color: $white;
   position: relative;
 
   &__offline {
-    color: #fff;
+    color: $white;
   }
 
   &__overlay {
@@ -168,7 +168,7 @@ export default {
     border: $box-border-width solid transparent;
 
     &:hover {
-      border: $box-border-width solid #553f86;
+      border: $box-border-width solid $channel-box-highlight-color;
       opacity: 1;
     }
   }
