@@ -160,7 +160,7 @@ export default {
     border-radius: 5px;
 
     &:hover {
-      border: $box-border-width solid #0078f0;
+      border: $box-border-width solid #553f86;
       opacity: 1;
     }
   }

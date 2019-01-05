@@ -1,8 +1,9 @@
 <template>
   <div class="home flex-center">
+    <h1>MultiTwitch</h1>
     <div class="home__button">
       <router-link to="/watch">
-        <button class="button">Continue as Guest</button>
+        <button class="button">Fetch My Subscriptions</button>
       </router-link>
     </div>
   </div>
@@ -23,3 +24,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.home {
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+
+  h1 {
+    color: #a591cf;
+  }
+}
+</style>
