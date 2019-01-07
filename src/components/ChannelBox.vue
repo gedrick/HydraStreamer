@@ -62,6 +62,9 @@ export default {
       playerLoadTimeout: 5000
     };
   },
+  mounted() {
+    this.launchPlayer();
+  },
   methods: {
     launchPlayer() {
       this.isLoading = true;
