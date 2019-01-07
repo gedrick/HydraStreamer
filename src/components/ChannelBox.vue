@@ -1,8 +1,8 @@
 <template>
-  <div class="channel-box flex-center">
+  <div class="channel-box flex-center" v-if="channel">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline" class="channel-box__offline flex-center">
-      <button @click="launchPlayer" class="button">Channel Offline. Reload?</button>
+      <button @click="launchPlayer" class="button"><span class="orange">{{channel.name}}</span> is offline.<br>Reload?</button>
     </div>
     <div
       v-if="!isLoading && isLoaded"
@@ -61,9 +61,6 @@ export default {
       // Extra settings
       playerLoadTimeout: 5000
     };
-  },
-  mounted() {
-    this.launchPlayer();
   },
   methods: {
     launchPlayer() {
@@ -142,6 +139,7 @@ export default {
   },
   beforeDestroy() {
     if (this.player && this.player.removeEventListener) {
+      this.player.pause();
       this.player.removeEventListener(twitch.Player.PLAYING, this.bPlaying);
       this.player.removeEventListener(twitch.Player.PAUSED, this.bPaused);
       this.player.removeEventListener(twitch.Player.ENDED, this.bEnded);
