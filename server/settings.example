@@ -1,0 +1,8 @@
+const twitch = {
+  clientId: [clientId],
+  secret: [secret]
+};
+
+module.exports = {
+  twitch
+};
