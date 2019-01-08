@@ -12,9 +12,13 @@ export default {
   components: {
     Grid
   },
+  mounted() {
+    console.log('checking cookies');
+    console.log(document.cookie);
+  },
   data() {
     return {
-      channels: TestChannels.splice(0, 4)
+      channels: TestChannels.splice(0, 1)
     };
   }
 };

@@ -1,12 +1,12 @@
 <template>
   <div class="home flex-center">
-    <h1>MultiTwitch</h1>
+    <div class="home__header">
+      <h1>MultiTwitch</h1>
+    </div>
     <div class="home__button">
-      <input type="text" v-model="userName">
-      <button @click="getUserId">get user id</button>
-      <router-link to="/watch">
-        <button class="button">Fetch My Subscriptions</button>
-      </router-link>
+      <a href="/auth/twitch">
+        <button class="button">Login with Twitch</button>
+      </a>
     </div>
   </div>
 </template>
@@ -21,14 +21,15 @@ export default {
     };
   },
   methods: {
-    getUserId() {
-      this.$store.dispatch('getUserIdByUserName', {
-        userName: this.userName
-      });
-    },
-    toggleUserGuest() {
-      this.isFirstTime = true;
-    }
+    // getUserId() {
+    // console.log('getUserId');
+    // this.$store.dispatch('getUserIdByUserName', {
+    //   userName: this.userName
+    // });
+    // },
+    // toggleUserGuest() {
+    //   this.isFirstTime = true;
+    // }
   }
 };
 </script>
@@ -41,8 +42,17 @@ export default {
   height: 100vh;
   flex-direction: column;
 
-  h1 {
-    color: $light-main;
+  &__header {
+    h1 {
+      margin: 0;
+      color: $light-main;
+    }
+  }
+
+  &__button {
+    button {
+      margin: 10px;
+    }
   }
 }
 </style>
