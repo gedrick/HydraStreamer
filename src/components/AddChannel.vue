@@ -41,7 +41,7 @@ export default {
 @import '../styles/variables.scss';
 
 .add-channel {
-  span {
+  & > span {
     transition-duration: 0.2s;
     transition-property: left, top, font-size;
     color: $bright-orange;

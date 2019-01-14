@@ -24,7 +24,11 @@ const mutations = {
     Vue.set(state, 'follows', follows);
   },
   setSearchResults(state, { streams }) {
-    Vue.set(state, 'searchResults', [...streams]);
+    if (streams && streams.length) {
+      Vue.set(state, 'searchResults', [...streams]);
+    } else {
+      Vue.set(state, 'searchResults', []);
+    }
   }
 };
 
