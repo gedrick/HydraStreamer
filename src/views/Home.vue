@@ -45,7 +45,7 @@ export default {
   &__header {
     h1 {
       margin: 0;
-      color: $light-main;
+      color: $bright-orange;
     }
   }
 

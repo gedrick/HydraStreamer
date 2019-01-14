@@ -1,24 +1,30 @@
 <template>
   <div class="watch">
-    <Grid :channels="channels"></Grid>
+    <Grid v-if="channels.length" :channels="channels"></Grid>
+    <AddChannel :hasChannels="channels.length > 0">
+    </AddChannel>
   </div>
 </template>
 
 <script>
 import Grid from '@/components/Grid.vue';
+import AddChannel from '@/components/AddChannel.vue';
 import { TestChannels } from '@/data/TestData.js';
 
+const testChannels = TestChannels.splice(0, 1);
 export default {
   components: {
-    Grid
+    Grid,
+    AddChannel
   },
   mounted() {
-    console.log('checking cookies');
     console.log(document.cookie);
   },
   data() {
     return {
-      channels: TestChannels.splice(0, 1)
+      // channels: TestChannels.splice(0, 1)
+      channels: [],
+      // testChannels: testChannels
     };
   }
 };

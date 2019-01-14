@@ -19,11 +19,12 @@ const mutations = {
 };
 
 const actions = {
-  getUserIdByUserName({ commit }, { userName }) {
-    console.log('store', userName);
+  search({ commit }, { query }) {
 
+  },
+  getUserIdByUserName({ commit }, { userName }) {
     return axios
-      .post(`/api/getUserIdByUserName?userName=${userName}`, {
+      .get(`/api/getUserIdByUserName?userName=${userName}`, {
         userName: userName
       })
       .then(response => {
