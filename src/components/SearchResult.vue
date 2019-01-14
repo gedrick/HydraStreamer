@@ -1,5 +1,5 @@
 <template>
-  <div class="search-result" v-if="result">
+  <div class="search-result" @click="toggleFavorite(result.channel.name)" v-if="result">
     <div class="search-result__image">
       <div class="search-result__image-preview">
         <img :src="previewImage">
@@ -20,11 +20,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: {
     result: Object
   },
   computed: {
+    ...mapGetters(['favorites']),
     previewImage() {
       if (this.result && this.result.preview && this.result.preview.small) {
         return this.result.preview.small;
@@ -32,7 +35,15 @@ export default {
       return '';
     },
     resultIsFavorited() {
-      return false;
+      return this.favorites.includes(this.result.channel.name);
+    }
+  },
+  methods: {
+    toggleFavorite(name) {
+      console.log(`toggleFavorite(${name})`);
+      this.$store.commit('toggleStream', {
+        name: this.result.channel.name
+      });
     }
   }
 };

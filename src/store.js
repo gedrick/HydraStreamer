@@ -7,10 +7,14 @@ Vue.use(Vuex);
 const state = {
   user: null,
   follows: null,
+  favorites: [],
   searchResults: []
 };
 
 const getters = {
+  favorites: state => {
+    return state.favorites;
+  },
   searchResults: state => {
     return state.searchResults;
   }
@@ -29,6 +33,15 @@ const mutations = {
     } else {
       Vue.set(state, 'searchResults', []);
     }
+  },
+  toggleStream(state, { name }) {
+    const streams = [...state.favorites];
+    if (!streams.includes(name)) {
+      streams.push(name);
+    } else {
+      streams.splice(streams.indexOf(name), 1);
+    }
+    Vue.set(state, 'favorites', streams);
   }
 };
 

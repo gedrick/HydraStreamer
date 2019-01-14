@@ -7,7 +7,7 @@
     </span>
     <div v-if="searchIsOpen">
       <Search></Search>
-      <div @click="hideSearch" class="add-channel__cancel">cancel search</div>
+      <div @click="hideSearch" class="add-channel__cancel">close search</div>
     </div>
   </div>
 </template>
@@ -61,6 +61,7 @@ export default {
   }
 
   &__cancel {
+    margin-top: 10px;
     color: $white;
     &:hover {
       cursor: pointer;
