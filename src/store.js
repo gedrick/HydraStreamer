@@ -10,6 +10,12 @@ const state = {
   searchResults: []
 };
 
+const getters = {
+  searchResults: state => {
+    return state.searchResults;
+  }
+};
+
 const mutations = {
   setUser(state, user) {
     Vue.set(state, 'user', user);
@@ -51,6 +57,7 @@ const actions = {
 
 export default new Vuex.Store({
   state,
+  getters,
   mutations,
   actions
 });

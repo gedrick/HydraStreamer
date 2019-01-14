@@ -24,6 +24,7 @@
 
 <script>
 import SearchResult from '@/components/SearchResult.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Search',
@@ -37,16 +38,14 @@ export default {
     };
   },
   computed: {
-    searchResults() {
-      return this.$store.getters.searchResults;
-    }
+    ...mapGetters(['searchResults'])
   },
   mounted() {
     this.$refs.terms.focus();
   },
   methods: {
     doSearch(event) {
-      if (event.key === 'Enter' && this.terms.length >= 3 && !this.working) {
+      if (this.terms.length >= 3 && !this.working) {
         this.working = true;
         this.$store
           .dispatch('search', {

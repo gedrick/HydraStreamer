@@ -1,7 +1,6 @@
 <template>
   <div class="search-result">
-    <div class="search-result__title">FUCK</div>
-    <!-- <div class="search-result__title">{{result.channel.display_name}}</div> -->
+    <div class="search-result__title">{{result.channel.display_name}}</div>
   </div>
 </template>
 
