@@ -44,7 +44,7 @@ export default {
     this.$refs.terms.focus();
   },
   methods: {
-    doSearch(event) {
+    doSearch() {
       if (this.terms.length >= 3 && !this.working) {
         this.working = true;
         this.$store
@@ -65,5 +65,15 @@ export default {
 @import '../styles/variables.scss';
 
 .search {
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__results {
+    max-height: 40vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 </style>
