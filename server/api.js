@@ -4,14 +4,14 @@ const settings = require('../server/settings.js');
 twitchApi.clientID = settings.twitch.clientId;
 twitchApi.secret = settings.twitch.secret;
 
-function searchChannels(req, res) {
-  twitchApi.search.channels(
-    {query: req.query.query},
+function searchStreams(req, res) {
+  twitchApi.search.streams(
+    { query: req.query.query, limit: req.query.limit || 25, hls: true },
     (err, response) => {
       if (!err) {
         res.send(response);
       } else {
-        console.log('(searchChannels) error reached: ', err, response);
+        console.log('(searchStreams) error reached: ', err, response);
         res.send(JSON.stringify([]));
       }
     }
@@ -20,7 +20,7 @@ function searchChannels(req, res) {
 
 function searchGames(req, res) {
   twitchApi.search.games(
-    {query: req.query.query},
+    { query: req.query.query, limit: req.query.limit || 25 },
     (err, response) => {
       if (!err) {
         res.send(response);
@@ -33,17 +33,14 @@ function searchGames(req, res) {
 }
 
 function getChannelsByUser(req, res) {
-  twitchApi.users.follows(
-    {userID: req.query.userId},
-    (err, response) => {
-      if (!err) {
-        res.send(response);
-      } else {
-        console.log('(getChannelsByUser) error reached: ', err, response);
-        res.send(JSON.stringify([]));
-      }
+  twitchApi.users.follows({ userID: req.query.userId }, (err, response) => {
+    if (!err) {
+      res.send(response);
+    } else {
+      console.log('(getChannelsByUser) error reached: ', err, response);
+      res.send(JSON.stringify([]));
     }
-  );
+  });
 }
 
 function getUserIdByUserName(req, res) {
@@ -61,9 +58,9 @@ function getUserIdByUserName(req, res) {
 }
 
 module.exports = {
-  searchChannels,
+  searchStreams,
   searchGames,
-  
+
   getChannelsByUser,
   getUserIdByUserName
 };

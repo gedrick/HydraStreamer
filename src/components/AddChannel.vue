@@ -41,7 +41,6 @@ export default {
 @import '../styles/variables.scss';
 
 .add-channel {
-
   span {
     transition-duration: 0.2s;
     transition-property: left, top, font-size;

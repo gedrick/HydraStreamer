@@ -9,9 +9,7 @@
 <script>
 import Grid from '@/components/Grid.vue';
 import AddChannel from '@/components/AddChannel.vue';
-import { TestChannels } from '@/data/TestData.js';
 
-const testChannels = TestChannels.splice(0, 1);
 export default {
   components: {
     Grid,
@@ -23,7 +21,7 @@ export default {
   data() {
     return {
       // channels: TestChannels.splice(0, 1)
-      channels: [],
+      channels: []
       // testChannels: testChannels
     };
   }

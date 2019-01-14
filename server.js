@@ -76,8 +76,6 @@ passport.use(
       console.log(`refreshToken=${refreshToken}`);
       console.log(`profile=`, profile);
 
-      
-
       done(null, profile);
     }
   )
@@ -107,7 +105,7 @@ app.get('/', (req, res) => {
 // Setup for Twitch API calls.
 const twitchApiHandlers = require('./server/api.js');
 app.get('/api/searchGames', twitchApiHandlers.searchGames);
-app.get('/api/searchChannels', twitchApiHandlers.searchChannels);
+app.get('/api/searchStreams', twitchApiHandlers.searchStreams);
 app.get('/api/getChannelsByUser', twitchApiHandlers.getChannelsByUser);
 app.get('/api/getUserIdByUserName', twitchApiHandlers.getUserIdByUserName);
 
