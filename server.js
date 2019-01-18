@@ -39,7 +39,7 @@ passport.use(new twitchStrategy({
   clientID: process.env.TWITCH_CLIENT_ID || settings.twitch.clientId,
   clientSecret: process.env.TWITCH_CLIENT_SECRET || settings.twitch.secret,
   callbackURL: process.env.TWITCH_CALLBACK_URL || settings.login.callback,
-  scope: 'user_read'
+  scope: process.env.TWITCH_SCOPES || settings.twitch.scopes
 }, (accessToken, refreshToken, profile, done) => {
   User.findOrCreate({
     id: profile.id,
@@ -56,11 +56,18 @@ passport.use(new twitchStrategy({
 }));
 
 passport.serializeUser(function (user, done) {
-  done(null, user);
+  // Only store the user id.
+  done(null, user.doc._id);
 });
 
-passport.deserializeUser(function (user, done) {
-  done(null, user.doc);
+passport.deserializeUser(function (id, done) {
+  // Retrieve user by stored user id.
+  User.findById(id, (err, user) => {
+    if (err) {
+      console.log('deserializeUser error:', err);
+    }
+    done(null, user);
+  });
 });
 
 // Home route.
