@@ -4,6 +4,19 @@ const settings = require('./settings.js');
 twitchApi.clientID = settings.twitch.clientId;
 twitchApi.secret = settings.twitch.secret;
 
+function getUserChannels(req, res) {
+  twitchApi.users.follows({
+    userID: req.query.userID
+  }, (err, response) => {
+    if (!err) {
+      res.status(200).send(response);
+    } else {
+      console.log('(getUserChannels) error reached: ', err, response);
+      res.status(200).send(JSON.stringify([]));
+    }
+  });
+}
+
 function searchStreams(req, res) {
   twitchApi.search.streams({
       query: req.query.query,
@@ -12,10 +25,10 @@ function searchStreams(req, res) {
     },
     (err, response) => {
       if (!err) {
-        res.send(response);
+        res.status(200).send(response);
       } else {
         console.log('(searchStreams) error reached: ', err, response);
-        res.send(JSON.stringify([]));
+        res.status(200).send(JSON.stringify([]));
       }
     }
   );
@@ -28,10 +41,10 @@ function searchGames(req, res) {
     },
     (err, response) => {
       if (!err) {
-        res.send(response);
+        res.status(200).send(response);
       } else {
         console.log('(searchGames) error reached: ', err, response);
-        res.send(JSON.stringify([]));
+        res.status(200).send(JSON.stringify([]));
       }
     }
   );
@@ -42,10 +55,10 @@ function getChannelsByUser(req, res) {
     userID: req.query.userId
   }, (err, response) => {
     if (!err) {
-      res.send(response);
+      res.status(200).send(response);
     } else {
       console.log('(getChannelsByUser) error reached: ', err, response);
-      res.send(JSON.stringify([]));
+      res.status(200).send(JSON.stringify([]));
     }
   });
 }
@@ -56,10 +69,10 @@ function getUserIdByUserName(req, res) {
     },
     (err, response) => {
       if (!err && response.users.length > 0) {
-        res.send(response['users'][0]._id);
+        res.status(200).send(response['users'][0]._id);
       } else {
         console.log('(getUserIdByUserName) error reached: ', err, response);
-        res.send(false);
+        res.status(200).send(false);
       }
     }
   );
@@ -70,5 +83,6 @@ module.exports = {
   searchGames,
 
   getChannelsByUser,
-  getUserIdByUserName
+  getUserIdByUserName,
+  getUserChannels
 };

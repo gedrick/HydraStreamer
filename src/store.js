@@ -7,7 +7,7 @@ Vue.use(Vuex);
 const state = {
   isLoggedIn: false,
   user: null,
-  follows: null,
+  followed: [],
   favorites: [],
   searchResults: []
 };
@@ -34,8 +34,11 @@ const mutations = {
   setUser(state, user) {
     Vue.set(state, 'user', user);
   },
-  setFollows(state, follows) {
-    Vue.set(state, 'follows', follows);
+  setFollowed(state, streams) {
+    Vue.set(state, 'followed', streams);
+  },
+  setFavorites(state, favorites) {
+    Vue.set(state, 'favorites', favorites);
   },
   setSearchResults(state, { streams }) {
     if (streams && streams.length) {
@@ -62,11 +65,23 @@ const actions = {
       if (data.code && data.code === 401) {
         commit('setUser', null);
         commit('setLoggedIn', false)
+        commit('setFavorites', []);
       } else {
         commit('setUser', result.data.user);
         commit('setLoggedIn', true);
+        commit('setFavorites', result.data.user.favorites);
       }
     })
+  },
+  getUserChannels({ commit }, { userID }) {
+    return axios
+      .get(`/data/getUserChannels?userID=${userID}`, {
+        userID
+      })
+      .then(results => {
+        const streams = results.data.follows;
+        commit('setFollowed', streams);
+      });
   },
   search({ commit }, { query }) {
     return axios

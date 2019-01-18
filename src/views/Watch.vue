@@ -1,8 +1,8 @@
 <template>
   <div class="watch">
     <div>Welcome, {{user.username}}!</div>
-    <Grid v-if="channels.length" :channels="channels"></Grid>
-    <AddChannel :hasChannels="channels.length > 0">
+    <Grid v-if="favorites.length" :channels="favorites"></Grid>
+    <AddChannel :hasChannels="favorites.length > 0">
     </AddChannel>
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script>
 import Grid from '@/components/Grid.vue';
 import AddChannel from '@/components/AddChannel.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -18,16 +18,18 @@ export default {
     Grid,
     AddChannel
   },
-  mounted() {
-    console.log(document.cookie);
-  },
   data() {
     return {
       channels: []
     }
   },
+  beforeMount() {
+    this.$store.dispatch('getUserChannels', {
+      userID: this.user.id
+    });
+  },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'favorites'])
   }
 };
 </script>

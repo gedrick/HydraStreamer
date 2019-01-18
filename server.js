@@ -115,6 +115,7 @@ twitchApiRoutes.get('/searchGames', twitchApiHandlers.searchGames);
 twitchApiRoutes.get('/searchStreams', twitchApiHandlers.searchStreams);
 twitchApiRoutes.get('/getChannelsByUser', twitchApiHandlers.getChannelsByUser);
 twitchApiRoutes.get('/getUserIdByUserName', twitchApiHandlers.getUserIdByUserName);
+twitchApiRoutes.get('/getUserChannels', twitchApiHandlers.getUserChannels);
 server.use('/data', twitchApiRoutes);
 
 // Start the server.
