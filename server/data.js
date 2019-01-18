@@ -1,12 +1,15 @@
 const twitchApi = require('twitch-api-v5');
-const settings = require('../server/settings.js');
+const settings = require('./settings.js');
 
 twitchApi.clientID = settings.twitch.clientId;
 twitchApi.secret = settings.twitch.secret;
 
 function searchStreams(req, res) {
-  twitchApi.search.streams(
-    { query: req.query.query, limit: req.query.limit || 25, hls: true },
+  twitchApi.search.streams({
+      query: req.query.query,
+      limit: req.query.limit || 25,
+      hls: true
+    },
     (err, response) => {
       if (!err) {
         res.send(response);
@@ -19,8 +22,10 @@ function searchStreams(req, res) {
 }
 
 function searchGames(req, res) {
-  twitchApi.search.games(
-    { query: req.query.query, limit: req.query.limit || 25 },
+  twitchApi.search.games({
+      query: req.query.query,
+      limit: req.query.limit || 25
+    },
     (err, response) => {
       if (!err) {
         res.send(response);
@@ -33,7 +38,9 @@ function searchGames(req, res) {
 }
 
 function getChannelsByUser(req, res) {
-  twitchApi.users.follows({ userID: req.query.userId }, (err, response) => {
+  twitchApi.users.follows({
+    userID: req.query.userId
+  }, (err, response) => {
     if (!err) {
       res.send(response);
     } else {
@@ -44,8 +51,9 @@ function getChannelsByUser(req, res) {
 }
 
 function getUserIdByUserName(req, res) {
-  twitchApi.users.usersByName(
-    { users: req.query.userName },
+  twitchApi.users.usersByName({
+      users: req.query.userName
+    },
     (err, response) => {
       if (!err && response.users.length > 0) {
         res.send(response['users'][0]._id);

@@ -9,6 +9,7 @@
 <script>
 import Grid from '@/components/Grid.vue';
 import AddChannel from '@/components/AddChannel.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -20,10 +21,16 @@ export default {
   },
   data() {
     return {
-      // channels: TestChannels.splice(0, 1)
+      user: null,
       channels: []
-      // testChannels: testChannels
+      // channels: TestChannels.splice(0, 1)
+      // testChannels: testChannels,
     };
+  },
+  beforeMount() {
+    axios.get('/api/me').then(data => {
+      console.log('beforeMount:', data);
+    });
   }
 };
 </script>

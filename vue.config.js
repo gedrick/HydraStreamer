@@ -1,7 +1,12 @@
 module.exports = {
   devServer: {
     proxy: {
-      '^/api': {
+      '^/api/*': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        secure: false
+      },
+      '^/data/*': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false
@@ -11,7 +16,7 @@ module.exports = {
         changeOrigin: true,
         secure: false
       },
-      '^/callback': {
+      '^/auth/callback': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false
