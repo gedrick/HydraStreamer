@@ -8,7 +8,6 @@ const state = {
   isLoggedIn: false,
   user: null,
   followed: [],
-  favorites: [],
   searchResults: []
 };
 
@@ -19,8 +18,17 @@ const getters = {
   user: state => {
     return state.user
   },
+  userID: state => {
+    return state.user._id;
+  },
+  twitchID: state => {
+    return state.user.id;
+  },
+  followed: state => {
+    return state.followed;
+  },
   favorites: state => {
-    return state.favorites;
+    return state.user.favorites;
   },
   searchResults: state => {
     return state.searchResults;
@@ -36,9 +44,6 @@ const mutations = {
   },
   setFollowed(state, streams) {
     Vue.set(state, 'followed', streams);
-  },
-  setFavorites(state, favorites) {
-    Vue.set(state, 'favorites', favorites);
   },
   setSearchResults(state, { streams }) {
     if (streams && streams.length) {
@@ -59,17 +64,25 @@ const mutations = {
 };
 
 const actions = {
+  toggleFavorite({ commit }, { userID, name }) {
+    return axios
+      .post('/api/follow', {
+        userID,
+        name
+      })
+      .then(result => {
+        console.log('toggleFavorite action result:', result);
+      });
+  },
   getMe({ commit }) {
     return axios.get(`/api/me`).then(result => {
       const data = result.data;
       if (data.code && data.code === 401) {
         commit('setUser', null);
         commit('setLoggedIn', false)
-        commit('setFavorites', []);
       } else {
         commit('setUser', result.data.user);
         commit('setLoggedIn', true);
-        commit('setFavorites', result.data.user.favorites);
       }
     })
   },

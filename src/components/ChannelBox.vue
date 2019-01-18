@@ -2,7 +2,7 @@
   <div class="channel-box flex-center" v-if="channel">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline" class="channel-box__offline flex-center">
-      <button @click="launchPlayer" class="button"><span class="orange">{{channel.name}}</span> is offline.<br>Reload?</button>
+      <button @click="launchPlayer" class="button"><span class="orange">{{channel}}</span> is offline.<br>Reload?</button>
     </div>
     <div
       v-if="!isLoading && isLoaded"
@@ -19,7 +19,7 @@
     <div
       v-show="!isLoading && !isOffline"
       class="channel-box__container expand-to-fit"
-      :id="'container--' + channel.name">
+      :id="'container--' + channel">
     </div>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
     ChannelOverlay
   },
   props: {
-    channel: Object
+    channel: String
   },
   data() {
     return {
@@ -74,7 +74,7 @@ export default {
       const options = {
         width: '100%',
         height: '100%',
-        channel: this.channel.name,
+        channel: this.channel,
         muted: true,
         autoplay: true,
         controls: false
@@ -82,7 +82,7 @@ export default {
 
       this.bindFunctions();
 
-      const containerId = `container--${this.channel.name}`;
+      const containerId = `container--${this.channel}`;
       this.player = new twitch.Player(containerId, options);
 
       this.playerToggleMuted(true);
@@ -102,19 +102,19 @@ export default {
       this.isLoading = false;
       this.isLoaded = true;
       this.qualities = this.player.getQualities();
-      console.log(`player ${this.channel.name} has started playing`);
+      console.log(`player ${this.channel} has started playing`);
     },
     paused() {
-      console.log(`player ${this.channel.name} has paused`);
+      console.log(`player ${this.channel} has paused`);
     },
     ended() {
-      console.log(`player ${this.channel.name} has ended`);
+      console.log(`player ${this.channel} has ended`);
     },
     offline() {
       this.isLoading = false;
       this.isLoaded = false;
       this.isOffline = true;
-      console.log(`player ${this.channel.name} has gone or is offline`);
+      console.log(`player ${this.channel} has gone or is offline`);
     },
     playerPlay() {
       console.log('playerPlay');

@@ -40,11 +40,14 @@ export default {
   },
   methods: {
     toggleFavorite(name) {
-      console.log(`toggleFavorite(${name})`);
-      this.$store.commit('toggleStream', {
-        name: this.result.channel.name
+      this.$store.dispatch('toggleFavorite', {
+        userID: this.userID,
+        name: this.result.channel
       });
     }
+  },
+  computed: {
+    ...mapGetters(['userID'])
   }
 };
 </script>

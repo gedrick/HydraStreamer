@@ -1,5 +1,4 @@
 const User = require('./models/user');
-const settings = require('./settings.js');
 
 function me(req, res) {
   res.json({

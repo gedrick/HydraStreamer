@@ -5,7 +5,7 @@
   }">
     <ChannelBox
       v-for="channel in channels"
-      :key="channel.id"
+      :key="channel"
       :channel="channel">
     </ChannelBox>
   </div>

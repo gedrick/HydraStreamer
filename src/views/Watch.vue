@@ -14,22 +14,18 @@ import { mapGetters, mapActions } from 'vuex';
 import axios from 'axios';
 
 export default {
+  name: 'Watch',
   components: {
     Grid,
     AddChannel
   },
-  data() {
-    return {
-      channels: []
-    }
-  },
   beforeMount() {
     this.$store.dispatch('getUserChannels', {
-      userID: this.user.id
+      userID: this.twitchID
     });
   },
   computed: {
-    ...mapGetters(['user', 'favorites'])
+    ...mapGetters(['user', 'twitchID', 'favorites'])
   }
 };
 </script>
