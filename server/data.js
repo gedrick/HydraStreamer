@@ -44,7 +44,7 @@ function searchGames(req, res) {
         res.status(200).send(response);
       } else {
         console.log('(searchGames) error reached: ', err, response);
-        res.status(200).send(JSON.stringify([]));
+        res.status(500).json(err);
       }
     }
   );
@@ -58,7 +58,7 @@ function getChannelsByUser(req, res) {
       res.status(200).send(response);
     } else {
       console.log('(getChannelsByUser) error reached: ', err, response);
-      res.status(200).send(JSON.stringify([]));
+      res.status(500).json(err);
     }
   });
 }
@@ -72,7 +72,7 @@ function getUserIdByUserName(req, res) {
         res.status(200).send(response['users'][0]._id);
       } else {
         console.log('(getUserIdByUserName) error reached: ', err, response);
-        res.status(200).send(false);
+        res.status(500).json(err);
       }
     }
   );

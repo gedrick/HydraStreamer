@@ -98,25 +98,23 @@ function isAuthenticated(req, res, next) {
   return next();
 }
 
-// Set up API routes.
+// Set up api routes.
 const apiRoutes = express.Router();
+const apiHandlers = require('./server/api.js');
 apiRoutes.use(isAuthenticated);
-apiRoutes.get('/me', (req, res) => {
-  res.json({
-    user: req.user
-  });
-});
+apiRoutes.get('/me', apiHandlers.me);
+apiRoutes.get('/follow', apiHandlers.follow);
 server.use('/api', apiRoutes);
 
-// Setup for Twitch API calls.
-const twitchApiRoutes = express.Router();
-const twitchApiHandlers = require('./server/data.js');
-twitchApiRoutes.get('/searchGames', twitchApiHandlers.searchGames);
-twitchApiRoutes.get('/searchStreams', twitchApiHandlers.searchStreams);
-twitchApiRoutes.get('/getChannelsByUser', twitchApiHandlers.getChannelsByUser);
-twitchApiRoutes.get('/getUserIdByUserName', twitchApiHandlers.getUserIdByUserName);
-twitchApiRoutes.get('/getUserChannels', twitchApiHandlers.getUserChannels);
-server.use('/data', twitchApiRoutes);
+// Set up data routes.
+const dataRoutes = express.Router();
+const dataHandlers = require('./server/data.js');
+dataRoutes.get('/searchGames', dataHandlers.searchGames);
+dataRoutes.get('/searchStreams', dataHandlers.searchStreams);
+dataRoutes.get('/getChannelsByUser', dataHandlers.getChannelsByUser);
+dataRoutes.get('/getUserIdByUserName', dataHandlers.getUserIdByUserName);
+dataRoutes.get('/getUserChannels', dataHandlers.getUserChannels);
+server.use('/data', dataRoutes);
 
 // Start the server.
 const port = process.env.PORT || 3000;
