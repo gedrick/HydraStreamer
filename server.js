@@ -1,115 +1,112 @@
 const express = require('express');
-const app = express();
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const flash = require('flash');
 const passport = require('passport');
-const OAuth2Strategy = require('passport-oauth').OAuth2Strategy;
+const twitchStrategy = require('passport-twitch').Strategy;
 const request = require('request');
+const bodyParser = require('body-parser');
 
 const settings = require('./server/settings.js');
 
-const clientId = settings.twitch.clientId;
-const secret = settings.twitch.secret;
-const sessionSecret =
-  process.env.SESSION_SECRET || settings.twitch.session_secret;
-const callback = process.env.CALLBACK || settings.twitch.callback;
-
 const host = process.env.HOST || 'http://localhost:8080';
 
+// Set up Mongo.
+const mongoose = require('mongoose');
+mongoose.Promise = Promise;
+require('./server/db')(mongoose);
+const User = require('./server/models/user.js');
+
 // Setup for Login with Twitch.
-app.use(
-  session({ secret: sessionSecret, resave: false, saveUninitialized: false })
-);
-// app.use(express.static('public'));
-app.use(passport.initialize());
-app.use(passport.session());
+const server = express();
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({
+  extended: true
+}));
+server.use(session({
+  secret: process.env.SESSION_SECRET || settings.login.sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+  store: new MongoStore(settings.mongo)
+}));
+server.use(flash());
+server.use(express.static('./public'));
+server.use(passport.initialize());
+server.use(passport.session());
 
-// Override passport profile function to get user profile from Twitch API
-OAuth2Strategy.prototype.userProfile = (accessToken, done) => {
-  var options = {
-    url: 'https://api.twitch.tv/helix/users',
-    method: 'GET',
-    headers: {
-      'Client-ID': clientId,
-      Accept: 'application/vnd.twitchtv.v5+json',
-      Authorization: 'Bearer ' + accessToken
-    }
-  };
-
-  request(options, (error, response, body) => {
-    if (response && response.statusCode == 200) {
-      done(null, JSON.parse(body));
-    } else {
-      done(JSON.parse(body));
-    }
+// Set up Passport.
+passport.use(new twitchStrategy({
+  clientID: process.env.TWITCH_CLIENT_ID || settings.twitch.clientId,
+  clientSecret: process.env.TWITCH_CLIENT_SECRET || settings.twitch.secret,
+  callbackURL: process.env.CALLBACK || settings.login.callback,
+  scope: 'user_read'
+}, (accessToken, refreshToken, profile, done) => {
+  User.findOrCreate({
+    id: profile.id,
+    username: profile.displayName,
+    email: profile.email,
+    avatar: profile._json.logo,
+    access_token: accessToken,
+    refresh_token: refreshToken
+  }).then(result => {
+    return done(null, result);
   });
-};
+}));
 
-passport.serializeUser((user, done) => {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser((user, done) => {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.use(
-  'twitch',
-  new OAuth2Strategy(
-    {
-      authorizationURL: 'https://id.twitch.tv/oauth2/authorize',
-      tokenURL: 'https://id.twitch.tv/oauth2/token',
-      clientID: clientId,
-      clientSecret: secret,
-      callbackURL: callback,
-      state: true
-    },
-    (accessToken, refreshToken, profile, done) => {
-      profile.accessToken = accessToken;
-      profile.refreshToken = refreshToken;
-
-      // Securely store user profile in your DB
-      //User.findOrCreate(..., function(err, user) {
-      //  done(err, user);
-      //});
-
-      console.log(`accessToken=${accessToken}`);
-      console.log(`refreshToken=${refreshToken}`);
-      console.log(`profile=`, profile);
-
-      done(null, profile);
-    }
-  )
-);
-
-// Set route to start OAuth link, this is where you define scopes to request
-app.get(
-  '/auth/twitch',
-  passport.authenticate('twitch', { scope: 'user_read' })
-);
-
-// Set route for OAuth redirect
-app.get(
-  '/callback',
-  passport.authenticate('twitch', {
-    successRedirect: '/',
-    failureRedirect: '/'
-  })
-);
-
-app.get('/', (req, res) => {
-  if (req.session && req.session.passport && req.session.passport.user) {
-    res.redirect(301, `${host}/#/watch`);
+// Home route.
+server.get('/', (req, res) => {
+  console.log('get / => req =', req.user, req.passport, req.session);
+  if (req.user) {
+    return res.redirect(`${host}/#/watch`);
   }
+
+  return res.redirect('http://localhost:8080/')
 });
+
+server.get('/auth/twitch', passport.authenticate('twitch'));
+server.get('/callback', passport.authenticate('twitch', {
+  failureRedirect: '/'
+}), (req, res) => {
+  console.log('/callback:', req.user);
+  res.redirect(`${host}/#/watch`);
+});
+
+
+// // Set up middleware.
+// function isAuthenticated(req, res, next) {
+//   if (!req.user) {
+//     req.flash('error', 'You must be logged in.');
+//     return res.redirect('/');
+//   }
+
+//   return next();
+// }
+
+// // Set up API routes.
+// const apiRoutes = express.Router();
+
+// apiRoutes.use(isAuthenticated);
+// apiRoutes.get('/me', (req, res) => {
+//   console.log('/api/me => ', req.user);
+//   res.json({ user: req.user });
+// });
 
 // Setup for Twitch API calls.
 const twitchApiHandlers = require('./server/api.js');
-app.get('/api/searchGames', twitchApiHandlers.searchGames);
-app.get('/api/searchStreams', twitchApiHandlers.searchStreams);
-app.get('/api/getChannelsByUser', twitchApiHandlers.getChannelsByUser);
-app.get('/api/getUserIdByUserName', twitchApiHandlers.getUserIdByUserName);
+server.get('/api/searchGames', twitchApiHandlers.searchGames);
+server.get('/api/searchStreams', twitchApiHandlers.searchStreams);
+server.get('/api/getChannelsByUser', twitchApiHandlers.getChannelsByUser);
+server.get('/api/getUserIdByUserName', twitchApiHandlers.getUserIdByUserName);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server operating on port ${port}`);
 });

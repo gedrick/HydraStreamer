@@ -12,9 +12,14 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: false
   },
-  profile: {
-    type: Object,
+  email: {
+    type: String,
     required: true,
+    unique: false
+  },
+  avatar: {
+    type: String,
+    required: false,
     unique: false
   },
   access_token: {
