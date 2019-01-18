@@ -5,6 +5,7 @@ import axios from 'axios';
 Vue.use(Vuex);
 
 const state = {
+  isLoggedIn: false,
   user: null,
   follows: null,
   favorites: [],
@@ -12,6 +13,12 @@ const state = {
 };
 
 const getters = {
+  isLoggedIn: state => {
+    return state.isLoggedIn
+  },
+  user: state => {
+    return state.user
+  },
   favorites: state => {
     return state.favorites;
   },
@@ -21,6 +28,9 @@ const getters = {
 };
 
 const mutations = {
+  setLoggedIn(state, isLoggedIn) {
+    Vue.set(state, 'isLoggedIn', isLoggedIn);
+  },
   setUser(state, user) {
     Vue.set(state, 'user', user);
   },
@@ -46,12 +56,23 @@ const mutations = {
 };
 
 const actions = {
+  getMe({ commit }) {
+    return axios.get(`/api/me`).then(result => {
+      const data = result.data;
+      if (data.code && data.code === 401) {
+        commit('setUser', null);
+        commit('setLoggedIn', false)
+      } else {
+        commit('setUser', result.data.user);
+        commit('setLoggedIn', true);
+      }
+    })
+  },
   search({ commit }, { query }) {
     return axios
-      .get(`/api/searchStreams?query=${query}&limit=10`)
+      .get(`/data/searchStreams?query=${query}&limit=10`)
       .then(results => {
         const streams = results.data.streams;
-        console.log('response received:', streams);
         commit('setSearchResults', {
           streams
         });
@@ -59,7 +80,7 @@ const actions = {
   },
   getUserIdByUserName({ commit }, { userName }) {
     return axios
-      .get(`/api/getUserIdByUserName?userName=${userName}`, {
+      .get(`/data/getUserIdByUserName?userName=${userName}`, {
         userName: userName
       })
       .then(response => {

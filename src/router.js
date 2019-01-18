@@ -1,8 +1,28 @@
+import store from './store';
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
-import Callback from './views/Callback.vue';
 import Watch from './views/Watch.vue';
+
+const checkAuthenticated = (to, from, next) => {
+  store.dispatch('getMe').then(() => {
+    if (store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    next({ path: '/' });
+  });
+}
+
+const checkNotAuthenticated = (to, from, next) => {
+  store.dispatch('getMe').then(() => {
+    if (!store.getters.isLoggedIn) {
+      next();
+      return;
+    }
+    next({ path: '/watch' });
+  });
+}
 
 Vue.use(Router);
 
@@ -11,17 +31,14 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
-    },
-    {
-      path: '/auth/callback',
-      name: 'callback',
-      component: Callback
+      component: Home,
+      beforeEnter: checkNotAuthenticated
     },
     {
       path: '/watch',
       name: 'watch',
-      component: Watch
+      component: Watch,
+      beforeEnter: checkAuthenticated
     }
   ]
 });

@@ -1,5 +1,6 @@
 <template>
   <div class="watch">
+    <div>Welcome, {{user.username}}!</div>
     <Grid v-if="channels.length" :channels="channels"></Grid>
     <AddChannel :hasChannels="channels.length > 0">
     </AddChannel>
@@ -9,6 +10,7 @@
 <script>
 import Grid from '@/components/Grid.vue';
 import AddChannel from '@/components/AddChannel.vue';
+import { mapGetters } from 'vuex';
 import axios from 'axios';
 
 export default {
@@ -21,16 +23,11 @@ export default {
   },
   data() {
     return {
-      user: null,
       channels: []
-      // channels: TestChannels.splice(0, 1)
-      // testChannels: testChannels,
-    };
+    }
   },
-  beforeMount() {
-    axios.get('/api/me').then(data => {
-      console.log('beforeMount:', data);
-    });
+  computed: {
+    ...mapGetters(['user'])
   }
 };
 </script>
@@ -38,6 +35,7 @@ export default {
 <style lang="scss">
 .watch {
   display: flex;
+  flex-direction: column;
   margin: auto;
   width: 100vw;
   height: 100vh;

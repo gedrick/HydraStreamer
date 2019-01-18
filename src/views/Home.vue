@@ -11,29 +11,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'home',
-  data() {
-    return {
-      isFirstTime: true,
-      userName: 'g3ddylee'
-    };
-  },
-  methods: {
-    // getUserId() {
-    // console.log('getUserId');
-    // this.$store.dispatch('getUserIdByUserName', {
-    //   userName: this.userName
-    // });
-    // },
-    // toggleUserGuest() {
-    //   this.isFirstTime = true;
-    // }
-  }
-};
-</script>
-
 <style lang="scss">
 @import '../styles/variables.scss';
 

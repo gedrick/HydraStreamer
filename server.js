@@ -82,7 +82,10 @@ server.get('/auth/callback', passport.authenticate('twitch', {
 // Set up middleware.
 function isAuthenticated(req, res, next) {
   if (!req.user) {
-    return res.status(401).send();
+    return res.status(200).send({
+      code: 401,
+      message: 'Not logged in'
+    });
   }
 
   return next();
