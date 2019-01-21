@@ -7,9 +7,16 @@ const twitchStrategy = require('passport-twitch').Strategy;
 const request = require('request');
 const bodyParser = require('body-parser');
 
-const settings = require('./server/settings.js');
-
 const host = process.env.HOST || 'http://localhost:8080';
+const port = process.env.PORT || 3000;
+const isProd = process.env.NODE_ENV === 'production';
+
+let settings;
+if (isProd) {
+  settings = require('./server/settings.prod');
+} else {
+  settings = require('./server/settings');
+}
 
 // Set up Mongo.
 const mongoose = require('mongoose');
@@ -30,7 +37,11 @@ server.use(session({
   store: new MongoStore(settings.mongo)
 }));
 server.use(flash());
-server.use(express.static('./public'));
+if (isProd) {
+  server.use(express.static('./dist'));
+} else {
+  server.use(express.static('./public'));
+}
 server.use(passport.initialize());
 server.use(passport.session());
 
@@ -117,7 +128,6 @@ dataRoutes.get('/getUserChannels', dataHandlers.getUserChannels);
 server.use('/data', dataRoutes);
 
 // Start the server.
-const port = process.env.PORT || 3000;
 server.listen(port, () => {
   console.log(`server operating on port ${port}`);
 });
