@@ -1,20 +1,34 @@
 <template>
   <div class="watch">
-    <Grid v-if="favorites.length" :channels="favorites"></Grid>
-    <div class="watch__actions">
-      <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
-        <MyFavorites @open="toggleFavorites"></MyFavorites>
-        <SearchChannels @open="toggleSearch"></SearchChannels>
-      </div>
-      <div class="watch__search">
-        <Favorites v-if="showFavorites"></Favorites>
-        <Search v-if="showSearch"></Search>
-      </div>
-      <div v-if="showFavorites || showSearch" @click="hideSearch" class="watch__close-search">
-        close search
+    <div class="watch__settings">
+      <span @click="settingsVisible = !settingsVisible" class="fa fa-gear"></span>
+    </div>
+    <div class="watch__chat">
+      <span @click="chatVisible = !chatVisible" class="fa fa-comments-o"></span>
+    </div>
+    <div v-if="settingsVisible" class="watch__add expand-to-fit">
+      <div class="watch__actions">
+        <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
+          <MyFavorites @open="toggleFavorites"></MyFavorites>
+          <SearchChannels @open="toggleSearch"></SearchChannels>
+        </div>
+        <div class="watch__search">
+          <Favorites v-if="showFavorites"></Favorites>
+          <Search v-if="showSearch"></Search>
+        </div>
+        <div v-if="showFavorites || showSearch" @click="hideSearch" class="watch__close-search">
+          close search
+        </div>
       </div>
     </div>
-
+    <div class="watch__view" :class="{'chat-open': chatVisible}">
+      <div class="watch__videos">
+        <Grid v-if="favorites.length" :channels="favorites"></Grid>
+      </div>
+      <div class="watch__chat" v-if="chatVisible">
+        CHAT GOES HERE
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,6 +52,9 @@ export default {
   },
   data() {
     return {
+      settingsVisible: false,
+      chatVisible: false,
+
       showSearch: false,
       showFavorites: false
     }
@@ -71,13 +88,46 @@ export default {
 @import '../styles/variables.scss';
 
 .watch {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
   width: 100vw;
   height: 100vh;
-  justify-content: center;
-  align-items: center;
+
+  &__settings,
+  &__chat {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    padding: 10px;
+
+    span {
+      color: $white;
+      font-size: 50px;
+      cursor: pointer;
+    }
+  }
+
+  &__chat {
+    left: unset;
+    right: 0;
+  }
+
+  &__add {
+    background-color: rgba($black, 0.9);
+    z-index: 15;
+  }
+
+  &__view {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 100%;
+    padding: 60px;
+    width: calc(100vw - 120px);
+    height: calc(100vh - 120px);
+
+    &.chat-open {
+      grid-template-columns: 85% 15%;
+    }
+  }
 
   &__actions {
     position: absolute;

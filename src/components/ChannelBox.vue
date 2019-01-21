@@ -2,7 +2,7 @@
   <div class="channel-box flex-center" v-if="channel">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline" class="channel-box__offline flex-center">
-      <button @click="launchPlayer" class="button"><span class="orange">{{channel}}</span> is offline.<br>Reload?</button>
+      <button @click="launchPlayer" class="button"><span class="orange">{{channel.name}}</span> is offline.<br>Reload?</button>
     </div>
     <div
       v-if="!isLoading && isLoaded"
@@ -11,15 +11,13 @@
         :onPlay="playerPlay"
         :onPause="playerPause"
         :onMute="playerToggleMuted"
-        :onVolumeUp="playerVolumeUp"
-        :onVolumeDown="playerVolumeDown"
         :player="player">
       </ChannelOverlay>
     </div>
     <div
       v-show="!isLoading && !isOffline"
       class="channel-box__container expand-to-fit"
-      :id="'container--' + channel">
+      :id="'container--' + channel.name">
     </div>
   </div>
 </template>
@@ -36,7 +34,7 @@ export default {
     ChannelOverlay
   },
   props: {
-    channel: String
+    channel: Object
   },
   data() {
     return {
@@ -74,7 +72,7 @@ export default {
       const options = {
         width: '100%',
         height: '100%',
-        channel: this.channel,
+        channel: this.channel.name,
         muted: true,
         autoplay: true,
         controls: false
@@ -82,15 +80,17 @@ export default {
 
       this.bindFunctions();
 
-      const containerId = `container--${this.channel}`;
+      const containerId = `container--${this.channel.name}`;
       this.player = new twitch.Player(containerId, options);
 
+      this.player.setVolume(1);
       this.playerToggleMuted(true);
 
       this.player.addEventListener(twitch.Player.PLAYING, this.bPlaying);
       this.player.addEventListener(twitch.Player.PAUSED, this.bPaused);
       this.player.addEventListener(twitch.Player.ENDED, this.bEnded);
       this.player.addEventListener(twitch.Player.OFFLINE, this.bOffline);
+
     },
     bindFunctions() {
       this.bPlaying = this.playing.bind(this);
@@ -102,43 +102,29 @@ export default {
       this.isLoading = false;
       this.isLoaded = true;
       this.qualities = this.player.getQualities();
-      console.log(`player ${this.channel} has started playing`);
+      console.log(`player ${this.channel.name} has started playing`);
     },
     paused() {
-      console.log(`player ${this.channel} has paused`);
+      console.log(`player ${this.channel.name} has paused`);
     },
     ended() {
-      console.log(`player ${this.channel} has ended`);
+      console.log(`player ${this.channel.name} has ended`);
     },
     offline() {
       this.isLoading = false;
       this.isLoaded = false;
       this.isOffline = true;
-      console.log(`player ${this.channel} has gone or is offline`);
+      console.log(`player ${this.channel.name} has gone or is offline`);
     },
     playerPlay() {
-      console.log('playerPlay');
       this.player.play();
     },
     playerPause() {
-      console.log('playerPause');
       this.player.pause();
     },
     playerToggleMuted(muted) {
       this.player.setMuted(muted);
     },
-    playerVolumeUp() {
-      if (this.volume < 1) {
-        this.volume += 0.25;
-        this.player.setVolume(this.volume);
-      }
-    },
-    playerVolumeDown() {
-      if (this.volume > 0) {
-        this.volume -= 0.25;
-        this.player.setVolume(this.volume);
-      }
-    }
   },
   beforeDestroy() {
     if (this.player && this.player.removeEventListener) {

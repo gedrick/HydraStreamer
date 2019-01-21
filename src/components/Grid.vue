@@ -5,7 +5,7 @@
   }">
     <ChannelBox
       v-for="channel in channels"
-      :key="channel"
+      :key="channel.name"
       :channel="channel">
     </ChannelBox>
   </div>
@@ -18,7 +18,9 @@ export default {
   components: {
     ChannelBox
   },
-  props: ['channels'],
+  props: {
+    channels: Array
+  },
   data() {
     return {
       channelCount: this.channels.length
@@ -50,8 +52,9 @@ export default {
 <style lang="scss">
 .grid {
   display: grid;
-  width: 95vw;
-  height: 80vh;
-  border-radius: 10px;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  // border-radius: 10px;
 }
 </style>

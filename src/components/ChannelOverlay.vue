@@ -8,7 +8,7 @@
         :class="{'fa-volume-mute': playerIsMuted, 'fa-volume-up': !playerIsMuted}"
         @click="onToggleMute">
       </span>
-      <span class="fas fa-window-close"></span>
+      <span class="fa fa-close"></span>
     </div>
     <div class="channel-overlay__info">
       <span>{{getChannelName}}</span>

@@ -8,6 +8,7 @@
 @import './styles/variables.scss';
 
 body {
+  margin: 0;
   background-color: $background-color;
   overflow: hidden;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
