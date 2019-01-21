@@ -1,27 +1,15 @@
 <template>
   <div class="add-channel">
     <div class="action-button flex-center">
-      <span
-        @click="showSearch"
-        class="icon fa fa-search"
-        :class="{'move-to-corner': searchIsOpen || hasChannels}">
-      </span>
+      <span @click="showSearch" class="icon fa fa-search"></span>
       <span class="label">Search</span>
-    </div>
-    <div v-if="searchIsOpen">
-      <Search></Search>
     </div>
   </div>
 </template>
 
 <script>
-import Search from '@/components/Search.vue';
-
 export default {
   name: 'AddChannel',
-  components: {
-    Search
-  },
   props: ['hasChannels'],
   data() {
     return {
@@ -30,30 +18,18 @@ export default {
   },
   methods: {
     showSearch() {
-      this.searchIsOpen = true;
-    },
-    hideSearch() {
-      this.searchIsOpen = false;
+      this.$emit('open');
     }
   }
 };
 </script>
 
 <style lang="scss">
-@import '../styles/variables.scss';
-
 .add-channel {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-left: 20px;
-
-  &__cancel {
-    margin-top: 10px;
-    color: $white;
-    &:hover {
-      cursor: pointer;
-    }
-  }
 }
 </style>

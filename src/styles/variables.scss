@@ -51,8 +51,8 @@ $button-font-size: 36px;
   transition-property: background-color;
 
   .icon {
-    transition-duration: 0.2s;
-    transition-property: left, top, font-size;
+    // transition-duration: 0.2s;
+    // transition-property: left, top, font-size;
     color: $bright-orange;
     font-size: 120px;
   }

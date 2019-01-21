@@ -1,11 +1,7 @@
 <template>
   <div class="my-follows">
     <div class="action-button flex-center">
-      <span
-        @click="showSearch"
-        class="icon fa fa-list"
-        :class="{'move-to-corner': searchIsOpen}">
-      </span>
+      <span @click="showFavorites" class="icon fa fa-list"></span>
       <span class="label">My Favorites</span>
     </div>
   </div>
@@ -19,8 +15,8 @@ export default {
     };
   },
   methods: {
-    showSearch() {
-
+    showFavorites() {
+      this.$emit('open');
     }
   }
 }
