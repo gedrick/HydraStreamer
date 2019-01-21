@@ -41,6 +41,36 @@ $button-font-size: 36px;
   color: $bright-orange;
 }
 
+// Add button
+.action-button {
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: 0.2s;
+  transition-property: background-color;
+
+  .icon {
+    transition-duration: 0.2s;
+    transition-property: left, top, font-size;
+    color: $bright-orange;
+    font-size: 120px;
+  }
+
+  .label {
+    font-size: 20px;
+    color: $white;
+  }
+
+  &:hover {
+    background-color: rgba($black, 0.4);
+
+    .icon {
+      color: $white;
+    }
+  }
+}
+
 // Input box
 .text-input {
   border: 3px solid $white;
