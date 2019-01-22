@@ -64,14 +64,16 @@ const mutations = {
 };
 
 const actions = {
-  toggleFavorite({ commit }, { userID, name }) {
+  toggleFavorite({ commit, dispatch }, { userID, channelData, toggle }) {
     return axios
       .post('/api/follow', {
-        userID,
-        name
+        userID: userID,
+        channelData: channelData,
+        toggle: toggle
       })
       .then(result => {
         console.log('toggleFavorite action result:', result);
+        dispatch('getMe');
       });
   },
   getMe({ commit }) {
