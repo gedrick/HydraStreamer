@@ -7,7 +7,7 @@
       <span @click="chatVisible = !chatVisible" class="fa fa-comments-o"></span>
     </div>
     <div v-if="settingsVisible" class="watch__add expand-to-fit">
-      <div class="watch__actions">
+      <div class="watch__actions" @click.self="settingsVisible = false">
         <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
           <MyFavorites @open="toggleFavorites"></MyFavorites>
           <SearchChannels @open="toggleSearch"></SearchChannels>
@@ -149,7 +149,6 @@ export default {
 
   &__action-items {
     display: flex;
-    width: 100%;
     flex-direction: row;
     justify-content: center;
 
