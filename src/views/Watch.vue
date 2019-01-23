@@ -1,9 +1,9 @@
 <template>
   <div class="watch">
-    <div class="watch__settings">
+    <div class="watch__icon watch__settings">
       <span @click="settingsVisible = !settingsVisible" class="fa fa-gear"></span>
     </div>
-    <div class="watch__chat">
+    <div class="watch__icon watch__chat">
       <span @click="chatVisible = !chatVisible" class="fa fa-comments-o"></span>
     </div>
     <div v-if="settingsVisible" class="watch__add expand-to-fit">
@@ -90,6 +90,12 @@ export default {
 .watch {
   width: 100vw;
   height: 100vh;
+
+  &__icon span {
+    &:hover {
+      color: $bright-orange;
+    }
+  }
 
   &__settings,
   &__chat {

@@ -17,14 +17,12 @@ function follow(req, res) {
       res.status(500).json(err);
     } else {
       let newFavorites = [...doc.favorites];
-
       if (toggle) {
         newFavorites.push({...channelData});
-        console.log(newFavorites);
-
       } else {
-        newFavorites = newFavorites.filter(favorite => favorite.name !== channelData.channel.name);
+        newFavorites = newFavorites.filter(favorite => favorite.name !== channelData.name);
       }
+
       doc.favorites = newFavorites;
 
       doc.save(() => {

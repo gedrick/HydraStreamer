@@ -72,7 +72,6 @@ const actions = {
         toggle: toggle
       })
       .then(result => {
-        console.log('toggleFavorite action result:', result);
         dispatch('getMe');
       });
   },

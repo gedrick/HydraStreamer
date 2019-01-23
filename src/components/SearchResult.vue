@@ -27,27 +27,33 @@ export default {
     result: Object
   },
   computed: {
-    ...mapGetters(['favorites']),
+    ...mapGetters(['userID', 'favorites']),
     previewImage() {
-      if (this.result && this.result.preview && this.result.preview.small) {
+      if (this.result.preview && this.result.preview.small) {
         return this.result.preview.small;
       }
       return '';
     },
     resultIsFavorited() {
-      return this.favorites.includes(this.result.channel.name);
+      return this.favorites.filter(favorite => favorite.name === this.result.channel.name).length > 0;
+    },
+    channelData() {
+      return {
+        name: this.result.channel.name,
+        icon: this.result.preview.small,
+        game: this.result.game,
+        channelId: this.result.channel._id
+      };
     }
   },
   methods: {
-    toggleFavorite(name) {
+    toggleFavorite() {
       this.$store.dispatch('toggleFavorite', {
         userID: this.userID,
-        name: this.result.channel
+        channelData: this.channelData,
+        toggle: !this.resultIsFavorited
       });
     }
-  },
-  computed: {
-    ...mapGetters(['userID'])
   }
 };
 </script>
