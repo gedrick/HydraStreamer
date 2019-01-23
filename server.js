@@ -126,6 +126,7 @@ dataRoutes.get('/searchStreams', dataHandlers.searchStreams);
 dataRoutes.get('/getChannelsByUser', dataHandlers.getChannelsByUser);
 dataRoutes.get('/getUserIdByUserName', dataHandlers.getUserIdByUserName);
 dataRoutes.get('/getUserChannels', dataHandlers.getUserChannels);
+dataRoutes.get('/getChannelLiveStatus', dataHandlers.getChannelLiveStatus);
 server.use('/data', dataRoutes);
 
 // Start the server.

@@ -8,6 +8,7 @@ const state = {
   isLoggedIn: false,
   user: null,
   followed: [],
+  followedLive: [],
   searchResults: []
 };
 
@@ -27,6 +28,9 @@ const getters = {
   followed: state => {
     return state.followed;
   },
+  followedLive: state => {
+    return state.followedLive;
+  },
   favorites: state => {
     return state.user.favorites;
   },
@@ -36,6 +40,9 @@ const getters = {
 };
 
 const mutations = {
+  setFollowedLive(state, streams) {
+    Vue.set(state, 'followedLive', streams);
+  },
   favorite(state, channelData) {
     const newFavorites = state.user.favorites;
     newFavorites.push(channelData);
@@ -73,10 +80,15 @@ const mutations = {
 };
 
 const actions = {
+  getFollowedStatus({ commit }, { channel }) {
+    return axios
+      .get(`/data/getChannelLiveStatus?channel=${channel}`)
+      .then(result => {
+        commit('setFollowedLive', result.data.streams);
+      });
+  },
   toggleFavorite({ commit }, { userID, channelData, toggle }) {
     const action = toggle ? 'favorite' : 'unfavorite';
-    console.log('toggleFavorite',action);
-
     return axios
       .post(`/api/${action}`, {
         userID: userID,
@@ -121,7 +133,7 @@ const actions = {
   getUserChannels({ commit }, { userID }) {
     return axios
       .get(`/data/getUserChannels?userID=${userID}`, {
-        userID
+        userID: userID
       })
       .then(results => {
         const streams = results.data.follows;

@@ -2,7 +2,7 @@
   <div class="my-follows">
     <div class="action-button flex-center">
       <span @click="showFavorites" class="icon fa fa-list"></span>
-      <span class="label">My Favorites</span>
+      <span class="label">Online People I Follow</span>
     </div>
   </div>
 </template>

@@ -11,25 +11,24 @@
           type="text">
       </div>
       <div class="search__results">
-        <SearchResult></SearchResult>
-        <SearchResult
+        <ChannelResult
           v-for="result in searchResults"
           :result="result"
           :key="result._id">
-        </SearchResult>
+        </ChannelResult>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import SearchResult from '@/components/SearchResult.vue';
+import ChannelResult from '@/components/ChannelResult.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Search',
   components: {
-    SearchResult
+    ChannelResult
   },
   data() {
     return {

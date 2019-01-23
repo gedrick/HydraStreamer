@@ -13,7 +13,7 @@
           <SearchChannels @open="toggleSearch"></SearchChannels>
         </div>
         <div class="watch__search">
-          <Favorites v-if="showFavorites"></Favorites>
+          <Follows v-if="showFavorites"></Follows>
           <Search v-if="showSearch"></Search>
         </div>
         <div v-if="showFavorites || showSearch" @click="hideSearch" class="watch__close-search">
@@ -37,7 +37,7 @@ import Grid from '@/components/Grid.vue';
 import SearchChannels from '@/components/SearchChannels.vue';
 import MyFavorites from '@/components/MyFavorites.vue';
 import Search from '@/components/Search.vue';
-import Favorites from '@/components/Favorites.vue';
+import Follows from '@/components/Follows.vue';
 import { mapGetters, mapActions } from 'vuex';
 import axios from 'axios';
 
@@ -48,7 +48,7 @@ export default {
     MyFavorites,
     SearchChannels,
     Search,
-    Favorites
+    Follows
   },
   data() {
     return {

@@ -1,5 +1,5 @@
 <template>
-  <div class="channel-overlay expand-to-fit">
+  <div class="channel-overlay">
     <div class="channel-overlay__controls">
       <span v-if="playerIsPaused" class="fa fa-play" @click="onPlay"></span>
       <span v-if="!playerIsPaused" class="fa fa-pause" @click="onPause"></span>
