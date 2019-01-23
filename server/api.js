@@ -9,7 +9,6 @@ function me(req, res) {
 function favorite(req, res) {
   const userID = req.body.userID;
   const channelData = req.body.channelData;
-  console.log('favorite', userID, channelData);
 
   User.findById(userID, (err, doc) => {
     if (err) {
