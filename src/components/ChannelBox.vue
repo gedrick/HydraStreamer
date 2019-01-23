@@ -11,6 +11,7 @@
         :onPlay="playerPlay"
         :onPause="playerPause"
         :onMute="playerToggleMuted"
+        :onRemoveChannel="playerRemoveChannel"
         :player="player">
       </ChannelOverlay>
     </div>
@@ -25,6 +26,7 @@
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
 import ChannelOverlay from '@/components/ChannelOverlay.vue';
+import { mapGetters } from 'vuex';
 
 const twitch = window.Twitch;
 
@@ -60,10 +62,22 @@ export default {
       playerLoadTimeout: 5000
     };
   },
+  computed: {
+    ...mapGetters(['userID'])
+  },
   mounted() {
     this.launchPlayer();
   },
   methods: {
+    playerRemoveChannel() {
+      const channelId = this.channel.id;
+      console.log('playerRemoveChannel', this.userID, this.channel);
+
+      this.$store.dispatch('unfavorite', {
+        userID: this.userID,
+        channelData: this.channel
+      });
+    },
     launchPlayer() {
       this.isLoading = true;
       this.isLoaded = false;

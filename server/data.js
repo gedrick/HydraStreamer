@@ -52,7 +52,7 @@ function searchGames(req, res) {
 
 function getChannelsByUser(req, res) {
   twitchApi.users.follows({
-    userID: req.query.userId
+    userID: req.query.userID
   }, (err, response) => {
     if (!err) {
       res.status(200).send(response);

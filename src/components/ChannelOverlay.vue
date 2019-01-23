@@ -8,7 +8,7 @@
         :class="{'fa-volume-mute': playerIsMuted, 'fa-volume-up': !playerIsMuted}"
         @click="onToggleMute">
       </span>
-      <span class="fa fa-close"></span>
+      <span class="fa fa-close" @click="onRemoveChannel"></span>
     </div>
     <div class="channel-overlay__info">
       <span>{{getChannelName}}</span>
@@ -24,6 +24,7 @@ export default {
     onMute: Function,
     onVolumeUp: Function,
     onVolumeDown: Function,
+    onRemoveChannel: Function,
 
     player: Object
   },

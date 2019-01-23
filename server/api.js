@@ -6,23 +6,36 @@ function me(req, res) {
   });
 }
 
-// WORK IN PROGRESS
-function follow(req, res) {
+function favorite(req, res) {
   const userID = req.body.userID;
   const channelData = req.body.channelData;
-  const toggle = req.body.toggle;
+  console.log('favorite', userID, channelData);
 
   User.findById(userID, (err, doc) => {
     if (err) {
       res.status(500).json(err);
     } else {
       let newFavorites = [...doc.favorites];
-      if (toggle) {
-        newFavorites.push({...channelData});
-      } else {
-        newFavorites = newFavorites.filter(favorite => favorite.name !== channelData.name);
-      }
+      newFavorites.push({...channelData});
+      doc.favorites = newFavorites;
 
+      doc.save(() => {
+        res.status(200).json({ result: 'OK' });
+      });
+    }
+  });
+}
+
+function unfavorite(req, res) {
+  const userID = req.body.userID;
+  const channelData = req.body.channelData;
+
+  User.findById(userID, (err, doc) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      let newFavorites = [...doc.favorites];
+      newFavorites = newFavorites.filter(favorite => favorite.channelId !== channelData.channelId);
       doc.favorites = newFavorites;
 
       doc.save(() => {
@@ -34,5 +47,6 @@ function follow(req, res) {
 
 module.exports = {
   me,
-  follow
+  favorite,
+  unfavorite
 };

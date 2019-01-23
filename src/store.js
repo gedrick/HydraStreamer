@@ -65,13 +65,35 @@ const mutations = {
 
 const actions = {
   toggleFavorite({ commit, dispatch }, { userID, channelData, toggle }) {
+    const action = toggle ? 'favorite' : 'unfavorite';
+    console.log('toggleFavorite',action);
+
     return axios
-      .post('/api/follow', {
+      .post(`/api/${action}`, {
         userID: userID,
         channelData: channelData,
-        toggle: toggle
       })
-      .then(result => {
+      .then(() => {
+        dispatch('getMe');
+      });
+  },
+  favorite({ commit, dispatch }, { userID, channelData }) {
+    return axios
+      .post('/api/favorite', {
+        userID: userID,
+        channelData: channelData
+      })
+      .then(() => {
+        dispatch('getMe');
+      });
+  },
+  unfavorite({ commit, dispatch }, { userID, channelData }) {
+    return axios
+      .post('/api/unfavorite', {
+        userID: userID,
+        channelData: channelData
+      })
+      .then(() => {
         dispatch('getMe');
       });
   },
