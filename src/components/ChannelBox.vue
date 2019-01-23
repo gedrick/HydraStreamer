@@ -71,8 +71,6 @@ export default {
   methods: {
     playerRemoveChannel() {
       const channelId = this.channel.id;
-      console.log('playerRemoveChannel', this.userID, this.channel);
-
       this.$store.dispatch('unfavorite', {
         userID: this.userID,
         channelData: this.channel
