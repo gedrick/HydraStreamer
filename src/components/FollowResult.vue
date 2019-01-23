@@ -12,10 +12,10 @@ export default {
     channel: Object
   },
   computed: {
-    ...mapGetters(['userID', 'followed']),
+    ...mapGetters(['userID', 'favorites']),
     isFavorite() {
       const channelId = this.channel.channel._id;
-      return this.followed.filter(channel => channel._id === channelId).length;
+      return this.favorites.find(favorite => favorite.channelId === channelId) !== undefined;
     },
     channelData() {
       return {
@@ -31,7 +31,7 @@ export default {
       this.$store.dispatch('toggleFavorite', {
         userID: this.userID,
         channelData: this.channelData,
-        toggle: this.isFavorite
+        toggle: !this.isFavorite
       });
     },
   }
@@ -54,11 +54,7 @@ export default {
   cursor: pointer;
 
   &.favorite {
-    background-color: $bright-main;
-  }
-
-  &__icon {
-
+    background-color: $bright-orange;
   }
 
   &__name {

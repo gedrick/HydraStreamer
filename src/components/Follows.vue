@@ -3,7 +3,7 @@
     <FollowResult
       v-for="channel in followedLive"
       :channel="channel"
-      :key="channel._id">
+      :key="channel.channel._id">
     </FollowResult>
   </div>
 </template>
