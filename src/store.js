@@ -36,6 +36,15 @@ const getters = {
 };
 
 const mutations = {
+  favorite(state, channelData) {
+    const newFavorites = state.user.favorites;
+    newFavorites.push(channelData);
+    Vue.set(state.user, 'favorites', newFavorites);
+  },
+  unfavorite(state, channelData) {
+    const newFavorites = state.user.favorites.filter(favorite => favorite.channelId !== channelData.channelId);
+    Vue.set(state.user, 'favorites', newFavorites);
+  },
   setLoggedIn(state, isLoggedIn) {
     Vue.set(state, 'isLoggedIn', isLoggedIn);
   },
@@ -64,7 +73,7 @@ const mutations = {
 };
 
 const actions = {
-  toggleFavorite({ commit, dispatch }, { userID, channelData, toggle }) {
+  toggleFavorite({ commit }, { userID, channelData, toggle }) {
     const action = toggle ? 'favorite' : 'unfavorite';
     console.log('toggleFavorite',action);
 
@@ -74,27 +83,27 @@ const actions = {
         channelData: channelData,
       })
       .then(() => {
-        dispatch('getMe');
+        commit(action, channelData);
       });
   },
-  favorite({ commit, dispatch }, { userID, channelData }) {
+  favorite({ commit }, { userID, channelData }) {
     return axios
       .post('/api/favorite', {
         userID: userID,
         channelData: channelData
       })
       .then(() => {
-        dispatch('getMe');
+        commit('favorite', channelData)
       });
   },
-  unfavorite({ commit, dispatch }, { userID, channelData }) {
+  unfavorite({ commit }, { userID, channelData }) {
     return axios
       .post('/api/unfavorite', {
         userID: userID,
         channelData: channelData
       })
       .then(() => {
-        dispatch('getMe');
+        commit('unfavorite', channelData);
       });
   },
   getMe({ commit }) {
