@@ -28,6 +28,15 @@ $button-font-size: 36px;
   align-items: center;
 }
 
+.horizontal {
+  display: grid;
+  grid-template-columns: 40% 40%;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 5px;
+  width: 100%;
+}
+
 .expand-to-fit {
   position: absolute;
   top: 0;
@@ -137,5 +146,16 @@ $button-font-size: 36px;
   &:active:after {
     width: 101%;
     opacity: 1;
+  }
+}
+
+.button--small {
+  border: 1px solid $white;
+  padding: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  &:hover {
+    background: $bright-orange;
   }
 }

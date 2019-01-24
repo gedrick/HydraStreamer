@@ -2,7 +2,13 @@
   <div class="channel-box flex-center" v-if="channel">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline" class="channel-box__offline flex-center">
-      <button @click="launchPlayer" class="button"><span class="orange">{{channel.name}}</span> is offline.<br>Reload?</button>
+      <button @click="launchPlayer" class="button">
+        <span class="orange">{{channel.name}}</span> <br>is offline. Reload?
+      </button>
+      <div class="horizontal">
+        <button @click="hideChannel" class="button--small">Hide for Now</button>
+        <button @click="playerRemoveChannel" class="button--small">Remove Channel</button>
+      </div>
     </div>
     <div
       v-if="!isLoading && isLoaded"
@@ -159,6 +165,7 @@ export default {
 
   &__offline {
     color: $white;
+    flex-direction: column;
   }
 
   &__overlay {
