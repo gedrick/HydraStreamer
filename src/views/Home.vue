@@ -1,15 +1,33 @@
 <template>
   <div class="home flex-center">
     <div class="home__header">
-      <h1>MultiTwitch</h1>
+      <h1>HydraStream</h1>
+      <h2 v-if="isLoggedIn">Welcome back!</h2>
     </div>
     <div class="home__button">
-      <a href="/auth/twitch">
+      <a v-if="!isLoggedIn" href="/auth/twitch">
         <button class="button">Login with Twitch</button>
       </a>
+      <router-link v-if="isLoggedIn" :to="{path: 'watch'}">
+        <button class="button">Resume Watching</button>
+      </router-link>
     </div>
   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  computed: {
+    ...mapGetters(['isLoggedIn'])
+  },
+  beforeMount() {
+    this.$store.dispatch('getMe');
+  }
+}
+</script>
+
 
 <style lang="scss">
 @import '../styles/variables.scss';

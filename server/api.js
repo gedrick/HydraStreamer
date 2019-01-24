@@ -7,7 +7,7 @@ function me(req, res) {
 }
 
 function favorite(req, res) {
-  const userID = req.body.userID;
+  const userID = req.user._id;
   const channelData = req.body.channelData;
 
   User.findById(userID, (err, doc) => {
@@ -26,7 +26,7 @@ function favorite(req, res) {
 }
 
 function unfavorite(req, res) {
-  const userID = req.body.userID;
+  const userID = req.user._id;
   const channelData = req.body.channelData;
 
   User.findById(userID, (err, doc) => {

@@ -14,16 +14,22 @@ const state = {
 
 const getters = {
   isLoggedIn: state => {
-    return state.isLoggedIn
+    return state.isLoggedIn;
   },
   user: state => {
-    return state.user
+    return state.user || false;
   },
   userID: state => {
-    return state.user._id;
+    if (state.user && state.user._id) {
+      return state.user._id;
+    }
+    return false;
   },
   twitchID: state => {
-    return state.user.id;
+    if (state.user && state.user.id) {
+      return state.user.id;
+    }
+    return false;
   },
   followed: state => {
     return state.followed;
@@ -32,7 +38,10 @@ const getters = {
     return state.followedLive;
   },
   favorites: state => {
-    return state.user.favorites;
+    if (state.user && state.user.favorites) {
+      return state.user.favorites;
+    }
+    return false;
   },
   searchResults: state => {
     return state.searchResults;
@@ -119,16 +128,16 @@ const actions = {
       });
   },
   getMe({ commit }) {
-    return axios.get(`/api/me`).then(result => {
-      const data = result.data;
-      if (data.code && data.code === 401) {
-        commit('setUser', null);
-        commit('setLoggedIn', false)
-      } else {
-        commit('setUser', result.data.user);
-        commit('setLoggedIn', true);
-      }
-    })
+    return axios.get(`/api/me`)
+      .then(result => {
+        if (!result || (result.data.code && result.data.code === 401)) {
+          commit('setUser', null);
+          commit('setLoggedIn', false)
+        } else {
+          commit('setUser', result.data.user);
+          commit('setLoggedIn', true);
+        }
+      });
   },
   getUserChannels({ commit }, { userID }) {
     return axios

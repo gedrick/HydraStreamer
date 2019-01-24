@@ -4,7 +4,7 @@ import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Watch from './views/Watch.vue';
 
-const checkAuthenticated = (to, from, next) => {
+const requireAuthentication = (to, from, next) => {
   store.dispatch('getMe').then(() => {
     if (store.getters.isLoggedIn) {
       next();
@@ -31,14 +31,13 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
-      beforeEnter: checkNotAuthenticated
+      component: Home
     },
     {
       path: '/watch',
       name: 'watch',
       component: Watch,
-      beforeEnter: checkAuthenticated
+      beforeEnter: requireAuthentication
     }
   ]
 });
