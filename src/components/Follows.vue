@@ -1,5 +1,6 @@
 <template>
   <div class="follows">
+    <p v-if="!followedLive.length">Doesn't look like anyone you follow is online. Maybe try searching for a new streamer?</p>
     <FollowResult
       v-for="channel in followedLive"
       :channel="channel"

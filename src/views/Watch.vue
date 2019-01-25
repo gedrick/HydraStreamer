@@ -1,5 +1,5 @@
 <template>
-  <div class="watch">
+  <div class="watch flex-center">
     <div class="watch__icon watch__settings-icon">
       <span @click="settingsVisible = !settingsVisible" class="fa fa-gear"></span>
     </div>
@@ -128,9 +128,9 @@ export default {
     display: grid;
     justify-content: center;
     grid-template-columns: 100%;
-    padding: 60px;
-    width: calc(100vw - 120px);
-    height: calc(100vh - 120px);
+    padding: 50px 20px 0 20px;
+    width: calc(100vw - 40px);
+    height: calc(100vh - 100px);
 
     &.chat-open {
       grid-template-columns: 80% 20%;

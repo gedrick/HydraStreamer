@@ -7,7 +7,7 @@
       </button>
       <div class="horizontal">
         <button @click="hideChannel" class="button--small">Hide for Now</button>
-        <button @click="playerRemoveChannel" class="button--small">Remove Channel</button>
+        <button @click="playerRemoveChannel" class="button--small">Unfavorite</button>
       </div>
     </div>
     <div
