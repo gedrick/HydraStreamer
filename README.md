@@ -1,4 +1,6 @@
-# multitwitch
+# HydraStream
+
+Watch multiple Twitch streams at once.
 
 ## Project setup
 ```
