@@ -6,7 +6,7 @@ twitchApi.secret = settings.twitch.secret;
 
 function getUserChannels(req, res) {
   twitchApi.users.follows({
-    userID: req.query.userID
+    userID: req.query.userID || req.user._id
   }, (err, response) => {
     if (!err) {
       res.status(200).send(response);

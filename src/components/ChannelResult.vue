@@ -27,7 +27,7 @@ export default {
     result: Object
   },
   computed: {
-    ...mapGetters(['userID', 'favorites']),
+    ...mapGetters(['favorites']),
     previewImage() {
       if (this.result.preview && this.result.preview.small) {
         return this.result.preview.small;
@@ -49,7 +49,6 @@ export default {
   methods: {
     toggleFavorite() {
       this.$store.dispatch('toggleFavorite', {
-        userID: this.userID,
         channelData: this.channelData,
         toggle: !this.resultIsFavorited
       });

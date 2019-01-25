@@ -12,7 +12,7 @@ export default {
     channel: Object
   },
   computed: {
-    ...mapGetters(['userID', 'favorites']),
+    ...mapGetters(['favorites']),
     isFavorite() {
       const channelId = this.channel.channel._id;
       return this.favorites.find(favorite => favorite.channelId === channelId) !== undefined;
@@ -29,7 +29,6 @@ export default {
   methods: {
     toggleFavorite() {
       this.$store.dispatch('toggleFavorite', {
-        userID: this.userID,
         channelData: this.channelData,
         toggle: !this.isFavorite
       });

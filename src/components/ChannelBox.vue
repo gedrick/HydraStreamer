@@ -32,7 +32,6 @@
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
 import ChannelOverlay from '@/components/ChannelOverlay.vue';
-import { mapGetters } from 'vuex';
 
 const twitch = window.Twitch;
 
@@ -68,17 +67,25 @@ export default {
       playerLoadTimeout: 5000
     };
   },
-  computed: {
-    ...mapGetters(['userID'])
-  },
   mounted() {
     this.launchPlayer();
   },
+  beforeDestroy() {
+    if (this.player && this.player.removeEventListener) {
+      this.player.pause();
+      this.player.removeEventListener(twitch.Player.PLAYING, this.bPlaying);
+      this.player.removeEventListener(twitch.Player.PAUSED, this.bPaused);
+      this.player.removeEventListener(twitch.Player.ENDED, this.bEnded);
+      this.player.removeEventListener(twitch.Player.OFFLINE, this.bOffline);
+    }
+  },
   methods: {
+    hideChannel() {
+      this.$store.commit('unfavorite', this.channel);
+    },
     playerRemoveChannel() {
       const channelId = this.channel.id;
       this.$store.dispatch('unfavorite', {
-        userID: this.userID,
         channelData: this.channel
       });
     },
@@ -143,15 +150,6 @@ export default {
     playerToggleMuted(muted) {
       this.player.setMuted(muted);
     },
-  },
-  beforeDestroy() {
-    if (this.player && this.player.removeEventListener) {
-      this.player.pause();
-      this.player.removeEventListener(twitch.Player.PLAYING, this.bPlaying);
-      this.player.removeEventListener(twitch.Player.PAUSED, this.bPaused);
-      this.player.removeEventListener(twitch.Player.ENDED, this.bEnded);
-      this.player.removeEventListener(twitch.Player.OFFLINE, this.bOffline);
-    }
   }
 };
 </script>

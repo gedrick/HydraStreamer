@@ -96,31 +96,28 @@ const actions = {
         commit('setFollowedLive', result.data.streams);
       });
   },
-  toggleFavorite({ commit }, { userID, channelData, toggle }) {
+  toggleFavorite({ commit }, { channelData, toggle }) {
     const action = toggle ? 'favorite' : 'unfavorite';
     return axios
       .post(`/api/${action}`, {
-        userID: userID,
         channelData: channelData,
       })
       .then(() => {
         commit(action, channelData);
       });
   },
-  favorite({ commit }, { userID, channelData }) {
+  favorite({ commit }, { channelData }) {
     return axios
       .post('/api/favorite', {
-        userID: userID,
         channelData: channelData
       })
       .then(() => {
         commit('favorite', channelData)
       });
   },
-  unfavorite({ commit }, { userID, channelData }) {
+  unfavorite({ commit }, { channelData }) {
     return axios
       .post('/api/unfavorite', {
-        userID: userID,
         channelData: channelData
       })
       .then(() => {
