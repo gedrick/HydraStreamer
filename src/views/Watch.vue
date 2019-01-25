@@ -1,9 +1,9 @@
 <template>
   <div class="watch">
-    <div class="watch__icon watch__settings">
+    <div class="watch__icon watch__settings-icon">
       <span @click="settingsVisible = !settingsVisible" class="fa fa-gear"></span>
     </div>
-    <div class="watch__icon watch__chat">
+    <div class="watch__icon watch__chat-icon">
       <span @click="chatVisible = !chatVisible" class="fa fa-comments-o"></span>
     </div>
     <div v-if="settingsVisible || !favorites.length" class="watch__add expand-to-fit">
@@ -26,7 +26,7 @@
         <Grid v-if="favorites.length" :channels="favorites"></Grid>
       </div>
       <div class="watch__chat" v-if="chatVisible">
-        CHAT GOES HERE
+        <ChatPanel v-if="favorites.length" :channels="favorites"></ChatPanel>
       </div>
     </div>
   </div>
@@ -34,6 +34,7 @@
 
 <script>
 import Grid from '@/components/Grid.vue';
+import ChatPanel from '@/components/ChatPanel.vue';
 import SearchChannels from '@/components/SearchChannels.vue';
 import MyFavorites from '@/components/MyFavorites.vue';
 import Search from '@/components/Search.vue';
@@ -45,6 +46,7 @@ export default {
   name: 'Watch',
   components: {
     Grid,
+    ChatPanel,
     MyFavorites,
     SearchChannels,
     Search,
@@ -97,8 +99,8 @@ export default {
     }
   }
 
-  &__settings,
-  &__chat {
+  &__settings-icon,
+  &__chat-icon {
     position: absolute;
     top: 0;
     left: 0;
@@ -112,7 +114,7 @@ export default {
     }
   }
 
-  &__chat {
+  &__chat-icon {
     left: unset;
     right: 0;
   }
@@ -131,7 +133,7 @@ export default {
     height: calc(100vh - 120px);
 
     &.chat-open {
-      grid-template-columns: 85% 15%;
+      grid-template-columns: 80% 20%;
     }
   }
 
