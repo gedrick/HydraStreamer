@@ -1,5 +1,10 @@
+let settings;
+if (process.env.NODE_ENV === 'production') {
+  settings = require('./settings.prod');
+} else {
+  settings = require('./settings');
+}
 const crypto = require('crypto');
-const settings = require('./settings.js');
 const salt = process.env.ENCRYPTION_SALT || settings.login.encryptionSalt;
 const algorithm = 'aes-256-ctr';
 
