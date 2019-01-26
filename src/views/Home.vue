@@ -10,7 +10,10 @@
       </a>
       <router-link v-if="isLoggedIn" :to="{path: 'watch'}">
         <button class="button">Resume Watching</button>
-      </router-link>
+      </router-link><br>
+      <a v-if="isLoggedIn" href="/logout">
+        <button class="button">Logout</button>
+      </a>
     </div>
   </div>
 </template>

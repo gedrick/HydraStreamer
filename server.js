@@ -130,6 +130,11 @@ server.get('/', (req, res) => {
   return res.redirect(host);
 });
 
+server.get('/logout', (req, res) => {
+  req.logout();
+  res.clearCookie('isLoggedIn').redirect('/');
+});
+
 // Start the server.
 server.listen(port, () => {
   console.log(`server operating on port ${port}`);

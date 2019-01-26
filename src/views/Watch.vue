@@ -1,10 +1,16 @@
 <template>
-  <div class="watch flex-center">
-    <div class="watch__icon watch__settings-icon">
-      <span @click="settingsVisible = !settingsVisible" class="fa fa-gear"></span>
-    </div>
-    <div class="watch__icon watch__chat-icon">
-      <span @click="chatVisible = !chatVisible" class="fa fa-comments-o"></span>
+  <div class="watch">
+    <div class="watch__icon-row">
+      <div class="watch__icon watch__settings-icon">
+        <span @click="settingsVisible = !settingsVisible" class="fa fa-gear"></span>
+      </div>
+      <div class="watch__icon watch__logout-icon">
+        <a href="/logout"><span class="fa fa-arrow-circle-up"></span></a>
+      </div>
+      <div class="spacer"></div>
+      <div class="watch__icon watch__chat-icon">
+        <span @click="chatVisible = !chatVisible" class="fa fa-comments-o"></span>
+      </div>
     </div>
     <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
       <div class="watch__actions" @click.self="settingsVisible = false">
@@ -92,6 +98,14 @@ export default {
 .watch {
   width: 100vw;
   height: 100vh;
+  display: grid;
+  grid-template-rows: 60px auto;
+
+  &__icon-row {
+    display: grid;
+    grid-template-columns: 50px 50px auto 50px;
+    padding: 5px;
+  }
 
   &__icon span {
     &:hover {
@@ -100,12 +114,8 @@ export default {
   }
 
   &__settings-icon,
+  &__logout-icon,
   &__chat-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 20;
-    padding: 10px;
 
     span {
       color: $white;
@@ -128,9 +138,6 @@ export default {
     display: grid;
     justify-content: center;
     grid-template-columns: 100%;
-    padding: 50px 20px 0 20px;
-    width: calc(100vw - 40px);
-    height: calc(100vh - 100px);
 
     &.chat-open {
       grid-template-columns: 80% 20%;
