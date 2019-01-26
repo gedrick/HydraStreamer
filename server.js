@@ -4,7 +4,7 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('flash');
 const passport = require('passport');
 const twitchStrategy = require('passport-twitch').Strategy;
-const request = require('request');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const host = process.env.HOST || 'http://localhost:8080';
@@ -26,6 +26,7 @@ const User = require('./server/models/user.js');
 
 // Setup for Login with Twitch.
 const server = express();
+server.use(cookieParser());
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
   extended: true
@@ -81,25 +82,16 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-// Home route.
-server.get('/', (req, res) => {
-  console.log('get / => req =', req.user, req.passport, req.session);
-  if (req.user) {
-    return res.redirect(`${host}/#/watch`);
-  }
-  return res.redirect(host);
-});
-
 server.get('/auth/twitch', passport.authenticate('twitch'));
 server.get('/auth/callback', passport.authenticate('twitch', {
   failureRedirect: '/'
 }), (req, res) => {
-  res.redirect(`${host}/#/watch`);
+  res.cookie('isLoggedIn', true, {maxAge: 10800, httpOnly: false}).redirect(`${host}/#/watch`);
 });
 
 // Set up middleware.
 function isAuthenticated(req, res, next) {
-  if (!req.user) {
+  if (!req.isAuthenticated()) {
     return res.status(401).send({
       code: 401,
       message: 'Not logged in'
@@ -121,6 +113,7 @@ server.use('/api', apiRoutes);
 // Set up data routes.
 const dataRoutes = express.Router();
 const dataHandlers = require('./server/data.js');
+dataRoutes.use(isAuthenticated);
 dataRoutes.get('/searchGames', dataHandlers.searchGames);
 dataRoutes.get('/searchStreams', dataHandlers.searchStreams);
 dataRoutes.get('/getChannelsByUser', dataHandlers.getChannelsByUser);
@@ -128,6 +121,14 @@ dataRoutes.get('/getUserIdByUserName', dataHandlers.getUserIdByUserName);
 dataRoutes.get('/getUserChannels', dataHandlers.getUserChannels);
 dataRoutes.get('/getChannelLiveStatus', dataHandlers.getChannelLiveStatus);
 server.use('/data', dataRoutes);
+
+// Home route.
+server.get('/', (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.cookie('isLoggedIn', true, {maxAge: 10800, httpOnly: false}).redirect(`${host}/#/watch`);
+  }
+  return res.redirect(host);
+});
 
 // Start the server.
 server.listen(port, () => {

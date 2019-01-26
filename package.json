@@ -11,6 +11,8 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "connect-mongo": "^2.0.3",
+    "cookie-parser": "^1.4.3",
+    "cookies": "^0.7.3",
     "crypto": "^1.0.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
@@ -24,6 +26,7 @@
     "session": "^0.1.0",
     "twitch-api-v5": "^2.0.4",
     "vue": "^2.5.21",
+    "vue-cookie": "^1.1.4",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },

@@ -1,9 +1,11 @@
 const User = require('./models/user');
 
 function me(req, res) {
-  res.json({
-    user: req.user
-  });
+  if (req.isAuthenticated())  {
+    res.json({
+      user: req.user
+    });
+  }
 }
 
 function favorite(req, res) {

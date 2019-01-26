@@ -16,12 +16,12 @@ const requireAuthentication = (to, from, next) => {
 }
 
 const requireAdministrator = (to, from, next) => {
-  console.log(this);
-
-  store.dispatch('getMe').then(() => {
-    if (store.getters.user.roles && store.getters.user.roles.includes('administrator')) {
-      next();
-      return;
+  store.dispatch('getMe').then(() =>  {
+    if (store.getters.user && store.getters.user.roles) {
+      if (store.getters.user.roles.includes('administrator')) {
+        next();
+        return;
+      }
     }
     next({ path: '/' });
   });
