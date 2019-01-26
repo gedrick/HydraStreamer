@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     required: false,
     unique: false
   },
+  roles: {
+    type: Object,
+    default: []
+  },
   access_token: {
     type: String,
     required: true,

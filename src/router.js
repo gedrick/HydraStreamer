@@ -3,6 +3,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Watch from './views/Watch.vue';
+import Admin from './views/Admin.vue';
 
 const requireAuthentication = (to, from, next) => {
   store.dispatch('getMe').then(() => {
@@ -14,13 +15,15 @@ const requireAuthentication = (to, from, next) => {
   });
 }
 
-const checkNotAuthenticated = (to, from, next) => {
+const requireAdministrator = (to, from, next) => {
+  console.log(this);
+
   store.dispatch('getMe').then(() => {
-    if (!store.getters.isLoggedIn) {
+    if (store.getters.user.roles && store.getters.user.roles.includes('administrator')) {
       next();
       return;
     }
-    next({ path: '/watch' });
+    next({ path: '/' });
   });
 }
 
@@ -38,6 +41,12 @@ export default new Router({
       name: 'watch',
       component: Watch,
       beforeEnter: requireAuthentication
+    },
+    {
+      path: '/admin',
+      name: '/admin',
+      component: Admin,
+      beforeEnter: requireAdministrator
     }
   ]
 });
