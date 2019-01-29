@@ -1,10 +1,5 @@
 const twitchApi = require('twitch-api-v5');
-let settings;
-if (process.env.NODE_ENV === 'production') {
-  settings = require('./settings.prod');
-} else {
-  settings = require('./settings');
-}
+const settings = require('./settings');
 
 twitchApi.clientID = settings.twitch.clientId;
 twitchApi.secret = settings.twitch.secret;

@@ -11,12 +11,7 @@ const host = process.env.HOST || 'http://localhost:8080';
 const port = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
 
-let settings;
-if (isProd) {
-  settings = require('./server/settings.prod');
-} else {
-  settings = require('./server/settings');
-}
+const settings = require('./server/settings');
 
 // Set up Mongo.
 const mongoose = require('mongoose');
@@ -75,6 +70,8 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (id, done) {
   // Retrieve user by stored user id.
   User.findById(id, (err, user) => {
+    console.log('deserializeUser',err, user);
+
     if (err) {
       console.log('deserializeUser error:', err);
     }
@@ -132,7 +129,7 @@ server.get('/', (req, res) => {
 
 server.get('/logout', (req, res) => {
   req.logout();
-  res.clearCookie('isLoggedIn').redirect('/');
+  res.redirect('/?loggedOut=true');
 });
 
 // Start the server.

@@ -1,9 +1,4 @@
-let settings;
-if (process.env.NODE_ENV === 'production') {
-  settings = require('./settings.prod');
-} else {
-  settings = require('./settings');
-}
+const settings = require('./settings');
 
 const db = mongoose => {
   mongoose.connect(
