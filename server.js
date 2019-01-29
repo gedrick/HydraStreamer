@@ -11,6 +11,7 @@ const host = process.env.HOST || 'http://localhost:8080';
 const port = process.env.PORT || 3000;
 const isProd = process.env.NODE_ENV === 'production';
 
+const encrypt = require('./server/encryption').encrypt;
 const settings = require('./server/settings');
 
 // Set up Mongo.
@@ -55,8 +56,8 @@ passport.use(new twitchStrategy({
     username: profile.displayName,
     email: profile.email,
     avatar: profile._json.logo,
-    access_token: accessToken,
-    refresh_token: refreshToken
+    access_token: encrypt(accessToken),
+    refresh_token: encrypt(refreshToken)
   }).then((result) => {
     return done(null, result);
   });
@@ -129,6 +130,7 @@ server.get('/', (req, res) => {
 
 server.get('/logout', (req, res) => {
   req.logout();
+  res.clearCookie('isLoggedIn');
   res.redirect('/#/?loggedOut=true');
 });
 
