@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import VueCookie from 'vue-cookie';
 
 import axios from 'axios';
 axios.interceptors.response.use(response => {
@@ -14,6 +15,8 @@ axios.interceptors.response.use(response => {
 });
 
 Vue.config.productionTip = false;
+
+Vue.use(VueCookie);
 
 new Vue({
   router,

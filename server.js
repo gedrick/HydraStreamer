@@ -129,7 +129,7 @@ server.get('/', (req, res) => {
 
 server.get('/logout', (req, res) => {
   req.logout();
-  res.redirect('/?loggedOut=true');
+  res.redirect('/#/?loggedOut=true');
 });
 
 // Start the server.
