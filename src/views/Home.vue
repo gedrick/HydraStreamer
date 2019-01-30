@@ -1,7 +1,7 @@
 <template>
   <div class="home flex-center">
     <div class="home__header">
-      <h1>HydraStream</h1>
+      <h1>HydraStreamer</h1>
       <h2 v-if="isLoggedIn">Welcome back!</h2>
     </div>
     <div class="home__button">
