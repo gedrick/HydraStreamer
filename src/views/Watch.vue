@@ -1,17 +1,21 @@
 <template>
   <div class="watch">
-    <div class="watch__icon-row">
-      <div class="watch__icon watch__settings-icon">
-        <span @click="settingsVisible = !settingsVisible" class="fa fa-gear"></span>
+    <Header
+      @onToggleSettings="settingsVisible = !settingsVisible"
+      @onToggleChat="chatVisible = !chatVisible">
+    </Header>
+
+    <div class="watch__view" :class="{'chat-open': chatVisible}">
+      <div class="watch__videos">
+        <Grid v-if="favorites.length" :channels="favorites"></Grid>
       </div>
-      <div class="watch__icon watch__logout-icon">
-        <a href="/logout"><span class="fa fa-arrow-circle-up"></span></a>
-      </div>
-      <div class="spacer"></div>
-      <div class="watch__icon watch__chat-icon">
-        <span @click="chatVisible = !chatVisible" class="fa fa-comments-o"></span>
+      <div class="watch__chat" v-if="chatVisible">
+        <ChatPanel v-if="favorites.length" :channels="favorites"></ChatPanel>
       </div>
     </div>
+
+    <Footer></Footer>
+
     <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
       <div class="watch__actions" @click.self="settingsVisible = false">
         <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
@@ -27,18 +31,12 @@
         </div>
       </div>
     </div>
-    <div class="watch__view" :class="{'chat-open': chatVisible}">
-      <div class="watch__videos">
-        <Grid v-if="favorites.length" :channels="favorites"></Grid>
-      </div>
-      <div class="watch__chat" v-if="chatVisible">
-        <ChatPanel v-if="favorites.length" :channels="favorites"></ChatPanel>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 import Grid from '@/components/Grid.vue';
 import ChatPanel from '@/components/ChatPanel.vue';
 import SearchChannels from '@/components/SearchChannels.vue';
@@ -51,6 +49,8 @@ import axios from 'axios';
 export default {
   name: 'Watch',
   components: {
+    Header,
+    Footer,
     Grid,
     ChatPanel,
     MyFavorites,
@@ -99,35 +99,7 @@ export default {
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template-rows: 60px auto;
-
-  &__icon-row {
-    display: grid;
-    grid-template-columns: 50px 50px auto 50px;
-    padding: 5px;
-  }
-
-  &__icon span {
-    &:hover {
-      color: $bright-orange;
-    }
-  }
-
-  &__settings-icon,
-  &__logout-icon,
-  &__chat-icon {
-
-    span {
-      color: $white;
-      font-size: 50px;
-      cursor: pointer;
-    }
-  }
-
-  &__chat-icon {
-    left: unset;
-    right: 0;
-  }
+  grid-template-rows: 60px auto 40px;
 
   &__add {
     background-color: rgba($black, 0.9);

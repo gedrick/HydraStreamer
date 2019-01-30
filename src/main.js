@@ -3,8 +3,9 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import VueCookie from 'vue-cookie';
-
 import axios from 'axios';
+import EvaIcons from 'vue-eva-icons';
+
 axios.interceptors.response.use(response => {
   return response;
 }, error => {
@@ -17,6 +18,7 @@ axios.interceptors.response.use(response => {
 Vue.config.productionTip = false;
 
 Vue.use(VueCookie);
+Vue.use(EvaIcons);
 
 new Vue({
   router,

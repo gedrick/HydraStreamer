@@ -24,9 +24,6 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters(['isLoggedIn'])
-  },
-  beforeMount() {
-    this.$store.dispatch('getMe');
   }
 }
 </script>
