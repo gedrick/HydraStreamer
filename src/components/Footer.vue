@@ -16,13 +16,6 @@
   </div>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
-
 <style lang="scss">
 @import '../styles/variables.scss';
 
@@ -36,6 +29,7 @@ export default {
     align-items: center;
     justify-content: center;
     margin-right: 5px;
+    cursor: pointer;
 
     a {
       color: #fff;
