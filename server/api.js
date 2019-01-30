@@ -1,9 +1,20 @@
 const User = require('./models/user');
+const App = require('./models/app');
 
 function me(req, res) {
   if (req.isAuthenticated())  {
     res.json({
       user: req.user
+    });
+  }
+}
+
+function app(req, res) {
+  if (req.isAuthenticated()) {
+    App.findOne({ id: 1 }, (err, doc) => {
+      console.log(err, doc);
+
+      res.json(doc);
     });
   }
 }
@@ -48,6 +59,7 @@ function unfavorite(req, res) {
 
 module.exports = {
   me,
+  app,
   favorite,
   unfavorite
 };

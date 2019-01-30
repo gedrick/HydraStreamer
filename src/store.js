@@ -9,7 +9,8 @@ const state = {
   user: null,
   followed: [],
   followedLive: [],
-  searchResults: []
+  searchResults: [],
+  appData: null
 };
 
 const getters = {
@@ -45,6 +46,9 @@ const getters = {
   },
   searchResults: state => {
     return state.searchResults;
+  },
+  appData: state => {
+    return state.appData;
   }
 };
 
@@ -85,6 +89,9 @@ const mutations = {
       streams.splice(streams.indexOf(name), 1);
     }
     Vue.set(state, 'favorites', streams);
+  },
+  setAppData(state, { data }) {
+    Vue.set(state, 'appData', data);
   }
 };
 
@@ -134,6 +141,15 @@ const actions = {
           commit('setUser', result.data.user);
           commit('setLoggedIn', true);
         }
+      });
+  },
+  getApp({ commit }) {
+    return axios.get('/api/app')
+      .then(result => {
+        const appData = result.data;
+        commit('setAppData', {
+          data: appData
+        });
       });
   },
   getUserChannels({ commit }, { userID }) {
