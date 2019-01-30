@@ -1,7 +1,6 @@
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const flash = require('flash');
 const passport = require('passport');
 const twitchStrategy = require('passport-twitch').Strategy;
 const cookieParser = require('cookie-parser');
@@ -9,7 +8,6 @@ const bodyParser = require('body-parser');
 
 const host = process.env.HOST || 'http://localhost:8080';
 const port = process.env.PORT || 3000;
-const isProd = process.env.NODE_ENV === 'production';
 
 const encrypt = require('./server/encryption').encrypt;
 const settings = require('./server/settings');
@@ -28,26 +26,21 @@ server.use(bodyParser.urlencoded({
   extended: true
 }));
 server.use(session({
-  secret: process.env.SESSION_SECRET || settings.login.sessionSecret,
+  secret: settings.login.sessionSecret,
   resave: false,
   saveUninitialized: false,
   store: new MongoStore(settings.mongo)
 }));
-server.use(flash());
-if (isProd) {
-  server.use(express.static('./dist'));
-} else {
-  server.use(express.static('./public'));
-}
+server.use(express.static('./dist'));
 server.use(passport.initialize());
 server.use(passport.session());
 
 // Set up Passport.
 passport.use(new twitchStrategy({
-  clientID: process.env.TWITCH_CLIENT_ID || settings.twitch.clientId,
-  clientSecret: process.env.TWITCH_CLIENT_SECRET || settings.twitch.secret,
-  callbackURL: process.env.TWITCH_CALLBACK_URL || settings.login.callback,
-  scope: process.env.TWITCH_SCOPES || settings.twitch.scopes
+  clientID: settings.twitch.clientId,
+  clientSecret: settings.twitch.secret,
+  callbackURL: settings.login.callback,
+  scope: settings.twitch.scopes
 }, (accessToken, refreshToken, profile, done) => {
   User.findOrCreate({
     id: profile.id,
@@ -71,8 +64,6 @@ passport.serializeUser(function (user, done) {
 passport.deserializeUser(function (id, done) {
   // Retrieve user by stored user id.
   User.findById(id, (err, user) => {
-    console.log('deserializeUser',err, user);
-
     if (err) {
       console.log('deserializeUser error:', err);
     }
@@ -104,6 +95,7 @@ const apiRoutes = express.Router();
 const apiHandlers = require('./server/api.js');
 apiRoutes.use(isAuthenticated);
 apiRoutes.get('/me', apiHandlers.me);
+apiRoutes.get('/app', apiHandlers.app);
 apiRoutes.post('/favorite', apiHandlers.favorite);
 apiRoutes.post('/unfavorite', apiHandlers.unfavorite);
 server.use('/api', apiRoutes);
