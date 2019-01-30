@@ -1,4 +1,4 @@
-# HydraStream
+# HydraStreamer
 
 Watch multiple Twitch streams at once.
 
