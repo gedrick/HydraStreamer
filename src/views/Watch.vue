@@ -16,7 +16,7 @@
 
     <Footer></Footer>
 
-    <!-- <WarningScreen></WarningScreen> -->
+    <WarningScreen></WarningScreen>
 
     <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
       <div class="watch__actions" @click.self="settingsVisible = false">
@@ -39,7 +39,7 @@
 <script>
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
-// import WarningScreen from '@/components/WarningScreen.vue';
+import WarningScreen from '@/components/WarningScreen.vue';
 import Grid from '@/components/Grid.vue';
 import ChatPanel from '@/components/ChatPanel.vue';
 import SearchChannels from '@/components/SearchChannels.vue';
@@ -54,7 +54,7 @@ export default {
   components: {
     Header,
     Footer,
-    // WarningScreen,
+    WarningScreen,
     Grid,
     ChatPanel,
     MyFavorites,
@@ -97,7 +97,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/variables.scss';
+@import '../styles/variables';
+@import '../styles/breakpoints';
 
 .watch {
   width: 100vw;
@@ -117,6 +118,15 @@ export default {
 
     &.chat-open {
       grid-template-columns: 80% 20%;
+
+      // 480px
+      @include mq('phone-wide') {
+        grid-template-columns: 60% 40%;
+      }
+      // 1024px
+      @include mq('tablet-wide') {
+        grid-template-columns: 70% 30%;
+      }
     }
   }
 

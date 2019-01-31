@@ -10,9 +10,7 @@
         <button @click="playerRemoveChannel" class="button--small">Unfavorite</button>
       </div>
     </div>
-    <div
-      v-if="!isLoading && isLoaded"
-      class="channel-box__overlay expand-to-fit">
+    <div v-if="!isLoading && isLoaded">
       <ChannelOverlay
         :onPlay="playerPlay"
         :onPause="playerPause"
@@ -155,7 +153,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/variables.scss';
+@import '../styles/variables';
+@import '../styles/breakpoints';
 
 .channel-box {
   color: $white;
@@ -174,6 +173,10 @@ export default {
     &:hover {
       border: $box-border-width solid $channel-box-highlight-color;
       opacity: 1;
+
+      @include mq('tablet-wide', 'max') {
+        border: none;
+      }
     }
   }
 

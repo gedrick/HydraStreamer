@@ -1,5 +1,10 @@
 <template>
-  <div class="channel-overlay">
+  <div
+    class="channel-overlay expand-to-fit"
+    @mouseenter="showOverlay"
+    @mouseleave="hideOverlay"
+    @click="toggleOverlay"
+    :class="{'visible': overlayIsVisible}">
     <div class="channel-overlay__controls">
       <span v-if="playerIsPaused" class="fa fa-play" @click="onPlay"></span>
       <span v-if="!playerIsPaused" class="fa fa-pause" @click="onPause"></span>
@@ -28,6 +33,11 @@ export default {
 
     player: Object
   },
+  data() {
+    return {
+      overlayIsVisible: false
+    }
+  },
   computed: {
     playerIsPaused() {
       return this.player.isPaused();
@@ -40,6 +50,15 @@ export default {
     }
   },
   methods: {
+    toggleOverlay(flag) {
+      this.overlayIsVisible = !this.overlayIsVisible;
+    },
+    showOverlay() {
+      this.overlayIsVisible = true;
+    },
+    hideOverlay() {
+      this.overlayIsVisible = false;
+    },
     onToggleMute() {
       if (this.player.getMuted()) {
         this.onMute(false);
@@ -52,11 +71,25 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/variables.scss';
+@import '../styles/variables';
+@import '../styles/breakpoints';
 
 .channel-overlay {
   flex-direction: column;
   justify-content: space-between;
+
+  opacity: 0;
+  z-index: 10;
+  border: $box-border-width solid transparent;
+
+  &.visible {
+    border: $box-border-width solid $channel-box-highlight-color;
+    opacity: 1;
+
+    @include mq('tablet-wide', 'max') {
+      border: none;
+    }
+  }
 
   &__controls {
     display: flex;

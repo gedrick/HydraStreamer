@@ -1,11 +1,11 @@
 // Colors
-$background-color: #02497F;
-$light-main: #0C95FE;
-$bright-main: #55B5FF;
+$background-color: #02497f;
+$light-main: #0c95fe;
+$bright-main: #55b5ff;
 
-$bright-orange: #FFB149;
+$bright-orange: #ffb149;
 $dark-purple: #553f86;
-$mid-purple: #6C569D;
+$mid-purple: #6c569d;
 $light-purple: #a591cf;
 
 $white: #ffffff;
@@ -20,6 +20,15 @@ $overlay-icon-highlight-color: $bright-orange;
 // Measurements
 $box-border-width: 2px;
 $button-font-size: 36px;
+
+// Animations
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  80% { transform: rotate(0deg); }
+  85% { transform: rotate(25deg); }
+  95% { transform: rotate(-25deg); }
+  100% { transform: rotate(0deg); }
+}
 
 // Helper classes
 .flex-center {

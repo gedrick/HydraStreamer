@@ -8,7 +8,7 @@
 </template>
 
 <style lang="scss">
-@import '../styles/variables.scss';
+@import '../styles/variables';
 
 $hollowBoxSize: 3em;
 $hollowLight: $loading-box-light;
