@@ -16,6 +16,8 @@
 
     <Footer></Footer>
 
+    <!-- <WarningScreen></WarningScreen> -->
+
     <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
       <div class="watch__actions" @click.self="settingsVisible = false">
         <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
@@ -37,6 +39,7 @@
 <script>
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
+// import WarningScreen from '@/components/WarningScreen.vue';
 import Grid from '@/components/Grid.vue';
 import ChatPanel from '@/components/ChatPanel.vue';
 import SearchChannels from '@/components/SearchChannels.vue';
@@ -51,6 +54,7 @@ export default {
   components: {
     Header,
     Footer,
+    // WarningScreen,
     Grid,
     ChatPanel,
     MyFavorites,

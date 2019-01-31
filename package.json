@@ -16,6 +16,7 @@
     "crypto": "^1.0.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "media-query-facade": "^1.0.37",
     "mongodb": "^3.1.10",
     "mongoose": "^5.4.4",
     "mongoose-findorcreate": "^3.0.0",
