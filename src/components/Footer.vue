@@ -9,6 +9,11 @@
       </a>
     </div>
     <div class="footer__icon">
+      <a href="https://twitter.com/nostalgiatriggr" target="_blank">
+        <eva-icon name="twitter" fill="white"></eva-icon>
+      </a>
+    </div>
+    <div class="footer__icon">
       <a href="/logout">
         <eva-icon name="log-out" fill="white"></eva-icon>
       </a>
