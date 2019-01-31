@@ -5,15 +5,19 @@
       <h2 v-if="isLoggedIn">Welcome back!</h2>
     </div>
     <div class="home__button">
-      <a v-if="!isLoggedIn" href="/auth/twitch">
-        <button class="button">Login with Twitch</button>
-      </a>
-      <router-link v-if="isLoggedIn" :to="{path: 'watch'}">
-        <button class="button">Resume Watching</button>
-      </router-link><br>
-      <a v-if="isLoggedIn" href="/logout">
-        <button class="button">Logout</button>
-      </a>
+      <div v-if="!isLoggedIn">
+        <a v-if="!isLoggedIn" href="/auth/twitch">
+          <button class="button">Login with Twitch</button>
+        </a>
+      </div>
+      <div v-if="isLoggedIn">
+        <router-link v-if="isLoggedIn" :to="{path: 'watch'}">
+          <button class="button">Watch</button>
+        </router-link><br>
+        <a v-if="isLoggedIn" href="/logout">
+          <button class="button">Logout</button>
+        </a>
+      </div>
     </div>
   </div>
 </template>
