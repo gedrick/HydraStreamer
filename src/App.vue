@@ -16,17 +16,21 @@ export default {
 @import './styles/variables.scss';
 
 body {
-  -webkit-font-smoothing: antialiased;
   margin: 0;
   overflow: hidden;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
   color: $white;
-
   background: rgb(73,155,234);
   background: -moz-linear-gradient(-45deg, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);
   background: -webkit-linear-gradient(-45deg, rgba(73,155,234,1) 0%,rgba(32,124,229,1) 100%);
   background: linear-gradient(135deg, rgba(73,155,234,1) 0%,rgba(32,124,229,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5',GradientType=1 );
+
+  textarea:focus,
+  input:focus,
+  button:focus {
+    outline: none;
+  }
 }
 
 #app {

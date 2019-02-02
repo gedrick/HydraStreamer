@@ -169,3 +169,38 @@ $button-font-size: 36px;
     background: $bright-orange;
   }
 }
+
+// .button-3d {
+//   display: inline-block;
+//   position: relative;
+//   border: 1px solid rgba(0,0,0,0.21);
+//   border-bottom: 4px solid rgba(0,0,0,0.21);
+//   border-radius: 10px;
+//   text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+//   cursor: pointer;
+//   margin: 5px;
+//   color: #fff;
+//   padding: 10px 40px;
+// 	text-align: center;
+//   font-size: 22px;
+
+//   &.orange {
+//     background: $bright-orange;
+//     background: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,105,30,1)), to(rgba(230,95,28,1)));
+//     background: -webkit-linear-gradient(rgba(255,105,30,1) 0%, rgba(230,95,28,1) 100%);
+//     background: -moz-linear-gradient(rgba(255,105,30,1) 0%, rgba(230,95,28,1) 100%);
+//     background: -o-linear-gradient(rgba(255,105,30,1) 0%, rgba(230,95,28,1) 100%);
+//     background: linear-gradient(rgba(255,105,30,1) 0%, rgba(230,95,28,1) 100%);
+
+//     &:active {
+//       background: #E8601B;
+//     }
+//   }
+
+//   &.small {
+//     font-size: 12px;
+//     padding: 10px 10px;
+//     color: #000;
+//   }
+
+// }
