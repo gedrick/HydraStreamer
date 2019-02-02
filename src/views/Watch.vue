@@ -18,10 +18,11 @@
 
     <WarningScreen></WarningScreen>
 
+    <AddStreamOverlay v-if="!favorites.length || (favorites.length && settingsVisible)"></AddStreamOverlay>
+
     <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
       <div class="watch__actions" @click.self="settingsVisible = false">
         <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
-          <MyFavorites @open="toggleFavorites"></MyFavorites>
           <SearchChannels @open="toggleSearch"></SearchChannels>
         </div>
         <div class="watch__search">
@@ -40,6 +41,7 @@
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import WarningScreen from '@/components/WarningScreen.vue';
+import AddStreamOverlay from '@/components/AddStreamOverlay.vue';
 import Grid from '@/components/Grid.vue';
 import ChatPanel from '@/components/ChatPanel.vue';
 import SearchChannels from '@/components/SearchChannels.vue';
@@ -55,6 +57,7 @@ export default {
     Header,
     Footer,
     WarningScreen,
+    AddStreamOverlay,
     Grid,
     ChatPanel,
     MyFavorites,
