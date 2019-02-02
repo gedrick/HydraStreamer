@@ -54,7 +54,10 @@ const getters = {
 
 const mutations = {
   setFollowedLive(state, streams) {
-    Vue.set(state, 'followedLive', streams);
+    const sortedStreams = streams.sort((a, b) => {
+      return a.channel.name >= b.channel.name ? 1 : -1;
+    });
+    Vue.set(state, 'followedLive', sortedStreams);
   },
   favorite(state, channelData) {
     const newFavorites = state.user.favorites;
