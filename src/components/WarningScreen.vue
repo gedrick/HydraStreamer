@@ -18,7 +18,7 @@
   align-items: center;
   background-color: rgba(#000, 1);
 
-  @media (max-width: 1024px) and (orientation: portrait) {
+  @media (max-width: 768px) and (orientation: portrait) {
     display: flex;
   }
 

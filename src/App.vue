@@ -16,6 +16,7 @@ export default {
 @import './styles/variables.scss';
 
 body {
+  -webkit-font-smoothing: antialiased;
   margin: 0;
   overflow: hidden;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

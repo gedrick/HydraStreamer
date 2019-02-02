@@ -120,11 +120,11 @@ export default {
       grid-template-columns: 80% 20%;
 
       // 480px
-      @include mq('phone-wide') {
+      @include mq('phone-wide', 'max') {
         grid-template-columns: 60% 40%;
       }
       // 1024px
-      @include mq('tablet-wide') {
+      @include mq('tablet-wide', 'max') {
         grid-template-columns: 70% 30%;
       }
     }

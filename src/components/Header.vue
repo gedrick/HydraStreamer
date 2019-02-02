@@ -18,6 +18,7 @@
 .header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 5px;
 
   &__icon {
@@ -25,20 +26,14 @@
     justify-content: center;
     align-items: center;
     background-color: transparent;
-    border-radius: 3px;
+    border-radius: 10px;
     padding: 0 5px;
     cursor: pointer;
-
-    span {
-      opacity: 0;
-      transition-duration: 0.2s;
-      transition-property: opacity;
-    }
+    background-color: rgba($black, 0.1);
 
     &:hover {
-      background-color: rgba($black, 0.2);
-      span {
-        opacity: 1;
+      svg.eva {
+        fill: $bright-orange;
       }
     }
   }
@@ -47,9 +42,6 @@
     width: 50px;
     height: 50px;
     fill: $white;
-    &:hover {
-      fill: $bright-orange;
-    }
   }
 }
 </style>

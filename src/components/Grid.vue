@@ -28,8 +28,10 @@ export default {
     templateRows() {
       switch(this.channelCount) {
         case 1:
-        case 2:
           return '100%';
+          break;
+        case 2:
+          return '50% 50%';
           break;
         case 3:
         case 4:
@@ -45,9 +47,9 @@ export default {
     templateColumns() {
       switch(this.channelCount) {
         case 1:
+        case 2:
           return '100%';
           break;
-        case 2:
         case 3:
         case 4:
           return '50% 50%';
