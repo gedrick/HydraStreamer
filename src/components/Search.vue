@@ -39,9 +39,6 @@ export default {
   computed: {
     ...mapGetters(['searchResults'])
   },
-  mounted() {
-    // this.$refs.terms.focus();
-  },
   methods: {
     doSearch() {
       if (this.terms.length >= 3 && !this.working) {

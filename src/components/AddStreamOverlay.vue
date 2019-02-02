@@ -2,13 +2,19 @@
   <div class="add-stream-overlay expand-to-fit">
     <div class="add-stream-overlay__container">
       <span @click="$emit('closeOverlay')" class="add-stream-overlay__close icon fa fa-close"></span>
+
       <div class="add-stream-overlay__section">
         <h2 @click="followsVisible = !followsVisible"><span class="icon fa fa-list"></span> Your Followed Streamers <span class="online-only">(online users only)</span></h2>
         <Follows v-if="followsVisible"></Follows>
       </div>
 
       <div class="add-stream-overlay__section">
-        <h2 @click="searchVisible = !searchVisible"><span class="icon fa fa-search"></span> Find New Streams</h2>
+        <h2 @click="popularGamesVisible = !popularGamesVisible"><span class="icon fa fa-list"></span> Most Popular Games <span class="online-only">(click to search by game)</span></h2>
+        <PopularGames v-if="popularGamesVisible"></PopularGames>
+      </div>
+
+      <div class="add-stream-overlay__section">
+        <h2 @click="searchVisible = !searchVisible"><span class="icon fa fa-search"></span> Search</h2>
         <Search v-if="searchVisible"></Search>
       </div>
     </div>
@@ -18,16 +24,19 @@
 <script>
 import Follows from '@/components/Follows.vue';
 import Search from '@/components/Search.vue';
+import PopularGames from '@/components/PopularGames.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
     Follows,
-    Search
+    Search,
+    PopularGames
   },
   data() {
     return {
       followsVisible: true,
+      popularGamesVisible: true,
       searchVisible: true
     }
   },

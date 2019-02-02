@@ -23,8 +23,6 @@ export default {
   mounted() {
     // Loop through followed and search query for all.
     if (!this.followedLive.length) {
-      console.log('cehcking for live channels');
-
       const followedIds = [];
       this.followed.map(follow => followedIds.push(follow.channel._id));
       this.$store.dispatch('getFollowedStatus', {

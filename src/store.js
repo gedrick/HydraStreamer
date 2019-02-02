@@ -10,10 +10,14 @@ const state = {
   followed: [],
   followedLive: [],
   searchResults: [],
+  games: {},
   appData: null
 };
 
 const getters = {
+  popularGames: state => {
+    return state.games.popular;
+  },
   isLoggedIn: state => {
     return state.isLoggedIn;
   },
@@ -53,7 +57,10 @@ const getters = {
 };
 
 const mutations = {
-  setFollowedLive(state, streams) {
+  setPopularGames(state, { games }) {
+    Vue.set(state.games, 'popular', games);
+  },
+  setFollowedLive(state, { streams }) {
     const sortedStreams = streams.sort((a, b) => {
       return a.channel.name >= b.channel.name ? 1 : -1;
     });
@@ -68,7 +75,7 @@ const mutations = {
     const newFavorites = state.user.favorites.filter(favorite => favorite.channelId !== channelData.channelId);
     Vue.set(state.user, 'favorites', newFavorites);
   },
-  setLoggedIn(state, isLoggedIn) {
+  setLoggedIn(state, { isLoggedIn }) {
     Vue.set(state, 'isLoggedIn', isLoggedIn);
   },
   setUser(state, user) {
@@ -99,11 +106,27 @@ const mutations = {
 };
 
 const actions = {
+  getPopularGames({ commit }) {
+    return axios
+      .get('/data/getPopularGames')
+      .then(result => {
+        console.log(result.data.top);
+
+        commit('setPopularGames', {
+          games: result.data.top
+        });
+      })
+      .catch(errors => {
+        console.log('errors hit:', errors);
+      });
+  },
   getFollowedStatus({ commit }, { channel }) {
     return axios
       .get(`/data/getChannelLiveStatus?channel=${channel}`)
       .then(result => {
-        commit('setFollowedLive', result.data.streams);
+        commit('setFollowedLive', {
+          streams: result.data.streams
+        });
       });
   },
   toggleFavorite({ commit }, { channelData, toggle }) {
@@ -131,7 +154,7 @@ const actions = {
         channelData: channelData
       })
       .then(() => {
-        commit('unfavorite', channelData);
+        commit('unfavorite',  channelData);
       });
   },
   getMe({ commit }) {
@@ -139,10 +162,14 @@ const actions = {
       .then(result => {
         if (!result || (result.data.code && result.data.code === 401)) {
           commit('setUser', null);
-          commit('setLoggedIn', false)
+          commit('setLoggedIn', {
+            isLoggedIn: false
+          });
         } else {
           commit('setUser', result.data.user);
-          commit('setLoggedIn', true);
+          commit('setLoggedIn', {
+            isLoggedIn: true
+          });
         }
       });
   },

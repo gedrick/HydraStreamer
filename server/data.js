@@ -86,6 +86,17 @@ function getChannelLiveStatus(req, res) {
   });
 }
 
+function getPopularGames(req, res) {
+  twitchApi.games.top({}, (err, response) => {
+    if (!err) {
+      res.status(200).send(response);
+    } else {
+      console.log('(getPopularGames) error reached: ', err, response);
+      res.status(500).json(err);
+    }
+  });
+}
+
 module.exports = {
   searchStreams,
   searchGames,
@@ -93,5 +104,6 @@ module.exports = {
   getChannelsByUser,
   getUserIdByUserName,
   getUserChannels,
-  getChannelLiveStatus
+  getChannelLiveStatus,
+  getPopularGames
 };
