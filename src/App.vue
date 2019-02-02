@@ -18,7 +18,7 @@ export default {
 body {
   margin: 0;
   overflow: hidden;
-  font-family: 'Lato', sans-serif;
+  font-family: $base-font;
   color: $white;
   background: rgb(73,155,234);
   background: -moz-linear-gradient(-45deg, rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%);

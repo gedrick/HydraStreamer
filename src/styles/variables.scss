@@ -21,6 +21,9 @@ $overlay-icon-highlight-color: $bright-orange;
 $box-border-width: 2px;
 $button-font-size: 36px;
 
+// Fonts
+$base-font: 'Lato', sans-serif;
+
 // Animations
 @keyframes wiggle {
   0% { transform: rotate(0deg); }

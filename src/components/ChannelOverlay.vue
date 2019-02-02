@@ -3,7 +3,6 @@
     class="channel-overlay expand-to-fit"
     @mouseenter="showOverlay"
     @mouseleave="hideOverlay"
-    @click="toggleOverlay"
     :class="{'visible': overlayIsVisible}">
     <div class="channel-overlay__controls">
       <span v-if="playerIsPaused" class="fa fa-play" @click="onPlay"></span>
