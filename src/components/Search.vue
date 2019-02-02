@@ -40,7 +40,7 @@ export default {
     ...mapGetters(['searchResults'])
   },
   mounted() {
-    this.$refs.terms.focus();
+    // this.$refs.terms.focus();
   },
   methods: {
     doSearch() {

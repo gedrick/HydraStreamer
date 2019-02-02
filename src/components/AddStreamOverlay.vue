@@ -1,26 +1,101 @@
 <template>
   <div class="add-stream-overlay expand-to-fit">
-    <div class="add-stream-overlay__section">
-      <h2><span class="icon fa fa-list"></span> Your Followed Streamers</h2>
-    </div>
+    <div class="add-stream-overlay__container">
+      <span @click="$emit('closeOverlay')" class="add-stream-overlay__close icon fa fa-close"></span>
+      <div class="add-stream-overlay__section">
+        <h2 @click="followsVisible = !followsVisible"><span class="icon fa fa-list"></span> Your Followed Streamers <span class="online-only">(online users only)</span></h2>
+        <Follows v-if="followsVisible"></Follows>
+      </div>
 
-    <div class="add-stream-overlay__section">
-      <h2>Your Followed Streamers</h2>
+      <div class="add-stream-overlay__section">
+        <h2 @click="searchVisible = !searchVisible"><span class="icon fa fa-search"></span> Find New Streams</h2>
+        <Search v-if="searchVisible"></Search>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  mounted() {
+import Follows from '@/components/Follows.vue';
+import Search from '@/components/Search.vue';
+import { mapGetters } from 'vuex';
 
+export default {
+  components: {
+    Follows,
+    Search
+  },
+  data() {
+    return {
+      followsVisible: true,
+      searchVisible: true
+    }
+  },
+  computed: {
+    ...mapGetters(['twitchID'])
+  },
+  beforeMount() {
+    this.$store.dispatch('getUserChannels', {
+      userID: this.twitchID
+    });
+  },
+  mounted() {
+    this.$el.scrollTop = 0;
   }
 }
 </script>
 
 
 <style lang="scss">
+@import '../styles/variables';
+
 .add-stream-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: rgba(#000, 0.95);
+  z-index: 15;
+  padding: 0;
+  overflow: hidden;
+
+  &__container {
+    padding: 26px 10px 10px 10px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-y: scroll;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 50px;
+    color: #fff;
+    z-index: 15;
+  }
+
+  h2 {
+    font-family: $base-font;
+    text-align: left;
+    justify-content: center;
+
+    .online-only {
+      font-size: 12px;
+    }
+  }
+  .icon {
+    color: $bright-orange;
+  }
 }
+
+
 </style>

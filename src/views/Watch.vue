@@ -18,11 +18,12 @@
 
     <WarningScreen></WarningScreen>
 
-    <AddStreamOverlay v-if="!favorites.length || (favorites.length && settingsVisible)"></AddStreamOverlay>
+    <AddStreamOverlay @closeOverlay="settingsVisible = false" v-if="!favorites.length || (favorites.length && settingsVisible)"></AddStreamOverlay>
 
-    <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
+    <!-- <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
       <div class="watch__actions" @click.self="settingsVisible = false">
         <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
+          <MyFavorites @open="toggleFavorites"></MyFavorites>
           <SearchChannels @open="toggleSearch"></SearchChannels>
         </div>
         <div class="watch__search">
@@ -33,7 +34,7 @@
           close search
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -44,10 +45,6 @@ import WarningScreen from '@/components/WarningScreen.vue';
 import AddStreamOverlay from '@/components/AddStreamOverlay.vue';
 import Grid from '@/components/Grid.vue';
 import ChatPanel from '@/components/ChatPanel.vue';
-import SearchChannels from '@/components/SearchChannels.vue';
-import MyFavorites from '@/components/MyFavorites.vue';
-import Search from '@/components/Search.vue';
-import Follows from '@/components/Follows.vue';
 import { mapGetters, mapActions } from 'vuex';
 import axios from 'axios';
 
@@ -59,11 +56,7 @@ export default {
     WarningScreen,
     AddStreamOverlay,
     Grid,
-    ChatPanel,
-    MyFavorites,
-    SearchChannels,
-    Search,
-    Follows
+    ChatPanel
   },
   data() {
     return {
@@ -88,13 +81,8 @@ export default {
       this.showSearch = false;
     }
   },
-  beforeMount() {
-    this.$store.dispatch('getUserChannels', {
-      userID: this.twitchID
-    });
-  },
   computed: {
-    ...mapGetters(['user', 'twitchID', 'favorites'])
+    ...mapGetters(['user', 'favorites'])
   }
 };
 </script>
@@ -131,18 +119,6 @@ export default {
         grid-template-columns: 70% 30%;
       }
     }
-  }
-
-  &__actions {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
   }
 
   &__action-items {

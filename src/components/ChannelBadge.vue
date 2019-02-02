@@ -1,6 +1,12 @@
 <template>
-  <div class="follow-result" :class="{'favorite': isFavorite}" @click="toggleFavorite">
-    <div class="follow-result__name">{{channel.channel.name}}</div>
+  <div class="channel-badge" :class="{'favorite': isFavorite}" @click="toggleFavorite">
+    <div class="channel-badge__image">
+      <img :src="channel.preview.small">
+    </div>
+    <div class="channel-badge__name">
+      <span class="player-name">{{channel.channel.name}}</span><br>
+      <span class="game-name">{{channel.game}}</span>
+    </div>
   </div>
 </template>
 
@@ -40,24 +46,48 @@ export default {
 <style lang="scss">
 @import '../styles/variables';
 
-.follow-result {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.channel-badge {
+  display: grid;
+  grid-template-columns: 50px auto;
+  grid-gap: 5px;
+  justify-content: flex-start;
   align-items: center;
 
-  padding: 5px;
+  padding-right: 5px;
   margin: 2px;
   background-color: $light-main;
-  border-radius: 5px;
+  border-radius: 0 5px 5px 0px;
   cursor: pointer;
 
-  &.favorite {
-    background-color: $bright-orange;
+  &__image {
+    width: 50px;
+    height: 50px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &__name {
+    text-align: left;
     color: $white;
+    align-items: flex-start;
+    max-width: 140px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    .player-name {
+      font-weight: bold;
+    }
+    .game-name {
+      font-size: 12px;
+    }
+  }
+
+  &.favorite {
+    background-color: $bright-orange;
   }
 }
 </style>

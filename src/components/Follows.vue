@@ -1,32 +1,36 @@
 <template>
   <div class="follows">
     <p v-if="!followedLive.length">Doesn't look like anyone you follow is online. Maybe try searching for a new streamer?</p>
-    <FollowResult
+    <ChannelBadge
       v-for="channel in followedLive"
       :channel="channel"
       :key="channel.channel._id">
-    </FollowResult>
+    </ChannelBadge>
   </div>
 </template>
 
 <script>
-import FollowResult from '@/components/FollowResult.vue';
+import ChannelBadge from '@/components/ChannelBadge.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   components: {
-    FollowResult
+    ChannelBadge
   },
   computed: {
     ...mapGetters(['followed', 'followedLive'])
   },
   mounted() {
     // Loop through followed and search query for all.
-    const followedIds = [];
-    this.followed.map(follow => followedIds.push(follow.channel._id));
-    this.$store.dispatch('getFollowedStatus', {
-      channel: followedIds.join(',')
-    });
+    if (!this.followedLive.length) {
+      console.log('cehcking for live channels');
+
+      const followedIds = [];
+      this.followed.map(follow => followedIds.push(follow.channel._id));
+      this.$store.dispatch('getFollowedStatus', {
+        channel: followedIds.join(',')
+      });
+    }
   }
 }
 </script>
@@ -35,10 +39,9 @@ export default {
 .follows {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  max-width: 50vw;
-  max-height: 40vh;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex-wrap: wrap;
+  max-width: 98vw;
 }
 </style>
