@@ -106,6 +106,7 @@ const dataHandlers = require('./server/data.js');
 dataRoutes.use(isAuthenticated);
 dataRoutes.get('/searchGames', dataHandlers.searchGames);
 dataRoutes.get('/searchStreams', dataHandlers.searchStreams);
+dataRoutes.get('/userIsHosting', dataHandlers.userIsHosting);
 dataRoutes.get('/getChannelsByUser', dataHandlers.getChannelsByUser);
 dataRoutes.get('/getUserIdByUserName', dataHandlers.getUserIdByUserName);
 dataRoutes.get('/getUserChannels', dataHandlers.getUserChannels);

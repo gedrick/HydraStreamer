@@ -106,6 +106,13 @@ const mutations = {
 };
 
 const actions = {
+  userIsHosting({ commit }, { username }) {
+    return axios
+      .get(`/data/userIsHosting?username=${username}`)
+      .then(result => {
+        return result.data;
+      });
+  },
   getPopularGames({ commit }) {
     return axios
       .get('/data/getPopularGames')

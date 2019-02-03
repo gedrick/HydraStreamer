@@ -1,9 +1,18 @@
 <template>
   <div class="channel-box flex-center" v-if="channel">
     <LoadingBox v-if="isLoading"></LoadingBox>
-    <div v-if="isOffline" class="channel-box__offline flex-center">
+    <div v-if="isOffline && !hostedChannel" class="channel-box__offline flex-center">
       <button @click="launchPlayer" class="button">
         <span class="orange">{{channel.name}}</span> <br>is offline. Reload?
+      </button>
+      <div class="horizontal">
+        <button @click="hideChannel" class="button--small">Hide for Now</button>
+        <button @click="playerRemoveChannel" class="button--small">Unfavorite</button>
+      </div>
+    </div>
+    <div v-if="isOffline && hostedChannel" class="channel-box__offline flex-center">
+      <button class="button">
+        <span class="orange">{{channel.name}}</span> <br>is currently hosting <span class="orange">{{hostedChannel.targetDisplayName}}</span>. Tune in?
       </button>
       <div class="horizontal">
         <button @click="hideChannel" class="button--small">Hide for Now</button>
@@ -21,7 +30,7 @@
     </div>
     <div
       v-show="!isLoading && !isOffline"
-      class="channel-box__container expand-to-fit"
+      class="channel-box__container"
       :id="'container--' + channel.name">
     </div>
   </div>
@@ -43,6 +52,8 @@ export default {
   },
   data() {
     return {
+      channelData: this.channel,
+
       // Switches
       isLoading: true,
       isLoaded: false,
@@ -62,7 +73,9 @@ export default {
       bOffline: null,
 
       // Extra settings
-      playerLoadTimeout: 5000
+      playerLoadTimeout: 5000,
+
+      hostedChannel: false
     };
   },
   mounted() {
@@ -137,6 +150,15 @@ export default {
       this.isLoading = false;
       this.isLoaded = false;
       this.isOffline = true;
+
+      this.$store.dispatch('userIsHosting', {
+        username: this.channel.name
+      }).then(result => {
+        if (result.isHosting) {
+          this.hostedChannel = result;
+        }
+      });
+
       console.log(`player ${this.channel.name} has gone or is offline`);
     },
     playerPlay() {
@@ -181,6 +203,8 @@ export default {
   }
 
   &__container {
+    width: calc(100% * (16/9));
+    height: 100%;
     z-index: 5;
   }
 }
