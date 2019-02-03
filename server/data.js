@@ -99,32 +99,22 @@ function getPopularGames(req, res) {
 }
 
 function userIsHosting(req, res) {
-  twitchApi.users.usersByName({
-    users: req.query.username
-  }, (err, response) => {
-    if (!err) {
-      const userID = response['users'][0]._id;
-      axios.get(`https://tmi.twitch.tv/hosts?include_logins=1&host=${userID}`)
-        .then(result => {
-          const host = result.data.hosts[0];
-          if (host.target_id) {
-            res.status(200).send({
-              isHosting: true,
-              targetID: host.target_id,
-              targetLogin: host.target_login,
-              targetDisplayName: host.target_display_name
-            });
-          } else {
-            res.status(200).json({
-              isHosting: false
-            });
-          }
+  const channelId = req.query.channelId;
+  axios.get(`https://tmi.twitch.tv/hosts?include_logins=1&host=${channelId}`)
+    .then(result => {
+      const host = result.data.hosts[0];
+      if (host.target_id) {
+        res.status(200).send({
+          isHosting: true,
+          channelId: host.target_id,
+          name: host.target_display_name
         });
-    } else {
-      console.log('(userIsHosting) error reached: ', err, response);
-      res.status(500).json(err);
-    }
-  });
+      } else {
+        res.status(200).json({
+          isHosting: false
+        });
+      }
+    });
 }
 
 module.exports = {

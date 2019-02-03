@@ -57,6 +57,15 @@ const getters = {
 };
 
 const mutations = {
+  setUserHost(state, { channelId, hostedChannelData }) {
+    const newFavorites = state.user.favorites.map(favorite => {
+      if (favorite.channelId === channelId) {
+        favorite.hosted = hostedChannelData;
+      }
+      return favorite;
+    });
+    Vue.set(state.user, 'favorites', newFavorites);
+  },
   setPopularGames(state, { games }) {
     Vue.set(state.games, 'popular', games);
   },
@@ -106,13 +115,6 @@ const mutations = {
 };
 
 const actions = {
-  userIsHosting({ commit }, { username }) {
-    return axios
-      .get(`/data/userIsHosting?username=${username}`)
-      .then(result => {
-        return result.data;
-      });
-  },
   getPopularGames({ commit }) {
     return axios
       .get('/data/getPopularGames')

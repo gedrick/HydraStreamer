@@ -3,7 +3,7 @@
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline && !hostedChannel" class="channel-box__offline flex-center">
       <button @click="launchPlayer" class="button">
-        <span class="orange">{{channel.name}}</span> <br>is offline. Reload?
+        <span class="orange">{{channelData.name}}</span> <br>is offline. Reload?
       </button>
       <div class="horizontal">
         <button @click="hideChannel" class="button--small">Hide for Now</button>
@@ -11,8 +11,8 @@
       </div>
     </div>
     <div v-if="isOffline && hostedChannel" class="channel-box__offline flex-center">
-      <button class="button">
-        <span class="orange">{{channel.name}}</span> <br>is currently hosting <span class="orange">{{hostedChannel.targetDisplayName}}</span>. Tune in?
+      <button class="button" @click="watchHostedStreamer">
+        <span class="orange">{{channelData.name}}</span> <br>is currently hosting <span class="orange">{{hostedChannel.name}}</span>. Tune in?
       </button>
       <div class="horizontal">
         <button @click="hideChannel" class="button--small">Hide for Now</button>
@@ -29,9 +29,10 @@
       </ChannelOverlay>
     </div>
     <div
+      ref="playerContainer"
       v-show="!isLoading && !isOffline"
       class="channel-box__container"
-      :id="'container--' + channel.name">
+      :id="'container--' + channelData.name">
     </div>
   </div>
 </template>
@@ -39,6 +40,8 @@
 <script>
 import LoadingBox from '@/components/LoadingBox.vue';
 import ChannelOverlay from '@/components/ChannelOverlay.vue';
+import axios from 'axios';
+import { mapMutations } from 'vuex';
 
 const twitch = window.Twitch;
 
@@ -52,7 +55,7 @@ export default {
   },
   data() {
     return {
-      channelData: this.channel,
+      hostedChannel: false,
 
       // Switches
       isLoading: true,
@@ -68,15 +71,17 @@ export default {
 
       // Bound functions for event listeners.
       bPlaying: null,
-      bPaused: null,
       bEnded: null,
       bOffline: null,
 
       // Extra settings
-      playerLoadTimeout: 5000,
-
-      hostedChannel: false
+      playerLoadTimeout: 5000
     };
+  },
+  computed: {
+    channelData() {
+      return this.channel;
+    }
   },
   mounted() {
     this.launchPlayer();
@@ -85,19 +90,33 @@ export default {
     if (this.player && this.player.removeEventListener) {
       this.player.pause();
       this.player.removeEventListener(twitch.Player.PLAYING, this.bPlaying);
-      this.player.removeEventListener(twitch.Player.PAUSED, this.bPaused);
       this.player.removeEventListener(twitch.Player.ENDED, this.bEnded);
       this.player.removeEventListener(twitch.Player.OFFLINE, this.bOffline);
     }
   },
   methods: {
+    ...mapMutations(['setUserHost']),
+    watchHostedStreamer() {
+      if (!this.hostedChannel) {
+        return;
+      }
+
+      this.player = null;
+
+      this.setUserHost({
+        channelId: this.channelData.channelId,
+        hostedChannelData: this.hostedChannel
+      });
+
+      this.launchPlayer();
+    },
     hideChannel() {
-      this.$store.commit('unfavorite', this.channel);
+      this.$store.commit('unfavorite', this.channelData);
     },
     playerRemoveChannel() {
-      const channelId = this.channel.id;
+      const channelId = this.channelData.id;
       this.$store.dispatch('unfavorite', {
-        channelData: this.channel
+        channelData: this.channelData
       });
     },
     launchPlayer() {
@@ -105,10 +124,13 @@ export default {
       this.isLoaded = false;
       this.isOffline = false;
 
+      const channelName = this.channelData.hosted ? this.channelData.hosted.name : this.channelData.name;
+      console.log('trying to launch player with ', channelName, this.channelData);
+
       const options = {
         width: '100%',
         height: '100%',
-        channel: this.channel.name,
+        channel: channelName,
         muted: true,
         autoplay: true,
         controls: false
@@ -116,21 +138,18 @@ export default {
 
       this.bindFunctions();
 
-      const containerId = `container--${this.channel.name}`;
+      const containerId = `container--${this.channelData.name}`;
       this.player = new twitch.Player(containerId, options);
 
       this.player.setVolume(1);
       this.playerToggleMuted(true);
 
       this.player.addEventListener(twitch.Player.PLAYING, this.bPlaying);
-      this.player.addEventListener(twitch.Player.PAUSED, this.bPaused);
       this.player.addEventListener(twitch.Player.ENDED, this.bEnded);
       this.player.addEventListener(twitch.Player.OFFLINE, this.bOffline);
-
     },
     bindFunctions() {
       this.bPlaying = this.playing.bind(this);
-      this.bPaused = this.paused.bind(this);
       this.bEnded = this.ended.bind(this);
       this.bOffline = this.offline.bind(this);
     },
@@ -138,28 +157,29 @@ export default {
       this.isLoading = false;
       this.isLoaded = true;
       this.qualities = this.player.getQualities();
-      console.log(`player ${this.channel.name} has started playing`);
-    },
-    paused() {
-      console.log(`player ${this.channel.name} has paused`);
     },
     ended() {
-      console.log(`player ${this.channel.name} has ended`);
+      console.log(`player ${this.channelData.name} has ended`);
     },
     offline() {
       this.isLoading = false;
       this.isLoaded = false;
       this.isOffline = true;
 
-      this.$store.dispatch('userIsHosting', {
-        username: this.channel.name
-      }).then(result => {
-        if (result.isHosting) {
-          this.hostedChannel = result;
-        }
-      });
+      this.player = null;
 
-      console.log(`player ${this.channel.name} has gone or is offline`);
+      // Empty existing player container, if it exists.
+      const oldPlayer = this.$refs['playerContainer'];
+      while (oldPlayer.firstChild) oldPlayer.removeChild(oldPlayer.firstChild);
+
+      axios
+        .get(`/data/userIsHosting?channelId=${this.channelData.channelId}`)
+        .then(result => {
+          const channel = result.data;
+          if (channel.isHosting) {
+            this.hostedChannel = channel;
+          }
+        });
     },
     playerPlay() {
       this.player.play();
