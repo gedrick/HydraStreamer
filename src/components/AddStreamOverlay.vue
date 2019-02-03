@@ -1,11 +1,11 @@
 <template>
   <div class="add-stream-overlay expand-to-fit">
     <div class="add-stream-overlay__container">
-      <span @click="$emit('closeOverlay')" class="add-stream-overlay__close icon fa fa-close"></span>
+      <span v-if="favorites.length > 0" @click="$emit('closeOverlay')" class="add-stream-overlay__close icon fa fa-close"></span>
 
       <div class="add-stream-overlay__section">
-        <h2 @click="followsVisible = !followsVisible"><span class="icon fa fa-list"></span> Your Followed Streamers <span class="online-only">(online users only)</span></h2>
-        <Follows v-if="followsVisible"></Follows>
+        <h2 @click="followsVisible = !followsVisible"><span class="icon fa fa-list"></span> Online Streamers You Follow</h2>
+        <Follows v-if="followsVisible && followed.length"></Follows>
       </div>
 
       <div class="add-stream-overlay__section">
@@ -41,15 +41,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['twitchID'])
+    ...mapGetters(['followed', 'favorites', 'twitchID'])
   },
   beforeMount() {
     this.$store.dispatch('getUserChannels', {
       userID: this.twitchID
     });
-  },
-  mounted() {
-    this.$el.scrollTop = 0;
   }
 }
 </script>
@@ -82,6 +79,7 @@ export default {
   }
 
   &__close {
+    cursor: pointer;
     position: absolute;
     top: 0;
     right: 20px;

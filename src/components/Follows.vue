@@ -1,6 +1,7 @@
 <template>
   <div class="follows">
-    <p v-if="!followedLive.length">Doesn't look like anyone you follow is online. Maybe try searching for a new streamer?</p>
+    <p v-if="isLoading">Checking if any of your follows are online...</p>
+    <p v-if="!isLoading && !followedLive.length">Doesn't look like anyone you follow is online. Maybe try searching for a new streamer?</p>
     <ChannelBadge
       v-for="channel in followedLive"
       :channel="channel"
@@ -17,18 +18,25 @@ export default {
   components: {
     ChannelBadge
   },
+  data() {
+    return {
+      isLoading: false
+    };
+  },
   computed: {
     ...mapGetters(['followed', 'followedLive'])
   },
-  mounted() {
+  beforeMount() {
     // Loop through followed and search query for all.
-    if (!this.followedLive.length) {
-      const followedIds = [];
-      this.followed.map(follow => followedIds.push(follow.channel._id));
-      this.$store.dispatch('getFollowedStatus', {
-        channel: followedIds.join(',')
-      });
-    }
+    this.isLoading = true;
+    const followedIds = [];
+    this.followed.map(follow => followedIds.push(follow.channel._id));
+
+    this.$store.dispatch('getFollowedStatus', {
+      channel: followedIds.join(',')
+    }).then((channels) => {
+      this.isLoading = false;
+    });
   }
 }
 </script>

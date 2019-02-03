@@ -1,5 +1,6 @@
 <template>
   <div class="popular-games">
+    <p v-if="isLoading">Querying for the most popular games...</p>
     <GameBadge v-for="gameResult in popularGames" :key="gameResult.game.name" :game="gameResult.game"></GameBadge>
   </div>
 </template>
@@ -12,11 +13,19 @@ export default {
   components: {
     GameBadge
   },
+  data() {
+    return {
+      isLoading: false
+    }
+  },
   computed: {
     ...mapGetters(['popularGames'])
   },
-  beforeMount() {
-    this.$store.dispatch('getPopularGames');
+  mounted() {
+    this.isLoading = true;
+    this.$store.dispatch('getPopularGames').then(() => {
+      this.isLoading = false;
+    });
   }
 }
 </script>

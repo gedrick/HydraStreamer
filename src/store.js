@@ -110,17 +110,13 @@ const actions = {
     return axios
       .get('/data/getPopularGames')
       .then(result => {
-        console.log(result.data.top);
-
         commit('setPopularGames', {
           games: result.data.top
         });
-      })
-      .catch(errors => {
-        console.log('errors hit:', errors);
       });
   },
   getFollowedStatus({ commit }, { channel }) {
+    commit('setFollowedLive', { streams: [] });
     return axios
       .get(`/data/getChannelLiveStatus?channel=${channel}`)
       .then(result => {
