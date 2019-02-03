@@ -107,7 +107,7 @@ function userIsHosting(req, res) {
         res.status(200).send({
           isHosting: true,
           channelId: host.target_id,
-          name: host.target_display_name
+          name: host.target_login
         });
       } else {
         res.status(200).json({

@@ -18,23 +18,10 @@
 
     <WarningScreen></WarningScreen>
 
-    <AddStreamOverlay @closeOverlay="settingsVisible = false" v-if="!favorites.length || (favorites.length && settingsVisible)"></AddStreamOverlay>
-
-    <!-- <div v-if="!favorites.length || (favorites.length && settingsVisible)" class="watch__add expand-to-fit">
-      <div class="watch__actions" @click.self="settingsVisible = false">
-        <div class="watch__action-items" :class="{'minimized': showSearch || showFavorites}">
-          <MyFavorites @open="toggleFavorites"></MyFavorites>
-          <SearchChannels @open="toggleSearch"></SearchChannels>
-        </div>
-        <div class="watch__search">
-          <Follows v-if="showFavorites"></Follows>
-          <Search v-if="showSearch"></Search>
-        </div>
-        <div v-if="showFavorites || showSearch" @click="hideSearch" class="watch__close-search">
-          close search
-        </div>
-      </div>
-    </div> -->
+    <AddStreamOverlay
+      v-if="!favorites.length || (favorites.length && settingsVisible)"
+      @closeOverlay="settingsVisible = false">
+    </AddStreamOverlay>
   </div>
 </template>
 

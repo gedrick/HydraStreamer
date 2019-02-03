@@ -2,12 +2,12 @@
   <div class="chat-panel">
     <div class="chat-panel__tabs">
       <div
-        class="chat-panel__tab"
-        @click="selectChat(channel.channelId)"
-        :class="{'selected': activeChannel === channel.channelId}"
         v-for="channel in channels"
+        class="chat-panel__tab"
+        :class="{'selected': activeChannel === channel.channelId}"
+        @click="selectChat(channel.channelId)"
         :key="channel.channelId">
-        {{channel.name}}
+        {{channel.hosted ? channel.hosted.name : channel.name}}
       </div>
     </div>
     <div class="chat-panel__container">
@@ -42,7 +42,7 @@ export default {
     }
   },
   mounted() {
-    this.activeChannel = this.channels[0].channelId;
+    this.selectChat(this.channels[0].channelId);
   }
 };
 </script>

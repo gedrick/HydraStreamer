@@ -4,7 +4,7 @@
       frameborder="0"
       scrolling="yes"
       id="chat_embed"
-      :src="'https://www.twitch.tv/embed/' + channel.name + '/chat'">
+      :src="'https://www.twitch.tv/embed/' + channelName + '/chat'">
     </iframe>
   </div>
 </template>
@@ -13,6 +13,11 @@
 export default {
   props: {
     channel: Object
+  },
+  computed: {
+    channelName() {
+      return this.channel.hosted ? this.channel.hosted.name : this.channel.name
+    }
   }
 }
 </script>
