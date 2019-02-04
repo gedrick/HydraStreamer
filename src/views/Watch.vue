@@ -7,7 +7,7 @@
 
     <div class="watch__view" :class="{'chat-open': chatVisible}">
       <div class="watch__welcome" v-if="!favorites.length">
-        Welcome! To start watching your favorite streamers, click&nbsp;<b>Add a Stream</b>.
+        <div>To start watching your favorite <br>streamers, click&nbsp;<b>Add a Stream</b>.</div>
       </div>
       <div class="watch__videos" v-if="favorites.length">
         <Grid :channels="favorites"></Grid>
