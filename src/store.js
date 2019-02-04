@@ -10,11 +10,15 @@ const state = {
   followed: [],
   followedLive: [],
   searchResults: [],
+  popularGameStreams: {},
   games: {},
   appData: null
 };
 
 const getters = {
+  popularGameStreams: state => {
+    return state.popularGameStreams;
+  },
   popularGames: state => {
     return state.games.popular;
   },
@@ -57,6 +61,9 @@ const getters = {
 };
 
 const mutations = {
+  setPopularGameStreams(state, { game, streams }) {
+    Vue.set(state.popularGameStreams, game, streams);
+  },
   setUserHost(state, { channelId, hostedChannelData }) {
     const newFavorites = state.user.favorites.map(favorite => {
       if (favorite.channelId === channelId) {
@@ -115,6 +122,17 @@ const mutations = {
 };
 
 const actions = {
+  getPopularGameStreams({ commit }, { game }) {
+    return axios
+      .get(`/data/getStreamsByGame?game=${game}`)
+      .then(result => {
+        const streams = result.data;
+        commit('setPopularGameStreams', {
+          game,
+          streams
+        });
+      });
+  },
   getPopularGames({ commit }) {
     return axios
       .get('/data/getPopularGames')

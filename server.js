@@ -112,6 +112,7 @@ dataRoutes.get('/getUserIdByUserName', dataHandlers.getUserIdByUserName);
 dataRoutes.get('/getUserChannels', dataHandlers.getUserChannels);
 dataRoutes.get('/getChannelLiveStatus', dataHandlers.getChannelLiveStatus);
 dataRoutes.get('/getPopularGames', dataHandlers.getPopularGames);
+dataRoutes.get('/getStreamsByGame', dataHandlers.getStreamsByGame);
 server.use('/data', dataRoutes);
 
 // Home route.
