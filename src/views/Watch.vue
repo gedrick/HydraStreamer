@@ -6,11 +6,14 @@
     </Header>
 
     <div class="watch__view" :class="{'chat-open': chatVisible}">
-      <div class="watch__videos">
-        <Grid v-if="favorites.length" :channels="favorites"></Grid>
+      <div class="watch__welcome" v-if="!favorites.length">
+        Welcome! To start watching your favorite streamers, click&nbsp;<b>Add a Stream</b>.
       </div>
-      <div class="watch__chat" v-if="chatVisible">
-        <ChatPanel v-if="favorites.length" :channels="favorites"></ChatPanel>
+      <div class="watch__videos" v-if="favorites.length">
+        <Grid :channels="favorites"></Grid>
+      </div>
+      <div class="watch__chat" v-if="chatVisible && favorites.length">
+        <ChatPanel :channels="favorites"></ChatPanel>
       </div>
     </div>
 
@@ -19,7 +22,7 @@
     <WarningScreen></WarningScreen>
 
     <AddStreamOverlay
-      v-if="!favorites.length || (favorites.length && settingsVisible)"
+      v-if="settingsVisible"
       @closeOverlay="settingsVisible = false">
     </AddStreamOverlay>
   </div>
@@ -106,6 +109,13 @@ export default {
         grid-template-columns: 70% 30%;
       }
     }
+  }
+
+  &__welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
   }
 
   &__action-items {

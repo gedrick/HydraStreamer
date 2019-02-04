@@ -1,7 +1,7 @@
 <template>
   <div class="add-stream-overlay expand-to-fit">
     <div class="add-stream-overlay__container">
-      <span v-if="favorites.length > 0" @click="$emit('closeOverlay')" class="add-stream-overlay__close icon fa fa-close"></span>
+      <span @click="$emit('closeOverlay')" class="add-stream-overlay__close icon fa fa-close"></span>
 
       <div class="add-stream-overlay__section">
         <h2 @click="followsVisible = !followsVisible"><span class="icon fa fa-list"></span> Online Streamers You Follow</h2>
