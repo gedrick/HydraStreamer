@@ -12,7 +12,7 @@
     </div>
     <div v-if="isOffline && hostedChannel" class="channel-box__offline flex-center">
       <button class="button" @click="watchHostedStreamer">
-        <span class="orange">{{channelData.name}}</span> <br>is currently hosting <span class="orange">{{hostedChannel.name}}</span>. Tune in?
+        <span class="orange">{{channelData.name}}</span> <br>is hosting <span class="orange">{{hostedChannel.name}}</span>. Tune in?
       </button>
       <div class="horizontal">
         <button @click="hideChannel" class="button--small">Hide for Now</button>
