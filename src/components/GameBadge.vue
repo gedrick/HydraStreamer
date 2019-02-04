@@ -1,7 +1,8 @@
 <template>
   <div class="game-badge" @click="$emit('select')">
     <div class="game-badge__image">
-      <img :src="game.box.small">
+      <img class="mobile-only" :src="game.box.small">
+      <img class="desktop-only" :src="game.box.medium">
     </div>
   </div>
 </template>

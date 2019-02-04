@@ -1,3 +1,5 @@
+@import './breakpoints.scss';
+
 // Colors
 $background-color: #02497f;
 $light-main: #0c95fe;
@@ -61,6 +63,21 @@ $base-font: 'Lato', sans-serif;
 
 .orange {
   color: $bright-orange;
+}
+
+// Toggling visibility based on breakpoint.
+.mobile-only {
+  display: none;
+  @include mq('tablet-wide', 'max') {
+    display: block;
+  }
+}
+
+.desktop-only {
+  display: none;
+  @include mq('tablet-wide') {
+    display: block;
+  }
 }
 
 // Add button
