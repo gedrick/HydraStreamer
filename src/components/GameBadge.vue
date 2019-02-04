@@ -1,5 +1,5 @@
 <template>
-  <div class="game-badge" @click="searchByGame">
+  <div class="game-badge" @click="$emit('select')">
     <div class="game-badge__image">
       <img :src="game.box.small">
     </div>
@@ -7,19 +7,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
   props: {
     game: Object
-  },
-  computed: {
-    ...mapGetters(['popularGames']),
-  },
-  methods: {
-    searchByGame() {
-      return false;
-    }
   }
 }
 </script>

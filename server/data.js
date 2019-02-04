@@ -117,6 +117,22 @@ function userIsHosting(req, res) {
     });
 }
 
+function getStreamsByGame(req, res) {
+  const game = req.query.game;
+  twitchApi.streams.live({
+    game: game,
+    limit: 10
+  }, (err, response) => {
+    if (!err) {
+      const streams = response.streams;
+      res.status(200).send(streams);
+    } else {
+      console.log('(getStreamsByGame) error reached: ', err, response);
+      res.status(500).json(err);
+    }
+  });
+}
+
 module.exports = {
   searchStreams,
   searchGames,
@@ -127,4 +143,5 @@ module.exports = {
   getUserChannels,
   getChannelLiveStatus,
   getPopularGames,
+  getStreamsByGame
 };

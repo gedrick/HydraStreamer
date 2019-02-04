@@ -125,8 +125,6 @@ export default {
       this.isOffline = false;
 
       const channelName = this.channelData.hosted ? this.channelData.hosted.name : this.channelData.name;
-      console.log('trying to launch player with ', channelName, this.channelData);
-
       const options = {
         width: '100%',
         height: '100%',
