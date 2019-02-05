@@ -219,7 +219,7 @@ const actions = {
   },
   search({ commit }, { query }) {
     return axios
-      .get(`/data/searchStreams?query=${query}&limit=10`)
+      .get(`/data/searchStreams?query=${query}`)
       .then(results => {
         const streams = results.data.streams;
         commit('setSearchResults', {
