@@ -90,8 +90,6 @@ $base-font: 'Lato', sans-serif;
   transition-property: background-color;
 
   .icon {
-    // transition-duration: 0.2s;
-    // transition-property: left, top, font-size;
     color: $bright-orange;
     font-size: 120px;
   }
@@ -107,6 +105,16 @@ $base-font: 'Lato', sans-serif;
     .icon {
       color: $white;
     }
+  }
+}
+
+// Eva Icons
+svg.eva {
+  width: 30px;
+  height: 30px;
+  fill: #fff;
+  &:hover {
+    fill: $bright-orange;
   }
 }
 

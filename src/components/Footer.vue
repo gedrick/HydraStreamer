@@ -5,17 +5,17 @@
     </div>
     <div class="footer__icon">
       <a href="https://github.com/gedrick/HydraStreamer" target="_blank">
-        <eva-icon name="github" fill="white"></eva-icon>
+        <eva-icon name="github"></eva-icon>
       </a>
     </div>
     <div class="footer__icon">
       <a href="https://twitter.com/nostalgiatriggr" target="_blank">
-        <eva-icon name="twitter" fill="white"></eva-icon>
+        <eva-icon name="twitter"></eva-icon>
       </a>
     </div>
     <div class="footer__icon">
       <a href="/logout">
-        <eva-icon name="log-out" fill="white"></eva-icon>
+        <eva-icon name="log-out"></eva-icon>
       </a>
     </div>
   </div>
@@ -50,6 +50,7 @@
   svg.eva {
     width: 30px;
     height: 30px;
+    fill: #fff;
     &:hover {
       fill: $bright-orange;
     }

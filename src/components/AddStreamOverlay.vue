@@ -4,17 +4,26 @@
       <span @click="$emit('closeOverlay')" class="add-stream-overlay__close icon fa fa-close"></span>
 
       <div class="add-stream-overlay__section">
-        <h2 @click="followsVisible = !followsVisible"><span class="icon fa fa-list"></span> Online Streamers You Follow</h2>
+        <div @click="followsVisible = !followsVisible" class="add-stream-overlay__section-header">
+          <eva-icon name="list"></eva-icon>
+          <h2>&nbsp;Online Streamers You Follow</h2>
+        </div>
         <Follows v-if="followsVisible && followed.length"></Follows>
       </div>
 
       <div class="add-stream-overlay__section">
-        <h2 @click="popularGamesVisible = !popularGamesVisible"><span class="icon fa fa-list"></span> Most Popular Games <span class="online-only">(click to search by game)</span></h2>
+        <div class="add-stream-overlay__section-header">
+          <eva-icon name="activity"></eva-icon>
+          <h2 @click="popularGamesVisible = !popularGamesVisible">&nbsp;Most Popular Games <span class="online-only">(click to search by game)</span></h2>
+        </div>
         <PopularGames v-if="popularGamesVisible"></PopularGames>
       </div>
 
       <div class="add-stream-overlay__section">
-        <h2 @click="searchVisible = !searchVisible"><span class="icon fa fa-search"></span> Search</h2>
+        <div class="add-stream-overlay__section-header">
+          <eva-icon name="search"></eva-icon>
+          <h2 @click="searchVisible = !searchVisible">&nbsp;Search</h2>
+        </div>
         <Search v-if="searchVisible"></Search>
       </div>
     </div>
@@ -51,7 +60,6 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
 @import '../styles/variables';
 
@@ -78,6 +86,21 @@ export default {
     overflow-y: scroll;
   }
 
+  &__section-header {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    select
+    &:hover {
+      svg.eva {
+        fill: $bright-orange;
+      }
+      h2 {
+        color: $bright-orange;
+      }
+    }
+  }
+
   &__close {
     cursor: pointer;
     position: absolute;
@@ -99,10 +122,5 @@ export default {
       font-size: 12px;
     }
   }
-  .icon {
-    color: $bright-orange;
-  }
 }
-
-
 </style>
