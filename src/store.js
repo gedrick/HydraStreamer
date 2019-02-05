@@ -119,18 +119,12 @@ const actions = {
     return axios
       .post(`/api/follow`, {
         channelId
-      })
-      .then(response => {
-        console.log('follow result:', response);
       });
   },
   unfollow({ commit }, { channelId }) {
     return axios
       .post(`/api/unfollow`, {
         channelId
-      })
-      .then(response => {
-        console.log('follow result:', response);
       });
   },
   getPopularGameStreams({ commit }, { game }) {
