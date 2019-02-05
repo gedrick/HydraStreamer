@@ -1,15 +1,38 @@
 const User = require('./models/user');
 const twitchApi = require('twitch-api-v5');
 const settings = require('./settings');
+const moment = require('moment');
 
 twitchApi.clientID = settings.twitch.clientId;
 twitchApi.secret = settings.twitch.secret;
 
 function stats(req, res) {
   const stats = {};
+  if (!req.isAuthenticated()) {
+    return res.status(401).send({
+      code: 401,
+      message: 'Not logged in'
+    });
+  }
   User.countDocuments({}, (err, count) => {
-    stats.count = count;
-    res.status(200).json(stats);
+    stats.users = count;
+    const cutoff = moment().subtract(10, 'minutes');
+    User.find({ last_online: {$exists: true, $ne: null, $gt: cutoff} }, (err, docs) => {
+      if (err) {
+        res.status(500).json({
+          error: err,
+          message: 'Failed to get stats'
+        });
+      } else {
+        let streamCount = 0;
+        docs.map(doc => {
+          streamCount += doc.favorites.length;
+        });
+        stats.online = docs.length;
+        stats.activeStreams = streamCount;
+        res.status(200).json(stats);
+      }
+    });
   });
 }
 

@@ -126,7 +126,7 @@ const actions = {
     return axios.get('/api/stats')
       .then(result => {
         commit('setStats', {
-          stats: result
+          stats: result.data
         });
       });
   },
