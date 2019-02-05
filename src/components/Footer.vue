@@ -67,6 +67,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: left;
   }
 
   &__user-image {
