@@ -5,7 +5,7 @@
         <input
           v-model="terms"
           @keypress="triggerSearch"
-          placeholder="start typing..."
+          @focus="terms = ''"
           class="text-input"
           ref="terms"
           type="text">
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      terms: '',
+      terms: 'start typing...',
       working: false,
 
       searchTimeout: null
