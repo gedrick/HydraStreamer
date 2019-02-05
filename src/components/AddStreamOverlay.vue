@@ -13,18 +13,18 @@
 
       <div class="add-stream-overlay__section">
         <div class="add-stream-overlay__section-header">
-          <eva-icon name="activity"></eva-icon>
-          <h2 @click="popularGamesVisible = !popularGamesVisible">&nbsp;Most Popular Games <span class="online-only">(click to search by game)</span></h2>
-        </div>
-        <PopularGames v-if="popularGamesVisible"></PopularGames>
-      </div>
-
-      <div class="add-stream-overlay__section">
-        <div class="add-stream-overlay__section-header">
           <eva-icon name="search"></eva-icon>
           <h2 @click="searchVisible = !searchVisible">&nbsp;Search</h2>
         </div>
         <Search v-if="searchVisible"></Search>
+      </div>
+
+      <div class="add-stream-overlay__section">
+        <div class="add-stream-overlay__section-header">
+          <eva-icon name="activity"></eva-icon>
+          <h2 @click="popularGamesVisible = !popularGamesVisible">&nbsp;Most Popular Games <span class="online-only">(click to search by game)</span></h2>
+        </div>
+        <PopularGames v-if="popularGamesVisible"></PopularGames>
       </div>
     </div>
   </div>

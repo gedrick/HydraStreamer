@@ -4,53 +4,52 @@
       <div class="search__terms">
         <input
           v-model="terms"
-          @keypress="doSearch"
-          placeholder="search by stream or game"
+          @keypress="triggerSearch"
+          placeholder="start typing..."
           class="text-input"
           ref="terms"
           type="text">
       </div>
       <div class="search__results">
-        <ChannelResult
-          v-for="result in searchResults"
-          :result="result"
-          :key="result._id">
-        </ChannelResult>
+        <ChannelBadge
+          v-for="channel in searchResults"
+          :channel="channel"
+          :key="channel._id">
+        </ChannelBadge>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ChannelResult from '@/components/ChannelResult.vue';
+import ChannelBadge from '@/components/ChannelBadge.vue';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Search',
   components: {
-    ChannelResult
+    ChannelBadge
   },
   data() {
     return {
       terms: '',
-      working: false
+      working: false,
+
+      searchTimeout: null
     };
   },
   computed: {
     ...mapGetters(['searchResults'])
   },
   methods: {
+    triggerSearch() {
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = setTimeout(this.doSearch, 300);
+    },
     doSearch() {
-      if (this.terms.length >= 3 && !this.working) {
-        this.working = true;
-        this.$store
-          .dispatch('search', {
-            query: this.terms
-          })
-          .then(() => {
-            this.working = false;
-          });
-      }
+      this.$store.dispatch('search', {
+        query: this.terms
+      });
     }
   }
 };
@@ -61,17 +60,23 @@ export default {
 @import '../styles/variables';
 
 .search {
+  &__terms {
+    background-color: $light-main;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 22px;
+  }
+
   &__container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: flex-start;
   }
 
   &__results {
-    max-height: 40vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }
 </style>

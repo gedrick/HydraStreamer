@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans');
 @import './breakpoints.scss';
 
 // Colors
@@ -24,7 +25,8 @@ $box-border-width: 2px;
 $button-font-size: 36px;
 
 // Fonts
-$base-font: 'Lato', sans-serif;
+// $base-font: 'Lato', sans-serif;
+$base-font: 'Alegreya Sans', sans-serif;
 
 // Animations
 @keyframes wiggle {
@@ -120,15 +122,15 @@ svg.eva {
 
 // Input box
 .text-input {
-  border: 3px solid $white;
-  padding: 25px 20px;
-  background-color: transparent;
-  color: $white;
-  font-size: 25px;
-  font-family: inherit;
+  border: none;
+  padding: 10px;
+  background-color: #fff;
+  color: #000;
+  font-size: 20px;
 
   &:focus {
-    background-color: $light-main;
+    background-color: #fff;
+    box-shadow: 0.2rem 0.8rem 1.6rem #000;
   }
 
   &::placeholder {
