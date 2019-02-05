@@ -53,7 +53,7 @@ function unfavorite(req, res) {
 
 function follow(req, res) {
   const userID = req.user.id;
-  const channelId = req.body.channelId
+  const channelId = req.body.channelId;
 
   twitchApi.users.followChannel({
     userID: userID,
@@ -69,7 +69,7 @@ function follow(req, res) {
 
 function unfollow(req, res) {
   const userID = req.user.id;
-  const channelId = req.body.channelId
+  const channelId = req.body.channelId;
 
   twitchApi.users.followChannel({
     userID: userID,
