@@ -5,10 +5,20 @@ const settings = require('./settings');
 twitchApi.clientID = settings.twitch.clientId;
 twitchApi.secret = settings.twitch.secret;
 
+function stats(req, res) {
+  const stats = {};
+  User.countDocuments({}, (err, count) => {
+    stats.count = count;
+    res.status(200).json(stats);
+  });
+}
+
 function me(req, res) {
   if (req.isAuthenticated())  {
-    res.json({
-      user: req.user
+    User.findByIdAndUpdate(req.user._id, {$set: {last_online: moment()}}, (err, user) => {
+      res.json({
+        user: req.user
+      });
     });
   }
 }
@@ -84,6 +94,7 @@ function unfollow(req, res) {
 }
 
 module.exports = {
+  stats,
   me,
 
   favorite,

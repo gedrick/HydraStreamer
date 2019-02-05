@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
     type: Object,
     default: []
   },
+  last_online: {
+    type: Date,
+    required: false
+  },
   access_token: {
     type: String,
     required: true,

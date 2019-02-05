@@ -11,10 +11,14 @@ const state = {
   followedLive: [],
   searchResults: [],
   popularGameStreams: {},
-  games: {}
+  games: {},
+  stats: {}
 };
 
 const getters = {
+  stats: state => {
+    return state.stats;
+  },
   popularGameStreams: state => {
     return state.popularGameStreams;
   },
@@ -57,6 +61,9 @@ const getters = {
 };
 
 const mutations = {
+  setStats(state, { stats }) {
+    Vue.set(state, 'stats', stats);
+  },
   setPopularGameStreams(state, { game, streams }) {
     Vue.set(state.popularGameStreams, game, streams);
   },
@@ -115,6 +122,14 @@ const mutations = {
 };
 
 const actions = {
+  getStats({ commit }) {
+    return axios.get('/api/stats')
+      .then(result => {
+        commit('setStats', {
+          stats: result
+        });
+      });
+  },
   follow({ commit }, { channelId }) {
     return axios
       .post(`/api/follow`, {

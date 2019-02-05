@@ -5,6 +5,7 @@ const passport = require('passport');
 const twitchStrategy = require('passport-twitch').Strategy;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const moment = require('moment');
 
 const host = process.env.HOST || 'http://localhost:8080';
 const port = process.env.PORT || 3000;
@@ -49,6 +50,7 @@ passport.use(new twitchStrategy({
     username: profile.displayName,
     email: profile.email,
     avatar: profile._json.logo,
+    last_online: moment(),
     access_token: encrypt(accessToken),
     refresh_token: encrypt(refreshToken)
   }).then((result) => {
@@ -63,7 +65,7 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (id, done) {
   // Retrieve user by stored user id.
-  User.findById(id, (err, user) => {
+  User.findByIdAndUpdate(id, {$set: {last_online: moment()} }, (err, user) => {
     if (err) {
       console.log('deserializeUser error:', err);
     }
@@ -94,6 +96,7 @@ function isAuthenticated(req, res, next) {
 const apiRoutes = express.Router();
 const apiHandlers = require('./server/api.js');
 apiRoutes.use(isAuthenticated);
+apiRoutes.get('/stats', apiHandlers.stats);
 apiRoutes.get('/me', apiHandlers.me);
 apiRoutes.post('/favorite', apiHandlers.favorite);
 apiRoutes.post('/unfavorite', apiHandlers.unfavorite);

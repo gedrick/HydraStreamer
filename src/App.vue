@@ -7,7 +7,8 @@
 <script>
 export default {
   beforeMount() {
-    this.$store.dispatch('getMe');
+    this.$store.dispatch('getMe')
+      .then(this.$store.dispatch('getStats'));
   }
 }
 </script>
