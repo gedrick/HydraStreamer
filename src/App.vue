@@ -5,9 +5,34 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
+  data() {
+    return {
+      userPingInterval: null,
+      liveStatsInterval: null
+    };
+  },
+  mounted() {
+    this.userPingInterval = setInterval(this.userPing, 10 * 60 * 1000);  // every 10 minutes
+    this.liveStatsInterval = setInterval(this.liveStats, 5 * 60 * 1000); // every 5 minutes
+  },
   beforeMount() {
-    this.$store.dispatch('getMe');
+    this.$store.dispatch('getMe')
+      .then(this.$store.dispatch('getStats'));
+  },
+  beforeDestroy() {
+    clearInterval(this.userPingInterval);
+    clearInterval(this.liveStatsInterval);
+  },
+  methods: {
+    userPing() {
+      this.$store.dispatch('getMe');
+    },
+    liveStats() {
+      this.$store.dispatch('getStats');
+    }
   }
 }
 </script>
