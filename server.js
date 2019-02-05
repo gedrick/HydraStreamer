@@ -95,9 +95,10 @@ const apiRoutes = express.Router();
 const apiHandlers = require('./server/api.js');
 apiRoutes.use(isAuthenticated);
 apiRoutes.get('/me', apiHandlers.me);
-apiRoutes.get('/app', apiHandlers.app);
 apiRoutes.post('/favorite', apiHandlers.favorite);
 apiRoutes.post('/unfavorite', apiHandlers.unfavorite);
+apiRoutes.post('/follow', apiHandlers.follow);
+apiRoutes.post('/unfollow', apiHandlers.unfollow);
 server.use('/api', apiRoutes);
 
 // Set up data routes.

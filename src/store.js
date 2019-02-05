@@ -11,8 +11,7 @@ const state = {
   followedLive: [],
   searchResults: [],
   popularGameStreams: {},
-  games: {},
-  appData: null
+  games: {}
 };
 
 const getters = {
@@ -54,9 +53,6 @@ const getters = {
   },
   searchResults: state => {
     return state.searchResults;
-  },
-  appData: state => {
-    return state.appData;
   }
 };
 
@@ -115,13 +111,28 @@ const mutations = {
       streams.splice(streams.indexOf(name), 1);
     }
     Vue.set(state, 'favorites', streams);
-  },
-  setAppData(state, { data }) {
-    Vue.set(state, 'appData', data);
   }
 };
 
 const actions = {
+  follow({ commit }, { channelId }) {
+    return axios
+      .post(`/api/follow`, {
+        channelId
+      })
+      .then(response => {
+        console.log('follow result:', response);
+      });
+  },
+  unfollow({ commit }, { channelId }) {
+    return axios
+      .post(`/api/unfollow`, {
+        channelId
+      })
+      .then(response => {
+        console.log('follow result:', response);
+      });
+  },
   getPopularGameStreams({ commit }, { game }) {
     return axios
       .get(`/data/getStreamsByGame?game=${game}`)
@@ -194,15 +205,6 @@ const actions = {
             isLoggedIn: true
           });
         }
-      });
-  },
-  getApp({ commit }) {
-    return axios.get('/api/app')
-      .then(result => {
-        const appData = result.data;
-        commit('setAppData', {
-          data: appData
-        });
       });
   },
   getUserChannels({ commit }, { userID }) {

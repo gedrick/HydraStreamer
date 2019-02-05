@@ -1,20 +1,14 @@
 const User = require('./models/user');
-const App = require('./models/app');
+const twitchApi = require('twitch-api-v5');
+const settings = require('./settings');
+
+twitchApi.clientID = settings.twitch.clientId;
+twitchApi.secret = settings.twitch.secret;
 
 function me(req, res) {
   if (req.isAuthenticated())  {
     res.json({
       user: req.user
-    });
-  }
-}
-
-function app(req, res) {
-  if (req.isAuthenticated()) {
-    App.findOne({ id: 1 }, (err, doc) => {
-      console.log(err, doc);
-
-      res.json(doc);
     });
   }
 }
@@ -57,9 +51,44 @@ function unfavorite(req, res) {
   });
 }
 
+function follow(req, res) {
+  const userID = req.user.id;
+  const channelId = req.body.channelId
+
+  twitchApi.users.followChannel({
+    userID: userID,
+    channelID: channelId
+  }, (err, response) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json({ result: 'OK' });
+    }
+  });
+}
+
+function unfollow(req, res) {
+  const userID = req.user.id;
+  const channelId = req.body.channelId
+
+  twitchApi.users.followChannel({
+    userID: userID,
+    channelID: channelId
+  }, (err, response) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json({ result: 'OK' });
+    }
+  });
+}
+
 module.exports = {
   me,
-  app,
+
   favorite,
-  unfavorite
+  unfavorite,
+
+  follow,
+  unfollow
 };
