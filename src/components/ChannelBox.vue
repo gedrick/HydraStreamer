@@ -1,5 +1,5 @@
 <template>
-  <div class="channel-box flex-center" v-if="channel">
+  <div class="channel-box flex-center" :class="{'fullscreen': isFullscreen}" v-if="channel">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline && !hostedChannel" class="channel-box__offline flex-center">
       <button @click="launchPlayer" class="button">
@@ -21,9 +21,10 @@
     </div>
     <div v-if="!isLoading && isLoaded">
       <ChannelOverlay
-        :onPlay="playerPlay"
-        :onPause="playerPause"
-        :onMute="playerToggleMuted"
+        :onPlayToggle="playerPlayToggle"
+        :onMuteToggle="playerMuteToggle"
+        :onFullscreenToggle="playerFullscreenToggle"
+        :onHideChannel="hideChannel"
         :onRemoveChannel="playerRemoveChannel"
         :player="player">
       </ChannelOverlay>
@@ -61,6 +62,7 @@ export default {
       isLoading: true,
       isLoaded: false,
       isOffline: false,
+      isFullscreen: false,
 
       // The player element itself.
       player: null,
@@ -131,7 +133,8 @@ export default {
         channel: channelName,
         muted: true,
         autoplay: true,
-        controls: false
+        controls: false,
+        preload: 'metadata'
       };
 
       this.bindFunctions();
@@ -140,7 +143,7 @@ export default {
       this.player = new twitch.Player(containerId, options);
 
       this.player.setVolume(1);
-      this.playerToggleMuted(true);
+      this.player.setMuted(true);
 
       this.player.addEventListener(twitch.Player.PLAYING, this.bPlaying);
       this.player.addEventListener(twitch.Player.ENDED, this.bEnded);
@@ -179,14 +182,22 @@ export default {
           }
         });
     },
-    playerPlay() {
-      this.player.play();
+    playerPlayToggle() {
+      if (this.player.isPaused()) {
+        this.player.play();
+      } else {
+        this.player.pause();
+      }
     },
-    playerPause() {
-      this.player.pause();
+    playerFullscreenToggle(fullscreen) {
+      this.isFullscreen = fullscreen;
     },
-    playerToggleMuted(muted) {
-      this.player.setMuted(muted);
+    playerMuteToggle() {
+      if (this.player.getMuted()) {
+        this.player.setMuted(false);
+      } else {
+        this.player.setMuted(true);
+      }
     },
   }
 };
@@ -224,6 +235,15 @@ export default {
     width: calc(100% * (16/9));
     height: 100%;
     z-index: 5;
+  }
+
+  &.fullscreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
   }
 }
 </style>

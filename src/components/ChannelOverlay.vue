@@ -5,14 +5,17 @@
     @mouseleave="hideOverlay"
     :class="{'visible': overlayIsVisible}">
     <div class="channel-overlay__controls">
-      <span v-if="playerIsPaused" class="fa fa-play" @click="onPlay"></span>
-      <span v-if="!playerIsPaused" class="fa fa-pause" @click="onPause"></span>
-      <span
-        class="fas"
-        :class="{'fa-volume-mute': playerIsMuted, 'fa-volume-up': !playerIsMuted}"
-        @click="onToggleMute">
-      </span>
-      <span class="fa fa-close" @click="onRemoveChannel"></span>
+      <div class="channel-overlay__controls-left">
+        <eva-icon @click="onPlayToggle" :name="player.isPaused() ? 'play-circle' : 'pause-circle'"></eva-icon>
+      </div>
+      <div class="channel-overlay__controls-center">
+        <eva-icon @click="onMuteToggle" :name="player.getMuted() ? 'volume-off' : 'volume-up'"></eva-icon>
+      </div>
+      <div class="channel-overlay__controls-right">
+        <eva-icon @click="toggleFullscreen" :name="isFullscreen ? 'collapse' : 'expand'"></eva-icon>
+        <eva-icon @click="onHideChannel" name="eye-off"></eva-icon>
+        <eva-icon @click="onRemoveChannel" name="close-square"></eva-icon>
+      </div>
     </div>
     <div class="channel-overlay__info">
       <span>{{getChannelName}}</span>
@@ -23,27 +26,21 @@
 <script>
 export default {
   props: {
-    onPlay: Function,
-    onPause: Function,
-    onMute: Function,
-    onVolumeUp: Function,
-    onVolumeDown: Function,
+    onPlayToggle: Function,
+    onMuteToggle: Function,
+    onFullscreenToggle: Function,
+    onHideChannel: Function,
     onRemoveChannel: Function,
 
     player: Object
   },
   data() {
     return {
-      overlayIsVisible: false
+      overlayIsVisible: false,
+      isFullscreen: false
     }
   },
   computed: {
-    playerIsPaused() {
-      return this.player.isPaused();
-    },
-    playerIsMuted() {
-      return this.player.getMuted();
-    },
     getChannelName() {
       return this.player.getChannel();
     }
@@ -58,12 +55,9 @@ export default {
     hideOverlay() {
       this.overlayIsVisible = false;
     },
-    onToggleMute() {
-      if (this.player.getMuted()) {
-        this.onMute(false);
-      } else {
-        this.onMute(true);
-      }
+    toggleFullscreen() {
+      this.isFullscreen = !this.isFullscreen
+      this.onFullscreenToggle(this.isFullscreen);
     }
   }
 };
