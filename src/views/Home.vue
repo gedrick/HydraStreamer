@@ -26,6 +26,11 @@
 import { mapGetters } from 'vuex';
 
 export default {
+  mounted() {
+    if (this.isLoggedIn) {
+      this.$router.push({ name: 'watch' })
+    }
+  },
   computed: {
     ...mapGetters(['isLoggedIn'])
   }

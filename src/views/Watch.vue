@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user', 'favorites'])
+    ...mapGetters(['favorites'])
   }
 };
 </script>
