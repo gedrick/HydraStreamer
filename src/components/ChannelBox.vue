@@ -115,6 +115,7 @@ export default {
       this.launchPlayer();
     },
     hideChannel() {
+      this.$store.commit('setHidden', { name: this.channel.name });
       this.$store.commit('unfavorite', this.channelData);
     },
     playerRemoveChannel() {

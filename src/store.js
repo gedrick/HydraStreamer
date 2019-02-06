@@ -13,9 +13,8 @@ const state = {
   popularGameStreams: {},
   games: {},
   stats: {},
-  gridDisplay: {
-
-  }
+  hidden: [],
+  gridDisplay: {}
 };
 
 const getters = {
@@ -57,7 +56,10 @@ const getters = {
   },
   favorites: state => {
     if (state.user && state.user.favorites) {
-      return state.user.favorites;
+      const favorites = [...state.user.favorites];
+      const hidden = state.hidden;
+      const visibleFavorites = favorites.filter(favorite => hidden.every(name => name !== favorite.name));
+      return visibleFavorites;
     }
     return false;
   },
@@ -67,6 +69,11 @@ const getters = {
 };
 
 const mutations = {
+  setHidden(state, { name }) {
+    const hidden = [...state.hidden];
+    hidden.push(name);
+    Vue.set(state, 'hidden', hidden);
+  },
   setGridDisplay(state, { gridDisplay }) {
     Vue.set(state, 'gridDisplay', gridDisplay);
   },
