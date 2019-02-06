@@ -56,9 +56,7 @@ export default {
       this.$store.dispatch('reorderFavorites', {
         index: this.index,
         direction: direction
-      }).then(() => {
-        this.$store.dispatch('getMe');
-      })
+      });
     },
     toggleOverlay(flag) {
       this.overlayIsVisible = !this.overlayIsVisible;

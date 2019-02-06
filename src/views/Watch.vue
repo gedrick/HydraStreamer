@@ -10,10 +10,10 @@
         <div>To start watching your favorite <br>streamers, click&nbsp;<b>Add a Stream</b>.</div>
       </div>
       <div class="watch__videos" v-if="favorites.length">
-        <Grid :channels="favorites"></Grid>
+        <Grid></Grid>
       </div>
       <div class="watch__chat" v-if="chatVisible && favorites.length">
-        <ChatPanel :channels="favorites"></ChatPanel>
+        <ChatPanel></ChatPanel>
       </div>
     </div>
 

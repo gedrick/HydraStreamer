@@ -4,7 +4,7 @@
     'grid-template-columns': templateColumns
   }">
     <ChannelBox
-      v-for="(channel, index) in channels"
+      v-for="(channel, index) in favorites"
       :index="index"
       :key="channel.name"
       :channel="channel">
@@ -14,17 +14,16 @@
 
 <script>
 import ChannelBox from '@/components/ChannelBox.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     ChannelBox
   },
-  props: {
-    channels: Array
-  },
   computed: {
+    ...mapGetters(['favorites']),
     channelCount() {
-      return this.channels.length;
+      return this.favorites.length;
     },
     templateRows() {
       switch(this.channelCount) {
