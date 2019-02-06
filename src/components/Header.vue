@@ -4,6 +4,9 @@
       <eva-icon name="plus-square"></eva-icon>
       <span>Add a Stream</span>
     </div>
+
+    <GridSelector></GridSelector>
+
     <div class="spacer"></div>
     <div @click="$emit('onToggleChat')" class="header__icon header__chat-icon">
       <span>Toggle Chat</span>
@@ -11,6 +14,16 @@
     </div>
   </div>
 </template>
+
+<script>
+import GridSelector from '@/components/GridSelector.vue';
+
+export default {
+  components: {
+    GridSelector
+  }
+};
+</script>
 
 <style lang="scss">
 @import '../styles/variables';

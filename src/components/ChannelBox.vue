@@ -1,5 +1,5 @@
 <template>
-  <div class="channel-box flex-center" :class="{'fullscreen': isFullscreen}" v-if="channel">
+  <div class="channel-box flex-center" v-if="channel" :class="{'fullscreen': isFullscreen}">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline && !hostedChannel" class="channel-box__offline flex-center">
       <button @click="launchPlayer" class="button">

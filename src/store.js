@@ -12,10 +12,16 @@ const state = {
   searchResults: [],
   popularGameStreams: {},
   games: {},
-  stats: {}
+  stats: {},
+  gridDisplay: {
+
+  }
 };
 
 const getters = {
+  gridDisplay: state => {
+    return state.gridDisplay;
+  },
   stats: state => {
     return state.stats;
   },
@@ -61,6 +67,9 @@ const getters = {
 };
 
 const mutations = {
+  setGridDisplay(state, { gridDisplay }) {
+    Vue.set(state, 'gridDisplay', gridDisplay);
+  },
   setStats(state, { stats }) {
     Vue.set(state, 'stats', stats);
   },
