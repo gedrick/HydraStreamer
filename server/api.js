@@ -55,16 +55,14 @@ function reorderFavorites(req, res) {
     if (err) {
       res.status(500).json(err);
     } else {
-      console.log('retrieved favorites:', doc.favorites);
+      let newFavorites = [...doc.favorites];
 
-      // let newFavorites = [...doc.favorites];
-      // newFavorites.push({...channelData});
-      // doc.favorites = newFavorites;
+      [newFavorites[index], newFavorites[index + direction]] = [newFavorites[index + direction], newFavorites[index]];
 
-      // doc.save(() => {
-      //   res.status(200).json({ result: 'OK' });
-      // });
-      res.status(200).json({ result: 'OK' });
+      doc.favorites = newFavorites;
+      doc.save(() => {
+        res.status(200).json(newFavorites);
+      });
     }
   });
 }

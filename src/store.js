@@ -76,15 +76,6 @@ const mutations = {
   setPopularGameStreams(state, { game, streams }) {
     Vue.set(state.popularGameStreams, game, streams);
   },
-  setUserHost(state, { channelId, hostedChannelData }) {
-    const newFavorites = state.user.favorites.map(favorite => {
-      if (favorite.channelId === channelId) {
-        favorite.hosted = hostedChannelData;
-      }
-      return favorite;
-    });
-    Vue.set(state.user, 'favorites', newFavorites);
-  },
   setPopularGames(state, { games }) {
     Vue.set(state.games, 'popular', games);
   },
@@ -93,6 +84,9 @@ const mutations = {
       return a.channel.name >= b.channel.name ? 1 : -1;
     });
     Vue.set(state, 'followedLive', sortedStreams);
+  },
+  setFavorites(state, { favorites }) {
+    Vue.set(state.user, 'favorites', favorites);
   },
   favorite(state, channelData) {
     const newFavorites = state.user.favorites;
@@ -118,19 +112,21 @@ const mutations = {
     } else {
       Vue.set(state, 'searchResults', []);
     }
-  },
-  toggleStream(state, { name }) {
-    const streams = [...state.favorites];
-    if (!streams.includes(name)) {
-      streams.push(name);
-    } else {
-      streams.splice(streams.indexOf(name), 1);
-    }
-    Vue.set(state, 'favorites', streams);
   }
 };
 
 const actions = {
+  reorderFavorites({ commit }, { index, direction }) {
+    return axios.post('/api/reorderFavorites', {
+      index,
+      direction
+    }).then(result => {
+      const favorites = result.data;
+      commit('setFavorites', {
+        favorites
+      });
+    });
+  },
   getStats({ commit }) {
     return axios.get('/api/stats')
       .then(result => {
@@ -139,18 +135,18 @@ const actions = {
         });
       });
   },
-  follow({ commit }, { channelId }) {
-    return axios
-      .post(`/api/follow`, {
-        channelId
-      });
-  },
-  unfollow({ commit }, { channelId }) {
-    return axios
-      .post(`/api/unfollow`, {
-        channelId
-      });
-  },
+  // follow({ commit }, { channelId }) {
+  //   return axios
+  //     .post(`/api/follow`, {
+  //       channelId
+  //     });
+  // },
+  // unfollow({ commit }, { channelId }) {
+  //   return axios
+  //     .post(`/api/unfollow`, {
+  //       channelId
+  //     });
+  // },
   getPopularGameStreams({ commit }, { game }) {
     return axios
       .get(`/data/getStreamsByGame?game=${game}`)

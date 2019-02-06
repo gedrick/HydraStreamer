@@ -2,7 +2,7 @@
   <div class="chat-panel">
     <div class="chat-panel__tabs">
       <div
-        v-for="channel in channels"
+        v-for="channel in favorites"
         class="chat-panel__tab"
         :class="{'selected': activeChannel === channel.channelId}"
         @click="selectChat(channel.channelId)"
@@ -18,13 +18,11 @@
 
 <script>
 import Chat from '@/components/Chat.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     Chat
-  },
-  props: {
-    channels: Array
   },
   data() {
     return {
@@ -32,8 +30,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['favorites']),
     getActiveChannel() {
-      return this.channels.find(channel => channel.channelId === this.activeChannel);
+      return this.favorites.find(channel => channel.channelId === this.activeChannel);
     }
   },
   methods: {
@@ -42,7 +41,7 @@ export default {
     }
   },
   mounted() {
-    this.selectChat(this.channels[0].channelId);
+    this.selectChat(this.favorites[0].channelId);
   }
 };
 </script>

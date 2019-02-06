@@ -9,9 +9,9 @@
         <eva-icon @click="onPlayToggle" :name="player.isPaused() ? 'play-circle' : 'pause-circle'"></eva-icon>
       </div>
       <div class="channel-overlay__controls-center">
-        <eva-icon v-if="favorites.length > 1 && index > 0" name="arrow-circle-left"></eva-icon>
+        <eva-icon v-if="favorites.length > 1 && index > 0" @click="reorderFavorites(-1)" name="arrow-circle-left"></eva-icon>
         <eva-icon @click="onMuteToggle" :name="player.getMuted() ? 'volume-off' : 'volume-up'"></eva-icon>
-        <eva-icon v-if="favorites.length > 1 && index < favorites.length - 1" name="arrow-circle-right"></eva-icon>
+        <eva-icon v-if="favorites.length > 1 && index < favorites.length - 1" @click="reorderFavorites(1)" name="arrow-circle-right"></eva-icon>
       </div>
       <div class="channel-overlay__controls-right">
         <eva-icon @click="toggleFullscreen" :name="isFullscreen ? 'collapse' : 'expand'"></eva-icon>
@@ -52,6 +52,14 @@ export default {
     }
   },
   methods: {
+    reorderFavorites(direction) {
+      this.$store.dispatch('reorderFavorites', {
+        index: this.index,
+        direction: direction
+      }).then(() => {
+        this.$store.dispatch('getMe');
+      })
+    },
     toggleOverlay(flag) {
       this.overlayIsVisible = !this.overlayIsVisible;
     },

@@ -57,6 +57,9 @@ export default {
       showFavorites: false
     }
   },
+  computed: {
+    ...mapGetters(['favorites'])
+  },
   methods: {
     toggleSearch() {
       this.showFavorites = false;
@@ -70,9 +73,6 @@ export default {
       this.showFavorites = false;
       this.showSearch = false;
     }
-  },
-  computed: {
-    ...mapGetters(['favorites'])
   }
 };
 </script>
