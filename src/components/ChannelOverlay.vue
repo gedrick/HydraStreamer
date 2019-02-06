@@ -7,9 +7,9 @@
     <div class="channel-overlay__controls">
       <div class="channel-overlay__controls-left">
         <eva-icon @click="onPlayToggle" :name="player.isPaused() ? 'play-circle' : 'pause-circle'"></eva-icon>
+        <eva-icon @click="onMuteToggle" :name="player.getMuted() ? 'volume-off' : 'volume-up'"></eva-icon>
       </div>
       <div class="channel-overlay__controls-center">
-        <eva-icon @click="onMuteToggle" :name="player.getMuted() ? 'volume-off' : 'volume-up'"></eva-icon>
       </div>
       <div class="channel-overlay__controls-right">
         <eva-icon @click="toggleFullscreen" :name="isFullscreen ? 'collapse' : 'expand'"></eva-icon>
