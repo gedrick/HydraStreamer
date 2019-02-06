@@ -4,7 +4,8 @@
     'grid-template-columns': templateColumns
   }">
     <ChannelBox
-      v-for="channel in channels"
+      v-for="(channel, index) in channels"
+      :index="index"
       :key="channel.name"
       :channel="channel">
     </ChannelBox>

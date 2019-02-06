@@ -26,6 +26,7 @@
         :onFullscreenToggle="playerFullscreenToggle"
         :onHideChannel="hideChannel"
         :onRemoveChannel="playerRemoveChannel"
+        :index="index"
         :player="player">
       </ChannelOverlay>
     </div>
@@ -52,7 +53,8 @@ export default {
     ChannelOverlay
   },
   props: {
-    channel: Object
+    channel: Object,
+    index: Number
   },
   data() {
     return {

@@ -98,6 +98,7 @@ const apiHandlers = require('./server/api.js');
 apiRoutes.use(isAuthenticated);
 apiRoutes.get('/stats', apiHandlers.stats);
 apiRoutes.get('/me', apiHandlers.me);
+apiRoutes.post('/reorderFavorites', apiHandlers.reorderFavorites);
 apiRoutes.post('/favorite', apiHandlers.favorite);
 apiRoutes.post('/unfavorite', apiHandlers.unfavorite);
 apiRoutes.post('/follow', apiHandlers.follow);

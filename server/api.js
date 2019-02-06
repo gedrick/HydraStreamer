@@ -46,6 +46,29 @@ function me(req, res) {
   }
 }
 
+function reorderFavorites(req, res) {
+  const userID = req.user._id;
+  const index = req.body.index;
+  const direction = req.body.direction;
+
+  User.findById(userID, (err, doc) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      console.log('retrieved favorites:', doc.favorites);
+
+      // let newFavorites = [...doc.favorites];
+      // newFavorites.push({...channelData});
+      // doc.favorites = newFavorites;
+
+      // doc.save(() => {
+      //   res.status(200).json({ result: 'OK' });
+      // });
+      res.status(200).json({ result: 'OK' });
+    }
+  });
+}
+
 function favorite(req, res) {
   const userID = req.user._id;
   const channelData = req.body.channelData;
@@ -120,6 +143,7 @@ module.exports = {
   stats,
   me,
 
+  reorderFavorites,
   favorite,
   unfavorite,
 
