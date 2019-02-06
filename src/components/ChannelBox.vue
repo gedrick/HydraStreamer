@@ -26,6 +26,7 @@
         :onFullscreenToggle="playerFullscreenToggle"
         :onHideChannel="hideChannel"
         :onRemoveChannel="playerRemoveChannel"
+        :onReorderChannels="channelsReordered"
         :index="index"
         :player="player">
       </ChannelOverlay>
@@ -100,6 +101,9 @@ export default {
   },
   methods: {
     ...mapMutations(['setUserHost']),
+    channelsReordered() {
+      this.$store.commit('setHidden', { name: this.channel.name });
+    },
     watchHostedStreamer() {
       if (!this.hostedChannel) {
         return;
@@ -115,7 +119,6 @@ export default {
       this.launchPlayer();
     },
     hideChannel() {
-      this.$store.commit('setHidden', { name: this.channel.name });
       this.$store.commit('unfavorite', this.channelData);
     },
     playerRemoveChannel() {

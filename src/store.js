@@ -7,14 +7,15 @@ Vue.use(Vuex);
 const state = {
   isLoggedIn: false,
   user: null,
+  favorites: null,
   followed: [],
   followedLive: [],
   searchResults: [],
   popularGameStreams: {},
   games: {},
   stats: {},
-  hidden: [],
-  gridDisplay: {}
+  gridDisplay: {},
+  hidden: []
 };
 
 const getters = {
@@ -55,13 +56,8 @@ const getters = {
     return state.followedLive;
   },
   favorites: state => {
-    if (state.user && state.user.favorites) {
-      const favorites = [...state.user.favorites];
-      const hidden = state.hidden;
-      const visibleFavorites = favorites.filter(favorite => hidden.every(name => name !== favorite.name));
-      return visibleFavorites;
-    }
-    return false;
+    const hidden = state.hidden;
+    return state.favorites.filter(favorite => hidden.every(name => name !== favorite.name));
   },
   searchResults: state => {
     return state.searchResults;
@@ -73,6 +69,10 @@ const mutations = {
     const hidden = [...state.hidden];
     hidden.push(name);
     Vue.set(state, 'hidden', hidden);
+  },
+  hideChannel(state, { name }) {
+    const newFavorites = state.favorites.filter(favorite => favorite.name !== name);
+    Vue.set(state, 'favorites', newFavorites);
   },
   setGridDisplay(state, { gridDisplay }) {
     Vue.set(state, 'gridDisplay', gridDisplay);
@@ -93,21 +93,24 @@ const mutations = {
     Vue.set(state, 'followedLive', sortedStreams);
   },
   setFavorites(state, { favorites }) {
-    Vue.set(state.user, 'favorites', favorites);
+    Vue.set(state, 'favorites', favorites);
   },
   favorite(state, channelData) {
-    const newFavorites = state.user.favorites;
+    const newFavorites = state.favorites;
     newFavorites.push(channelData);
-    Vue.set(state.user, 'favorites', newFavorites);
+    Vue.set(state, 'favorites', newFavorites);
   },
   unfavorite(state, channelData) {
-    const newFavorites = state.user.favorites.filter(favorite => favorite.channelId !== channelData.channelId);
-    Vue.set(state.user, 'favorites', newFavorites);
+    const newFavorites = state.favorites.filter(favorite => favorite.channelId !== channelData.channelId);
+    Vue.set(state, 'favorites', newFavorites);
   },
   setLoggedIn(state, { isLoggedIn }) {
     Vue.set(state, 'isLoggedIn', isLoggedIn);
   },
   setUser(state, user) {
+    if (!state.favorites) {
+      Vue.set(state, 'favorites', user.favorites);
+    }
     Vue.set(state, 'user', user);
   },
   setFollowed(state, streams) {
@@ -213,6 +216,8 @@ const actions = {
       });
   },
   getMe({ commit }) {
+    console.log('get me');
+
     return axios.get(`/api/me`)
       .then(result => {
         if (!result || (result.data.code && result.data.code === 401)) {

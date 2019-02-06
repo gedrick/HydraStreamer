@@ -35,6 +35,7 @@ export default {
     onFullscreenToggle: Function,
     onHideChannel: Function,
     onRemoveChannel: Function,
+    onReorderChannels: Function,
 
     index: Number,
     player: Object,
@@ -68,7 +69,7 @@ export default {
       this.overlayIsVisible = false;
     },
     toggleFullscreen() {
-      this.isFullscreen = !this.isFullscreen
+      this.isFullscreen = !this.isFullscreen;
       this.onFullscreenToggle(this.isFullscreen);
     }
   }
