@@ -89,7 +89,7 @@ export default {
     cursor: pointer;
 
     a {
-      color: #fff;
+      color: $white;
       font-weight: bold;
       text-decoration: none;
     }
@@ -102,7 +102,7 @@ export default {
   svg.eva {
     width: 30px;
     height: 30px;
-    fill: #fff;
+    fill: $white;
     &:hover {
       fill: $bright-orange;
     }

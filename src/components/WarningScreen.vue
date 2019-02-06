@@ -16,7 +16,7 @@
   z-index: 15;
   justify-content: center;
   align-items: center;
-  background-color: rgba(#000, 1);
+  background-color: rgba($black, 1);
 
   @media (max-width: 768px) and (orientation: portrait) {
     display: flex;
@@ -32,7 +32,7 @@
   }
 
   span {
-    color: #fff;
+    color: $white;
     font-size: 50px;
   }
 }

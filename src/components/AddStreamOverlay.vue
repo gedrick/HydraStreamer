@@ -109,7 +109,7 @@ export default {
     width: 50px;
     height: 50px;
     font-size: 50px;
-    color: #fff;
+    color: $white;
     z-index: 15;
   }
 

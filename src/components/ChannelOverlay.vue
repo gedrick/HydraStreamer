@@ -68,6 +68,7 @@ export default {
 @import '../styles/breakpoints';
 
 .channel-overlay {
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 
@@ -87,27 +88,12 @@ export default {
   &__controls {
     display: flex;
     justify-content: space-between;
-    background-color: rgba(#000, 0.2);
+    background-color: rgba($black, $overlay-opacity);
     padding: 10px;
-
-    span {
-      font-size: $button-font-size;
-      color: $white;
-      margin-left: 10px;
-      cursor: pointer;
-
-      &:hover {
-        color: $overlay-icon-highlight-color;
-      }
-
-      &.fa-volume-mute.muted {
-        color: $overlay-icon-highlight-color;
-      }
-    }
   }
 
   &__info {
-    background-color: rgba(#000, 0.2);
+    background-color: rgba($black, $overlay-opacity);
     padding: 10px;
     font-weight: bold;
     font-size: 17px;
