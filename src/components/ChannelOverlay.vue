@@ -3,7 +3,7 @@
     class="channel-overlay expand-to-fit"
     @mouseenter="showOverlay"
     @mouseleave="hideOverlay"
-    @touchstart.self="overlayIsVisible = !overlayIsVisible"
+    @touchstart.self.prevent="overlayIsVisible = !overlayIsVisible"
     :class="{'visible': overlayIsVisible}">
     <div class="channel-overlay__controls">
       <div class="channel-overlay__controls-left">
