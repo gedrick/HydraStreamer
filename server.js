@@ -89,14 +89,16 @@ function isAuthenticated(req, res, next) {
     });
   }
 
-  return next();
+  next();
 }
 
 function isSecure(req, res, next) {
+  console.log(process.env.NODE_ENV, req.secure, req.get('x-forwarded-proto'));
+
   if (process.env.NODE_ENV === 'production' && !req.secure && req.get('x-forwarded-proto') !== 'https') {
     return res.redirect('https://' + req.get('host') + req.url);
   }
-  return next();
+  next();
 }
 server.use(isSecure);
 
