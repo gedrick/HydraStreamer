@@ -1,12 +1,12 @@
 <template>
-  <div class="channel-box" :class="{'fullscreen': isFullscreen}" v-if="channel">
+  <div class="channel-box flex-center" :class="{'fullscreen': isFullscreen}" v-if="channel">
     <LoadingBox v-if="isLoading"></LoadingBox>
     <div v-if="isOffline && !hostedChannel" class="channel-box__offline flex-center">
       <button @click="launchPlayer" class="button">
-        <span class="orange">{{channelData.name}}</span><br>is offline. Reload?
+        <span class="orange">{{channelData.name}}</span> <br>is offline. Reload?
       </button>
       <div class="horizontal">
-        <button @click="hideChannel" class="button--small"><span>Hide</span></button>
+        <button @click="hideChannel" class="button--small">Hide for Now</button>
         <button @click="playerRemoveChannel" class="button--small">Unfavorite</button>
       </div>
     </div>
@@ -210,7 +210,6 @@ export default {
 .channel-box {
   color: $white;
   position: relative;
-  max-width: 100%;
 
   &__offline {
     color: $white;
