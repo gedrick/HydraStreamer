@@ -20,3 +20,15 @@ $breakpoints: (
     }
   }
 }
+
+@mixin orientation($orientation) {
+  @media only screen and (orientation: $orientation) {
+    @content;
+  }
+}
+
+@mixin mobilePortrait() {
+  @media (max-width: 768px) and (orientation: portrait) {
+    @content;
+  }
+}

@@ -69,12 +69,18 @@ export default {
 
   &__stats {
     @extend .flex-center;
+    flex-direction: row;
     text-align: left;
     line-height: 16px;
     font-size: 16px;
+
     @include mq('tablet-wide', 'max') {
       font-size: 12px;
       line-height: 12px;
+    }
+
+    @include orientation(portrait) {
+      display: none;
     }
   }
 

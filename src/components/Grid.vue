@@ -64,10 +64,17 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../styles/breakpoints';
+
 .grid {
   display: grid;
   justify-content: center;
   width: 100%;
   height: 100%;
+
+  @include mobilePortrait {
+    grid-template-rows: unset !important;
+    grid-template-columns: 100% !important;
+  }
 }
 </style>

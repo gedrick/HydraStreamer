@@ -18,8 +18,8 @@
   align-items: center;
   background-color: rgba($black, 1);
 
-  @media (max-width: 768px) and (orientation: portrait) {
-    display: flex;
+  @include mobilePortrait {
+    // display: flex;
   }
 
   svg.eva {

@@ -57,6 +57,10 @@ body {
   button:focus {
     outline: none;
   }
+
+  @include mobilePortrait {
+    overflow-y: scroll;
+  }
 }
 
 #app {

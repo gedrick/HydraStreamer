@@ -98,16 +98,19 @@ export default {
     grid-template-columns: 100%;
 
     &.chat-open {
-      grid-template-columns: 80% 20%;
+      grid-template-columns: 70% 30%;
 
-      // 480px
-      @include mq('phone-wide', 'max') {
-        grid-template-columns: 60% 40%;
+      @include mq('desktop') {
+        grid-template-columns: 80% 20%;
       }
-      // 1024px
-      @include mq('tablet-wide', 'max') {
-        grid-template-columns: 70% 30%;
-      }
+    }
+  }
+
+  @include mobilePortrait {
+    &__view {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
   }
 
