@@ -125,9 +125,11 @@ const actions = {
   getStats({ commit }) {
     return axios.get('/api/stats')
       .then(result => {
-        commit('setStats', {
-          stats: result.data
-        });
+        if (result && result.data) {
+          commit('setStats', {
+            stats: result.data
+          });
+        }
       });
   },
   follow({ commit }, { channelId }) {
