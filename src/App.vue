@@ -58,7 +58,7 @@ body {
     outline: none;
   }
 
-  @media (max-width: 768px) and (orientation: portrait) {
+  @include mobilePortrait {
     overflow-y: scroll;
   }
 }

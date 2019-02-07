@@ -18,7 +18,7 @@
   align-items: center;
   background-color: rgba($black, 1);
 
-  @media (max-width: 768px) and (orientation: portrait) {
+  @include mobilePortrait {
     // display: flex;
   }
 

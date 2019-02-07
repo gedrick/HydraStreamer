@@ -106,7 +106,7 @@ export default {
     }
   }
 
-  @media (max-width: 768px) and (orientation: portrait) {
+  @include mobilePortrait {
     &__view {
       display: flex;
       flex-direction: column;
