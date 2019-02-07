@@ -20,3 +20,9 @@ $breakpoints: (
     }
   }
 }
+
+@mixin orientation($orientation) {
+  @media only screen and (orientation: $orientation) {
+    @content;
+  }
+}

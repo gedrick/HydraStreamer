@@ -57,6 +57,10 @@ body {
   button:focus {
     outline: none;
   }
+
+  @media (max-width: 768px) and (orientation: portrait) {
+    overflow-y: scroll;
+  }
 }
 
 #app {

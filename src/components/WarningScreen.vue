@@ -19,7 +19,7 @@
   background-color: rgba($black, 1);
 
   @media (max-width: 768px) and (orientation: portrait) {
-    display: flex;
+    // display: flex;
   }
 
   svg.eva {

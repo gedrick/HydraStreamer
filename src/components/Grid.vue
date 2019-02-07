@@ -69,5 +69,10 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100%;
+
+  @media (max-width: 768px) and (orientation: portrait) {
+    grid-template-rows: unset !important;
+    grid-template-columns: 100% !important;
+  }
 }
 </style>
