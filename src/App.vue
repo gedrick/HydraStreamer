@@ -42,6 +42,7 @@ export default {
 
 body {
   margin: 0;
+  height: 100vh;
   overflow: hidden;
   font-family: $base-font;
   color: $white;

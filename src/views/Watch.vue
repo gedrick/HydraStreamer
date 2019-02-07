@@ -112,9 +112,7 @@ export default {
   }
 
   &__welcome {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .flex-center;
     font-size: 20px;
   }
 
