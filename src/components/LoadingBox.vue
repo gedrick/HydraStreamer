@@ -16,9 +16,7 @@ $hollowDark: $loading-box-dark;
 $hollowTiming: 0.75s;
 
 .loading-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @extend .flex-center;
 
   &__loader {
     width: $hollowBoxSize;

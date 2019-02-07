@@ -22,9 +22,7 @@
   padding: 5px;
 
   &__icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .flex-center;
     background-color: transparent;
     border-radius: 10px;
     padding: 0 5px;

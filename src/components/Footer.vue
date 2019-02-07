@@ -13,6 +13,9 @@
     </div>
 
     <div class="footer__right">
+      <div class="footer__link">
+        <router-link to="privacy-policy">Privacy Policy</router-link>
+      </div>
       <div class="footer__icon">
         <span class="footer__version">v1.0.0</span>
       </div>
@@ -52,6 +55,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 100vw;
 
   &__left {
     padding-left: 5px;
@@ -64,10 +68,14 @@ export default {
   }
 
   &__stats {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @extend .flex-center;
     text-align: left;
+    line-height: 16px;
+    font-size: 16px;
+    @include mq('tablet-wide', 'max') {
+      font-size: 12px;
+      line-height: 12px;
+    }
   }
 
   &__user-image {
@@ -82,9 +90,7 @@ export default {
   }
 
   &__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @extend .flex-center;
     margin-left: 5px;
     cursor: pointer;
 
@@ -92,6 +98,19 @@ export default {
       color: $white;
       font-weight: bold;
       text-decoration: none;
+    }
+  }
+
+  &__link {
+    @extend .flex-center;
+    font-size: 12px;
+    line-height: 12px;
+    a {
+      color: $bright-orange;
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
