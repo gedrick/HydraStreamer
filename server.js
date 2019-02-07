@@ -92,6 +92,14 @@ function isAuthenticated(req, res, next) {
   return next();
 }
 
+function isSecure(req, res, next) {
+  if (process.env.NODE_ENV === 'production' && !req.secure && req.get('x-forwarded-proto') !== 'https') {
+    return res.redirect('https://' + req.get('host') + req.url);
+  }
+  return next();
+}
+server.use(isSecure);
+
 // Set up api routes.
 const apiRoutes = express.Router();
 const apiHandlers = require('./server/api.js');
