@@ -19,6 +19,16 @@ mongoose.Promise = Promise;
 require('./server/db')(mongoose);
 const User = require('./server/models/user.js');
 
+// Set up force-ssl middleware.
+function isSecure(req, res, next) {
+  console.log(process.env.NODE_ENV, req.secure, req.get('x-forwarded-proto'));
+  if (process.env.NODE_ENV === 'production' && !req.secure && req.get('x-forwarded-proto') !== 'https') {
+    console.log('not secure. redirectin to https');
+    return res.redirect('https://' + req.get('host'));
+  }
+  next();
+}
+
 // Setup for Login with Twitch.
 const server = express();
 server.use(cookieParser());
@@ -32,6 +42,7 @@ server.use(session({
   saveUninitialized: false,
   store: new MongoStore(settings.mongo)
 }));
+server.use(isSecure);
 server.use(express.static('./dist'));
 server.use(passport.initialize());
 server.use(passport.session());
@@ -89,7 +100,7 @@ function isAuthenticated(req, res, next) {
     });
   }
 
-  return next();
+  next();
 }
 
 // Set up api routes.
