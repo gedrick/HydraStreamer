@@ -49,10 +49,10 @@ $base-font: 'PT Sans', sans-serif;
 
 .horizontal {
   display: grid;
-  grid-template-columns: 40% 40%;
+  grid-template-columns: 50% 50%;
   justify-content: center;
   align-items: center;
-  grid-gap: 5px;
+  grid-gap: 2px;
   width: 100%;
 }
 
@@ -149,7 +149,7 @@ svg.eva {
   background: none;
   cursor: pointer;
   display: inline-block;
-  padding: 25px 80px;
+  padding: 25px 40px;
   margin: 15px 30px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -159,7 +159,15 @@ svg.eva {
 	overflow: hidden;
 
   border: 3px solid $white;
-	color: $white;
+  color: $white;
+
+  @include mq('tablet-wide', 'max') {
+    max-width: 100%;
+    margin: 0;
+    // padding-left: 0;
+    // padding-right: 0;
+    // border: none;
+  }
 
   &:after {
     content: '';
@@ -193,12 +201,8 @@ svg.eva {
 }
 
 .button--small {
-  border: 1px solid $white;
   padding: 5px;
   cursor: pointer;
   font-family: inherit;
   font-size: inherit;
-  &:hover {
-    background: $bright-orange;
-  }
 }
