@@ -1,5 +1,8 @@
 <template>
   <div class="channel-badge" :class="{'favorite': isFavorite}" @click="toggleFavorite">
+    <div class="channel-badge__error" :class="{'visible': hasError}">
+      Reached max streams!
+    </div>
     <div class="channel-badge__image">
       <img :src="channel.preview.small">
     </div>
@@ -17,6 +20,11 @@ export default {
   props: {
     channel: Object
   },
+  data() {
+    return {
+      hasError: false
+    }
+  },
   computed: {
     ...mapGetters(['favorites']),
     isFavorite() {
@@ -33,11 +41,21 @@ export default {
     }
   },
   methods: {
+    throwError() {
+      this.hasError = true;
+      setTimeout(() => {
+        this.hasError = false;
+      }, 1500);
+    },
     toggleFavorite() {
-      this.$store.dispatch('toggleFavorite', {
-        channelData: this.channelData,
-        toggle: !this.isFavorite
-      });
+      if (this.favorites.length >= 9 && !this.isFavorite) {
+        this.throwError();
+      } else {
+        this.$store.dispatch('toggleFavorite', {
+          channelData: this.channelData,
+          toggle: !this.isFavorite
+        });
+      }
     },
   }
 }
@@ -52,12 +70,32 @@ export default {
   grid-gap: 5px;
   justify-content: flex-start;
   align-items: center;
-
+  position: relative;
   padding-right: 5px;
   margin: 2px;
   background-color: $light-main;
   border-radius: 0 5px 5px 0px;
   cursor: pointer;
+
+  &__error {
+    background-color: red;
+    border-radius: 0 5px 5px 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition-duration: 1.5s;
+    transition-property: opacity;
+
+    &.visible {
+      display: flex;
+      opacity: 1;
+    }
+  }
 
   &__image {
     width: 50px;
