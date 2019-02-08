@@ -1,38 +1,38 @@
 <template>
-  <div class="home flex-center">
-    <div class="home__header">
-      <h1>HydraStreamer</h1>
-      <h2 v-if="isLoggedIn">Welcome back!</h2>
+  <div class="home">
+    <div class="home__top">
+      <div class="home__header">
+        <h1>HydraStreamer</h1>
+      </div>
+      <div class="home__button">
+        <div v-if="!isLoggedIn">
+          <a v-if="!isLoggedIn" href="/auth/twitch">
+            <button class="button">Login with Twitch</button>
+          </a>
+        </div>
+        <div v-if="isLoggedIn">
+          <router-link v-if="isLoggedIn" :to="{path: 'watch'}">
+            <button class="button">Resume</button>
+          </router-link><br>
+        </div>
+      </div>
     </div>
-    <div class="home__button">
-      <div v-if="!isLoggedIn">
-        <a v-if="!isLoggedIn" href="/auth/twitch">
-          <button class="button">Login with Twitch</button>
-        </a>
-      </div>
-      <div v-if="isLoggedIn">
-        <router-link v-if="isLoggedIn" :to="{path: 'watch'}">
-          <button class="button">Watch</button>
-        </router-link><br>
-        <a v-if="isLoggedIn" href="/logout">
-          <button class="button">Logout</button>
-        </a>
-      </div>
+    <div class="home__bottom">
+      <Footer></Footer>
     </div>
   </div>
 </template>
 
 <script>
+import Footer from '@/components/Footer';
 import { mapGetters } from 'vuex';
 
 export default {
-  mounted() {
-    if (this.isLoggedIn) {
-      this.$router.push({ name: 'watch' })
-    }
+  components: {
+    Footer
   },
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn', 'user'])
   }
 }
 </script>
@@ -42,14 +42,25 @@ export default {
 @import '../styles/variables';
 
 .home {
+  display: grid;
+  grid-template-rows: auto 40px;
   width: 100vw;
   height: 100vh;
-  flex-direction: column;
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
 
   &__header {
     h1 {
       margin: 0;
       color: $bright-orange;
+      font-family: $header-font;
+      font-size: 72px;
     }
   }
 

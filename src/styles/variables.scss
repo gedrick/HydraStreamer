@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|Alegreya+Sans');
 @import './breakpoints.scss';
 
 // Colors
@@ -27,7 +27,7 @@ $button-font-size: 36px;
 
 // Fonts
 // $base-font: 'Lato', sans-serif;
-// $base-font: 'Alegreya Sans', sans-serif;
+$header-font: 'Alegreya Sans', sans-serif;
 $base-font: 'PT Sans', sans-serif;
 
 // Animations

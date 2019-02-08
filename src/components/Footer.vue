@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="footer__left">
-      <div v-if="stats" class="footer__stats">
+      <div v-if="isLoggedIn && stats" class="footer__stats">
         <div class="footer__user-image">
           <img :src="user.avatar">
         </div>
@@ -29,7 +29,7 @@
           <eva-icon name="twitter"></eva-icon>
         </a>
       </div>
-      <div class="footer__icon">
+      <div v-if="isLoggedIn" class="footer__icon">
         <a href="/logout">
           <eva-icon name="log-out"></eva-icon>
         </a>
@@ -43,7 +43,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['stats', 'user'])
+    ...mapGetters(['stats', 'user', 'isLoggedIn'])
   }
 }
 </script>
