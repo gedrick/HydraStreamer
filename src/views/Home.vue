@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <div class="home__image">
+      <img :src="imagePath">
+    </div>
     <div class="home__top">
       <div class="home__header">
         <h1>HydraStreamer</h1>
@@ -31,6 +34,11 @@ export default {
   components: {
     Footer
   },
+  data() {
+    return {
+      imagePath: require('@/assets/screenshottransparency.png')
+    };
+  },
   computed: {
     ...mapGetters(['isLoggedIn', 'user'])
   }
@@ -46,6 +54,16 @@ export default {
   grid-template-rows: auto 40px;
   width: 100vw;
   height: 100vh;
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    opacity: 0.15;
+  }
 
   &__top {
     display: flex;
