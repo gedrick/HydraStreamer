@@ -105,7 +105,6 @@ function isAuthenticated(req, res, next) {
 const apiRoutes = express.Router();
 const apiHandlers = require('./server/api.js');
 apiRoutes.use(isAuthenticated);
-apiRoutes.get('/stats', apiHandlers.stats);
 apiRoutes.get('/me', apiHandlers.me);
 apiRoutes.post('/favorite', apiHandlers.favorite);
 apiRoutes.post('/unfavorite', apiHandlers.unfavorite);
@@ -116,7 +115,7 @@ server.use('/api', apiRoutes);
 // Set up data routes.
 const dataRoutes = express.Router();
 const dataHandlers = require('./server/data.js');
-dataRoutes.use(isAuthenticated);
+dataRoutes.get('/stats', dataHandlers.stats);
 dataRoutes.get('/searchGames', dataHandlers.searchGames);
 dataRoutes.get('/searchStreams', dataHandlers.searchStreams);
 dataRoutes.get('/userIsHosting', dataHandlers.userIsHosting);

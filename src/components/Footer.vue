@@ -1,11 +1,11 @@
 <template>
   <div class="footer">
     <div class="footer__left">
-      <div v-if="isLoggedIn && stats" class="footer__stats">
-        <div class="footer__user-image">
+      <div v-if="stats" class="footer__stats">
+        <div class="footer__user-image" v-if="isLoggedIn">
           <img :src="user.avatar">
         </div>
-        <span>Welcome, <b>{{user.username}}</b>! There <span v-if="stats.online <= 1">is</span><span v-if="stats.online > 1">are</span>
+        <span><span v-if="isLoggedIn">Welcome, <b>{{user.username}}</b>!</span> There <span v-if="stats.online <= 1">is</span><span v-if="stats.online > 1">are</span>
           <span class="orange"> {{stats.online}}</span> user<span v-if="stats.online > 1">s</span> online,
           watching <span class="orange">{{stats.activeStreams}}</span> stream<span v-if="stats.activeStreams > 1">s</span>.
         </span>

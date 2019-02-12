@@ -133,7 +133,7 @@ const mutations = {
 
 const actions = {
   getStats({ commit }) {
-    return axios.get('/api/stats')
+    return axios.get('/data/stats')
       .then(result => {
         if (result && result.data) {
           commit('setStats', {
