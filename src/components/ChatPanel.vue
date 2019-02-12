@@ -2,7 +2,7 @@
   <div class="chat-panel">
     <div class="chat-panel__tabs">
       <div
-        v-for="channel in channels"
+        v-for="channel in favorites"
         class="chat-panel__tab"
         :class="{'selected': activeChannel === channel.channelId}"
         @click="selectChat(channel.channelId)"
@@ -11,20 +11,18 @@
       </div>
     </div>
     <div class="chat-panel__container">
-      <Chat :channel="getActiveChannel"></Chat>
+      <Chat v-if="getActiveChannel !== undefined" :channel="getActiveChannel"></Chat>
     </div>
   </div>
 </template>
 
 <script>
 import Chat from '@/components/Chat.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     Chat
-  },
-  props: {
-    channels: Array
   },
   data() {
     return {
@@ -32,13 +30,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['favorites']),
     getActiveChannel() {
-      let activeChannel = this.channels.find(channel => channel.channelId === this.activeChannel);
-      if (!activeChannel) {
-        activeChannel = this.channels[0];
-        this.activeChannel = activeChannel.channelId;
-      }
-
+      let activeChannel = this.favorites.find(channel => channel.channelId === this.activeChannel);
       return activeChannel;
     }
   },
@@ -47,12 +41,23 @@ export default {
       this.activeChannel = channelId;
     },
     resetChat() {
-      this.selectChat(this.channels[0].channelId);
+      this.selectChat(this.favorites[0].channelId);
     }
   },
   mounted() {
     this.resetChat();
-  }
+  },
+  watch: {
+    favorites: function(newVal, oldVal) {
+      // Find the stream that matches.
+      const matchedStreams = newVal.find(stream => stream.channelId === this.activeChannel);
+
+      // If it doesn't exist, reset from index 0
+      if (!matchedStreams) {
+        this.resetChat();
+      }
+    }
+  },
 };
 </script>
 

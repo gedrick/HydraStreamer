@@ -13,7 +13,7 @@
         <Grid></Grid>
       </div>
       <div class="watch__chat" v-if="chatVisible && favorites.length">
-        <ChatPanel :channels="favorites"></ChatPanel>
+        <ChatPanel></ChatPanel>
       </div>
     </div>
 
