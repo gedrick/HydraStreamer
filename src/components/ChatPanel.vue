@@ -33,16 +33,25 @@ export default {
   },
   computed: {
     getActiveChannel() {
-      return this.channels.find(channel => channel.channelId === this.activeChannel);
+      let activeChannel = this.channels.find(channel => channel.channelId === this.activeChannel);
+      if (!activeChannel) {
+        activeChannel = this.channels[0];
+        this.activeChannel = activeChannel.channelId;
+      }
+
+      return activeChannel;
     }
   },
   methods: {
     selectChat(channelId) {
       this.activeChannel = channelId;
+    },
+    resetChat() {
+      this.selectChat(this.channels[0].channelId);
     }
   },
   mounted() {
-    this.selectChat(this.channels[0].channelId);
+    this.resetChat();
   }
 };
 </script>
