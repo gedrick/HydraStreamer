@@ -12,10 +12,14 @@ const state = {
   searchResults: [],
   popularGameStreams: {},
   games: {},
-  stats: {}
+  stats: {},
+  hiddenStreams: []
 };
 
 const getters = {
+  hiddenStreams: state => {
+    return state.hiddenStreams;
+  },
   stats: state => {
     return state.stats;
   },
@@ -50,8 +54,9 @@ const getters = {
     return state.followedLive;
   },
   favorites: state => {
+    const hiddenStreams = state.hiddenStreams;
     if (state.user && state.user.favorites) {
-      return state.user.favorites;
+      return state.user.favorites.filter(stream => !hiddenStreams.includes(stream.name));
     }
     return false;
   },
@@ -61,6 +66,11 @@ const getters = {
 };
 
 const mutations = {
+  setStreamHidden(state, { name }) {
+    const hiddenStreams = state.hiddenStreams;
+    hiddenStreams.push(name);
+    Vue.set(state, 'hiddenStreams', hiddenStreams);
+  },
   setStats(state, { stats }) {
     Vue.set(state, 'stats', stats);
   },

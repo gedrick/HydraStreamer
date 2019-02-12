@@ -97,7 +97,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setUserHost']),
+    ...mapMutations(['setUserHost', 'setStreamHidden']),
     watchHostedStreamer() {
       if (!this.hostedChannel) {
         return;
@@ -113,7 +113,9 @@ export default {
       this.launchPlayer();
     },
     hideChannel() {
-      this.$store.commit('unfavorite', this.channelData);
+      this.setStreamHidden({
+        name: this.channelData.name
+      });
     },
     playerRemoveChannel() {
       const channelId = this.channelData.id;
