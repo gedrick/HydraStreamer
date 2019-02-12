@@ -5,7 +5,7 @@
       @onToggleChat="chatVisible = !chatVisible">
     </Header>
 
-    <div class="watch__view" :class="{'chat-open': chatVisible}">
+    <div class="watch__view" :class="{'chat-open': chatVisible && favorites.length}">
       <div class="watch__welcome" v-if="!favorites.length">
         <div>To start watching your favorite <br>streamers, click&nbsp;<b>Add a Stream</b>.</div>
       </div>
@@ -35,8 +35,7 @@ import WarningScreen from '@/components/WarningScreen.vue';
 import AddStreamOverlay from '@/components/AddStreamOverlay.vue';
 import Grid from '@/components/Grid.vue';
 import ChatPanel from '@/components/ChatPanel.vue';
-import { mapGetters, mapActions } from 'vuex';
-import axios from 'axios';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Watch',

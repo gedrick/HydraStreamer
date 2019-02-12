@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   props: {
@@ -26,7 +26,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['favorites']),
+    ...mapGetters(['favorites', 'hiddenStreams']),
     isFavorite() {
       const channelId = this.channel.channel._id;
       return this.favorites.find(favorite => favorite.channelId === channelId) !== undefined;
@@ -41,6 +41,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setStreamUnhidden']),
     throwError() {
       this.hasError = true;
       setTimeout(() => {
@@ -51,10 +52,18 @@ export default {
       if (this.favorites.length >= 9 && !this.isFavorite) {
         this.throwError();
       } else {
-        this.$store.dispatch('toggleFavorite', {
-          channelData: this.channelData,
-          toggle: !this.isFavorite
-        });
+        // If the stream is hidden and they're already favorited, remove stream from hidden.
+        if (this.hiddenStreams.includes(this.channelData.name)) {
+          this.setStreamUnhidden({
+            name: this.channelData.name
+          });
+        } else {
+          // Otherwise, toggle the favorite.
+          this.$store.dispatch('toggleFavorite', {
+            channelData: this.channelData,
+            toggle: !this.isFavorite
+          });
+        }
       }
     },
   }

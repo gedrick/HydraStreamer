@@ -25,6 +25,7 @@ export default {
 <style lang="scss">
 .chat {
   height: 100%;
+
   iframe {
     width: 100%;
     height: 100%;

@@ -66,6 +66,10 @@ const getters = {
 };
 
 const mutations = {
+  setStreamUnhidden(state, { name }) {
+    const hiddenStreams = state.hiddenStreams.filter(stream => stream !== name);
+    Vue.set(state, 'hiddenStreams', hiddenStreams);
+  },
   setStreamHidden(state, { name }) {
     const hiddenStreams = state.hiddenStreams;
     hiddenStreams.push(name);
