@@ -106,6 +106,7 @@ const apiRoutes = express.Router();
 const apiHandlers = require('./server/api.js');
 apiRoutes.use(isAuthenticated);
 apiRoutes.get('/me', apiHandlers.me);
+apiRoutes.post('/ping', apiHandlers.ping);
 apiRoutes.post('/favorite', apiHandlers.favorite);
 apiRoutes.post('/unfavorite', apiHandlers.unfavorite);
 apiRoutes.post('/follow', apiHandlers.follow);

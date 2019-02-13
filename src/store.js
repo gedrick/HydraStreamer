@@ -136,6 +136,9 @@ const mutations = {
 };
 
 const actions = {
+  ping({ }) {
+    return axios.post('/api/ping');
+  },
   getStats({ commit }) {
     return axios.get('/data/stats')
       .then(result => {
