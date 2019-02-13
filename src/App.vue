@@ -16,8 +16,8 @@ export default {
     };
   },
   mounted() {
-    this.userPingInterval = setInterval(this.userPing, 5000);  // every 30 seconds
-    this.liveStatsInterval = setInterval(this.liveStats, 1 * 60 * 1000); // every 1 minute
+    this.userPingInterval = setInterval(this.userPing, 30 * 1000);  // every 30 seconds
+    this.liveStatsInterval = setInterval(this.liveStats, 60 * 1000); // every 60 seconds
   },
   beforeMount() {
     const actions = [];

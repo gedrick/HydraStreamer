@@ -5,7 +5,7 @@
         <div class="footer__user-image" v-if="isLoggedIn">
           <img :src="user.avatar">
         </div>
-        <span><span v-if="isLoggedIn">Welcome, <b>{{user.username}}</b>!</span> There <span v-if="stats.online <= 1">is</span><span v-if="stats.online > 1">are</span>
+        <span v-if="stats.online"><span v-if="isLoggedIn">Welcome, <b>{{user.username}}</b>!</span> There <span v-if="stats.online <= 1">is</span><span v-if="stats.online > 1">are</span>
           <span class="orange"> {{stats.online}}</span> user<span v-if="stats.online > 1">s</span> online,
           watching <span class="orange">{{stats.activeStreams}}</span> stream<span v-if="stats.activeStreams > 1">s</span>.
         </span>
