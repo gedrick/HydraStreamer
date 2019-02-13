@@ -45,6 +45,12 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: false,
     default: []
+  },
+  layout: {
+    type: Object,
+    required: false,
+    unique: false,
+    default: []
   }
 });
 

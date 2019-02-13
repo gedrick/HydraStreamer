@@ -13,25 +13,20 @@ const state = {
   popularGameStreams: {},
   games: {},
   stats: {},
-  hiddenStreams: []
+  hiddenStreams: [],
+  layout: []
 };
 
 const getters = {
-  hiddenStreams: state => {
-    return state.hiddenStreams;
-  },
-  stats: state => {
-    return state.stats;
-  },
-  popularGameStreams: state => {
-    return state.popularGameStreams;
-  },
-  popularGames: state => {
-    return state.games.popular;
-  },
-  isLoggedIn: state => {
-    return state.isLoggedIn;
-  },
+  followed: state => state.followed,
+  followedLive: state => state.followedLive,
+  layout: state => state.layout,
+  hiddenStreams: state => state.hiddenStreams,
+  stats: state => state.stats,
+  popularGames: state => state.games.popular,
+  popularGameStreams: state => state.popularGameStreams,
+  isLoggedIn: state => state.isLoggedIn,
+  searchResults: state => state.searchResults,
   user: state => {
     return state.user || false;
   },
@@ -47,25 +42,19 @@ const getters = {
     }
     return false;
   },
-  followed: state => {
-    return state.followed;
-  },
-  followedLive: state => {
-    return state.followedLive;
-  },
   favorites: state => {
     const hiddenStreams = state.hiddenStreams;
     if (state.user && state.user.favorites) {
       return state.user.favorites.filter(stream => !hiddenStreams.includes(stream.name));
     }
     return false;
-  },
-  searchResults: state => {
-    return state.searchResults;
   }
 };
 
 const mutations = {
+  setLayout(state, { layout }) {
+    Vue.set(state, 'layout', layout);
+  },
   setStreamUnhidden(state, { name }) {
     const hiddenStreams = state.hiddenStreams.filter(stream => stream !== name);
     Vue.set(state, 'hiddenStreams', hiddenStreams);
@@ -123,15 +112,6 @@ const mutations = {
     } else {
       Vue.set(state, 'searchResults', []);
     }
-  },
-  toggleStream(state, { name }) {
-    const streams = [...state.favorites];
-    if (!streams.includes(name)) {
-      streams.push(name);
-    } else {
-      streams.splice(streams.indexOf(name), 1);
-    }
-    Vue.set(state, 'favorites', streams);
   }
 };
 
