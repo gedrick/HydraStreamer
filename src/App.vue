@@ -6,6 +6,7 @@
 
 <script>
 import moment from 'moment';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -15,12 +16,14 @@ export default {
     };
   },
   mounted() {
-    this.userPingInterval = setInterval(this.userPing, 1 * 60 * 1000);  // every 1 minute
+    this.userPingInterval = setInterval(this.userPing, 5000);  // every 30 seconds
     this.liveStatsInterval = setInterval(this.liveStats, 1 * 60 * 1000); // every 1 minute
   },
   beforeMount() {
-    this.$store.dispatch('getMe')
-      .then(this.$store.dispatch('getStats'));
+    const actions = [];
+    actions.push(this.$store.dispatch('getMe'));
+    actions.push(this.$store.dispatch('getStats'));
+    Promise.all(actions);
   },
   beforeDestroy() {
     clearInterval(this.userPingInterval);
@@ -28,11 +31,16 @@ export default {
   },
   methods: {
     userPing() {
-      this.$store.dispatch('getMe');
+      if (this.isLoggedIn) {
+        this.$store.dispatch('ping');
+      }
     },
     liveStats() {
       this.$store.dispatch('getStats');
     }
+  },
+  computed: {
+    ...mapGetters(['isLoggedIn'])
   }
 }
 </script>

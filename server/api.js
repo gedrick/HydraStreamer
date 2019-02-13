@@ -8,12 +8,28 @@ twitchApi.secret = settings.twitch.secret;
 
 function me(req, res) {
   if (req.isAuthenticated())  {
-    User.findByIdAndUpdate(req.user._id, {$set: {last_online: moment()}}, (err, user) => {
-      res.json({
-        user: req.user
-      });
+    User.findById(req.user._id, (err, user) => {
+      if (err) {
+        res.status(500).json(err);
+      } else {
+        res.status(200).json({
+          user: user
+        });
+      }
     });
   }
+}
+
+function ping(req, res) {
+  User.findByIdAndUpdate(req.user._id, {$set: {last_online: moment()}}, (err, user) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json({
+        result: 'OK'
+      });
+    }
+  });
 }
 
 function favorite(req, res) {
@@ -88,6 +104,7 @@ function unfollow(req, res) {
 
 module.exports = {
   me,
+  ping,
 
   favorite,
   unfavorite,
